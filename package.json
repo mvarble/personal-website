@@ -26,6 +26,7 @@
     "resolve-url-loader": "^3.1.2"
   },
   "scripts": {
+    "test": "echo 'Website has no tests'",
     "deploy": "gatsby build --prefix-paths && gh-pages -d public -r https://$GH_TOKEN@github.com/mvarble/matthew-varble-site.git"
   },
   "author": "Matthew Varble",
