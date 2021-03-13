@@ -1,9 +1,6 @@
 language: node_js
 node_js:
   - stable
-branches:
-  only:
-    - main
 cache:
   directories:
     - node_modules
@@ -11,5 +8,7 @@ before_script:
   - npm install
   - gatsby build
 deploy:
-  provider: firebase
-  token: $FIREBASE_TOKEN
+  - provider: firebase
+    token: $FIREBASE_TOKEN
+    on:
+      branch: main
