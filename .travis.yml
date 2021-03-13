@@ -7,7 +7,6 @@ cache:
 before_script:
   - npm install
   - gatsby build
-  - ls
 deploy:
   - provider: firebase
     skip_cleanup: true
