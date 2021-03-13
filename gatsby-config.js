@@ -14,6 +14,9 @@ module.exports = {
           require('remark-emoji'),
           [require('remark-disable-tokenizers'), { block: ['indentedCode'] }],
         ],
+        defaultLayouts: {
+          default: require.resolve('./src/components/default-layout.jsx'),
+        },
       },
       extensions: ['.mdx'],
     },

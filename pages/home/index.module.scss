@@ -1,0 +1,28 @@
+.content {
+  display: flex; 
+  flex-direction: row;
+
+  &>div {
+    padding: 0 1em;
+  }
+
+  &>img {
+    border: 3px solid var(--primary);
+    width: 256px;
+    height: 256px;
+  }
+}
+
+@media all and (max-width: 1024px) {
+  .content {
+    flex-direction: column-reverse;
+
+    &>div {
+      padding: 0;
+    }
+
+    &>img {
+      margin: 1em auto;
+    }
+  }
+}

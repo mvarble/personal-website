@@ -34,18 +34,7 @@ export default function App({ data }) {
       <Helmet>
         <title>{ `${fp.get('page.title')(data)} | rat.supply` }</title>
       </Helmet>
-      <div className="is-marginless is-paddingless">
-        <div className="section">
-          <div className="columns">
-            <div className="column is-4"></div>
-            <div className="column is-8">
-              <div className="content">
-                <MDXRenderer>{ fp.get('page.body')(data) }</MDXRenderer>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <MDXRenderer>{ fp.get('page.body')(data) }</MDXRenderer>
     </div>
   );
 }

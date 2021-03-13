@@ -1,0 +1,38 @@
+---
+title: Home
+slug: /
+date: 2021-03-12
+---
+
+import HomeLayout from '../../src/components/home-layout';
+import { content } from './index.module.scss';
+
+import matthew from '../../assets/matthew.jpg'
+import Samneric from '../../src/components/samneric';
+
+
+
+<div className={ content }>
+  <div>
+    <h1>Howdy!</h1>
+    <p>
+      My name is Matthew Varble.
+      I am a mathematics PhD student at UCSB researching probability theory.
+      Broadly speaking, I am interested in stochastic processes and numerical analysis.
+      There is just something about combining mathematics and software engineering!
+    </p>
+    <p>
+      This site serves as a blog for me to share things that interest me in both my academic and personal life.
+      For instance, you might read about my two brother rats!
+    </p>
+    <Samneric />
+  </div>
+  <img src={ matthew } width={ 200 } alt="matthew"/>
+</div>
+
+I will also likely want to talk about little math/programming problems I am excited about.
+
+<span>{ /* Ideally, I would also like write sequences of posts that progressively give readers an understanding of difficult concepts.  To get started, either feel free to look at the word map of tags commonly used in my site, or simply look at the most recent posts!  Whatever the case is, I hope you enjoy my site and we get to know one another!  */
+}</span>
+
+export default HomeLayout

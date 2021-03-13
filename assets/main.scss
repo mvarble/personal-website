@@ -24,8 +24,11 @@ $section-padding: 1.5rem 1.5rem;
 // Declare some custom styles
 html {
   background: #FBFBFA;
-  overflow-x: hidden;
   overflow-y: inherit;
+}
+
+body {
+  min-width: 300px;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -40,4 +43,18 @@ h1, h2, h3, h4, h5, h6 {
 .content blockquote {
   background: #f6f9ff;
   border-left: 5px solid $link;
+}
+
+:root {
+  --primary: #{$primary};
+  --link: #{$link};
+  --info: #{$info};
+  --success: #{$success};
+  --warning: #{$warning};
+  --danger: #{$danger};
+  --dark: #{$dark};
+  --text: #{$text};
+  --tablet: #{$tablet};
+  --desktop: #{$desktop};
+  --widescreen: #{$widescreen};
 }
