@@ -1,14 +1,11 @@
 language: node_js
 node_js:
-  - "stable"
+  - stable
 cache:
   directories:
     - node_modules
 before_script:
-  - npm install -g gatsby gh-pages
   - npm install
 deploy:
-  provider: script
-  script: npm install && npm run deploy
-  on:
-    branch: master
+  provider: firebase
+  token: $FIREBASE_TOKEN

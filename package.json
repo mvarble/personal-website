@@ -26,9 +26,11 @@
     "resolve-url-loader": "^3.1.2"
   },
   "scripts": {
-    "test": "echo 'Website has no tests'",
-    "deploy": "gatsby build --prefix-paths && gh-pages -d public -r https://$GH_TOKEN@github.com/mvarble/matthew-varble-site.git"
+    "test": "echo 'Website has no tests'"
   },
   "author": "Matthew Varble",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "gatsby-cli": "^3.0.0"
+  }
 }
