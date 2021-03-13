@@ -28,12 +28,16 @@ function Name({ children }) {
 }
 
 function Box({ name, src }) {
+  // create a simple state for viewing name
   const [mouse, setMouse] = React.useState();
+
+  // render according to state
   return (
+    /* eslint-disable-next-line*/
     <div 
       style={{ display: 'inline-block' }} 
       onMouseOver={ () => setMouse(true) }
-      onMouseOut ={ () => setMouse(false) }
+      onMouseOut={ () => setMouse(false) }
     >
       { mouse ? <Name>{ name }</Name> : null }
       <img alt="sam" src={ src } width={ 230 } style={{ border: '3px solid var(--link)', marginRight: '1em' }} />
