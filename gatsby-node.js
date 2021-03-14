@@ -4,7 +4,7 @@ const fp = require('lodash/fp');
 // this creates our page schema
 exports.createSchemaCustomization = ({ actions, schema }) => {
   actions.createTypes(`
-    type Page implements Node @infer {
+    type Page implements Node {
       title: String!
       slug: String!
       body: String!
@@ -15,7 +15,7 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
 };
 
 // this creates our resolvers for the Page type
-exports.createResolvers = ({ createResolvers }) => {
+exports.createResolvers = ({ createResolvers, ...rest }) => {
   createResolvers({
     Page: {
       body: {
@@ -42,9 +42,10 @@ exports.onCreateNode = ({
   node,
   actions,
   getNode,
+  getNodesByType,
   createNodeId,
   createContentDigest,
-}) => {
+}, a, b, c, d) => {
   // only create pages from Mdx nodes
   if (node.internal.type !== 'Mdx') return;
 
@@ -56,8 +57,7 @@ exports.onCreateNode = ({
     console.warn(`Missing correct frontmatter of ${node.id}`);
     return;
   }
-  const tagsString = fp.get('frontmatter.tags')(node) || '';
-  const tags = tagsString.split(', ').filter(s => s);
+  const tags= fp.get('frontmatter.tags')(node) || [];
 
   // create the id for the node
   const id = createNodeId(`${node.id} >>> Page`);
@@ -93,13 +93,11 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
   // our pages will come from all Page nodes
   const result = await graphql(`
     {
-      allPage(sort: {fields: date}) {
-        edges {
-          node {
-            title
-            slug
-            date
-          }
+      allPage(sort: { fields: date }) {
+        nodes {
+          title
+          slug
+          date
         }
       }
     }
@@ -111,14 +109,13 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     return;
   }
 
-  // create a page for each node
-  fp.get('data.allPage.edges')(result)
-    .forEach(({ node }) => {
+  // create a page for each Page node
+  fp.get('data.allPage.nodes')(result)
+    .forEach(({ slug }) => {
       actions.createPage({
-        path: node.slug,
+        path: slug,
         component: `${__dirname}/src/components/app/index.jsx`,
-        context: { slug: node.slug },
+        context: { slug },
       });
     });
 }
-

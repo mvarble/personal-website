@@ -40,7 +40,7 @@ function Box({ name, src }) {
       onMouseOut={ () => setMouse(false) }
     >
       { mouse ? <Name>{ name }</Name> : null }
-      <img alt="sam" src={ src } width={ 230 } style={{ border: '3px solid var(--link)', marginRight: '1em' }} />
+      <img alt="sam" src={ src } width={ 220 } style={{ border: '3px solid var(--link)', marginRight: '1em' }} />
     </div>
   );
 }

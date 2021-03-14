@@ -1,0 +1,7 @@
+.tag-block {
+  margin: 1em auto; 
+  width: 300px;
+  & a:hover {
+    filter: brightness(150%);
+  }
+}
