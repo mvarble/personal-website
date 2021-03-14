@@ -1,14 +1,17 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 
 import { content } from './index.module.scss';
-
 import matthew from '../../assets/matthew.jpg'
 import Samneric from '../components/samneric';
 import TagBlock from '../components/tag-block';
 import QueryPosts from '../components/query-posts';
 
 export default function Home() {
-  return (
+  return <>
+    <Helmet>
+      <title>{ 'Home | rat.supply' }</title>
+    </Helmet>
     <div className="is-marginless is-paddingless">
       <div className="section">
         <div className="columns">
@@ -49,5 +52,5 @@ export default function Home() {
         </div>
       </div>
     </div>
-  );
+  </>;
 }
