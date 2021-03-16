@@ -4,20 +4,21 @@ const fp = require('lodash/fp');
 // this creates our page schema
 exports.createSchemaCustomization = ({ actions, schema }) => {
   actions.createTypes(`
-    type Page implements Node {
+    type Post implements Node {
       title: String!
       slug: String!
       body: String!
-      tags: [String!]
+      tags: [String!]!
       date: Date! @dateformat(formatString: "YYYY-MM-DD")
+      related: [Post!]
     }
   `);
 };
 
-// this creates our resolvers for the Page type
+// this creates our resolvers for the Post type
 exports.createResolvers = ({ createResolvers, ...rest }) => {
   createResolvers({
-    Page: {
+    Post: {
       body: {
         resolve: async (source, args, context, info) => {
           const type = info.schema.getType('Mdx');
@@ -32,12 +33,19 @@ exports.createResolvers = ({ createResolvers, ...rest }) => {
           return result;
         },
       },
+      related: {
+        resolve: (source, args, context, info) => {
+          const { related } = JSON.parse(source.internal.content)
+          return context.nodeModel.getAllNodes({ type: 'Post' })
+            .filter(({ slug }) => related.includes(slug));
+        },
+      },
     },
   });
 }
 
 
-// this is our mdx -> page transformer
+// this is our Mdx -> Post transformer
 exports.onCreateNode = ({
   node,
   actions,
@@ -46,7 +54,7 @@ exports.onCreateNode = ({
   createNodeId,
   createContentDigest,
 }, a, b, c, d) => {
-  // only create pages from Mdx nodes
+  // only create Post nodes from Mdx nodes
   if (node.internal.type !== 'Mdx') return;
 
   // parse frontmatter
@@ -57,10 +65,11 @@ exports.onCreateNode = ({
     console.warn(`Missing correct frontmatter of ${node.id}`);
     return;
   }
-  const tags= fp.get('frontmatter.tags')(node) || [];
+  const tags = fp.get('frontmatter.tags')(node) || [];
+  const related = fp.get('frontmatter.related')(node) || [];
 
   // create the id for the node
-  const id = createNodeId(`${node.id} >>> Page`);
+  const id = createNodeId(`${node.id} >>> Post`);
 
   // create the node
   actions.createNode({
@@ -74,10 +83,10 @@ exports.onCreateNode = ({
     parent: node.id,
     children: [],
     internal: {
-      type: 'Page',
+      type: 'Post',
       contentDigest: createContentDigest(node.rawBody),
-      content: node.rawBody,
-      description: 'Page',
+      content: JSON.stringify({ related }),
+      description: 'Post',
     },
   });
 
@@ -90,10 +99,10 @@ exports.onCreateNode = ({
 
 // this creates the routes of our website
 exports.createPages = async ({ graphql, actions, reporter }) => {
-  // our pages will come from all Page nodes
+  // our pages will come from Post nodes
   const result = await graphql(`
     {
-      allPage(sort: { fields: date }) {
+      allPost(sort: { fields: date }) {
         nodes {
           title
           slug
@@ -109,12 +118,12 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     return;
   }
 
-  // create a page for each Page node
-  fp.get('data.allPage.nodes')(result)
+  // create a page for each Post node
+  fp.get('data.allPost.nodes')(result)
     .forEach(({ slug }) => {
       actions.createPage({
         path: slug,
-        component: `${__dirname}/src/components/app/index.jsx`,
+        component: `${__dirname}/src/components/post/index.jsx`,
         context: { slug },
       });
     });

@@ -43,7 +43,12 @@ export default function Home() {
               <p>
                 or simply look at the most recent posts!
               </p>
-              <QueryPosts />
+              <div style={{ margin: '1em 0', padding: '1em' }}>
+                <QueryPosts />
+              </div>
+              <p>
+                You may also be interested in my <a href="https://github.com/mvarble">GitHub account</a> or a website of <a href="https://presentations.rat.supply">presentations I have given</a>.
+              </p>
               <p>
                 Whatever the case is, I hope you enjoy my site and we get to know one another!
               </p>

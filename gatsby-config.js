@@ -3,20 +3,26 @@ module.exports = {
     {
       resolve: 'gatsby-source-filesystem',
       options: {
-        name: 'pages',
-        path: 'pages',
+        name: 'posts',
+        path: 'posts',
       },
     },
     {
       resolve: 'gatsby-plugin-mdx',
       options: {
+        gatsbyRemarkPlugins: [
+          'gatsby-remark-embed-snippet',
+          {
+            resolve: 'gatsby-remark-prismjs',
+            options: {
+              aliases: { jl: 'julia' },
+            },
+          },
+        ],
         remarkPlugins: [
           require('remark-emoji'),
           [require('remark-disable-tokenizers'), { block: ['indentedCode'] }],
         ],
-        defaultLayouts: {
-          default: require.resolve('./src/components/default-layout.jsx'),
-        },
       },
       extensions: ['.mdx'],
     },

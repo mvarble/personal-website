@@ -1,0 +1,104 @@
+---
+title: Long-time distributions of square-root diffusions
+date: "2021-03-14"
+slug: /long-time-cir
+tags: [
+  square-root-diffusion, 
+  CIR, 
+  moment-generating-function, 
+  characteristic-function, 
+  probability,
+  stochastic-processes,
+  affine-processes
+]
+related: [
+  /affine-resolution
+]
+---
+
+import data from './data.json'
+import Visualization from './visualization.jsx';
+
+A square-root diffusion process $X$&mdash;also known a *Cox-Ingersoll-Ross (CIR)* process&mdash;is that which is defined by the following stochastic differential equation
+
+$$ {\rm d}X_t = a\big( b - X_t \big) {\rm d}t + \sigma\sqrt{X_t} {\rm d}W_t, $$
+
+where $W$ is a standard Brownian motion on $\bbR$ and $a, b, \sigma \in \bbR$ satsify $2ab \geq \sigma^2$.
+Such a process is nice to play with analytically, as it has very tractable properties; most notably, it is time-homogeneous, Markov, affine, and ergodic.
+In this post, I show how the affine structure of a CIR process $X$ allows us to easily calculate its long-time distribution $\mu_X$.
+We then demonstrate numerically how samples $\rmP(X_T \in \cdot | X_0 = x)$ distribute like $\mu_X$ for large times $T$.
+
+## Long-time distribution
+
+> **Definition.** The *long-time distribution* of a stochastic process $X$ on $\bbR$ should be a measure $\mu_X$ satisfying the following weak limit.
+>
+> $$ \lim_{t\rightarrow\infty} \rmP(X_t \in \cdot) = \mu_X $$
+
+A classic result of L&eacute;vy [[1]](https://en.wikipedia.org/wiki/L%C3%A9vy%27s_continuity_theorem), [[2]](https://doi.org/10.1007/978-1-4757-4015-8) dictates that such a weak convergence is determined by that of pointwise convergence of the characteristic functions.
+
+$$ \lim_{t\rightarrow\infty} \rmE\big( e^{iu X_t} \big) = \int e^{iuy} \mu_X({\rm d} y), \quad u \in \bbR $$
+
+Because the drift $x \mapsto a(b - x)$ and the square-diffusion $x \mapsto \sigma^2 x$ of our CIR process $X$ are affine functions, we are able to conclude that $X$ is an *affine process* (see [this post on affine processes](/affine-resolution)).
+Thus, solving the expectation $\rm E e^{iu X_t}$ for each $u \in \bbR$ and $t \geq 0$ amounts to evaluating
+
+$$ \rmE \big( e^{iu X_t} | X_0 = x \big) = e^{\psi_0(t, u) + \psi_1(t, u)x} $$
+
+for $\psi_0, \psi_1$ solving the following differential equation.
+
+<span>{ 
+  String.raw`$$
+    \left\{\begin{array}{ll}
+      \displaystyle \frac{\partial}{\partial t} \psi_0(t, u) = ab \psi_1(t, u), & \psi_0(0, u) = 0 \\[1em]
+      \displaystyle \frac{\partial}{\partial t} \psi_1(t, u) = -a\psi_1(t, u) + \frac12\sigma^2 \psi_1^2(t, u), & \psi_1(0, u) = u 
+    \end{array}\right.
+  $$`
+}</span>
+
+A simple separation of variables allows us to solve the above ordinary differential equation; from here, the characteristic function is as follows.
+
+$$ \rmE\big( e^{iu X_t} | X_0 = x \big) = \exp\Bigg(\frac{2ab}{\sigma^2}\log\frac{2ae^{at}}{i\sigma^2u + (2a-i\sigma^2 u)e^{at}} + \frac{i2au}{i\sigma^2u + (2a - i\sigma^2u)e^{at}} x \Bigg) $$
+
+It is now clear that our pointwise limit is as follows.
+
+$$ \lim_{t\rightarrow\infty} \rmE\big( e^{iu X_t} | X_0 = x \big) = \exp\Bigg(\frac{2ab}{\sigma^2}\log\Big(\frac{2a}{2a-i\sigma^2 u}\Big)\Bigg) = \Big( 1 - \frac{\sigma^2}{2a}iu\Big)^{-2ab/\sigma^2} $$
+
+The keen eye will recognize that the final expression above is the characteristic function of a [Gamma distribution](https://en.wikipedia.org/wiki/Gamma_distribution) of shape $2ab/\sigma^2$ and rate $2a/\sigma^2$.
+
+$$ \mu_X = \operatorname{Gamma}\Big(\text{shape} = \frac{2ab}{\sigma^2}, \text{rate} = \frac{2a}{\sigma^2} \Big) $$
+
+Its density and moment generating functions have closed forms, up to evaluation of the Gamma function.
+
+<span>{ String.raw`$$
+  \begin{aligned}
+    \mu_X({\rm d}x) &= \Big(\frac{2a}{\sigma^2}\Big)^{2ab/\sigma^2} x^{2ab/\sigma^2-1} e^{-2ax/\sigma^2} / \Gamma\Big(\frac{2ab}{\sigma^2}\Big) {\rm d}x \\
+    \int e^{ux} \mu_X({\rm d}x) &= \Big(1 - \frac{\sigma^2}{2a}u\Big)^{-2ab/\sigma^2}
+  \end{aligned}
+$$` }</span>
+
+
+## Numerics
+
+From the perspective of Monte Carlo, the fact that $X$ has a long-time distribution $\mu_X$ should mean that samples of a marginal $X_T$ for a large time $T$ should distribute similar to $\mu_X$.
+We intend to show this by taking such samples and comparing the empirical moment generating function and density to those of $\mu_X$ above.
+
+Below, we write small [Julia](https://julialang.org/) script which invokes a simple [Euler-Maruyama](https://en.wikipedia.org/wiki/Euler%E2%80%93Maruyama_method) scheme to simulate $100$ (biased) samples of marginals
+<span>{ String.raw`$$(X_{t_1},\ldots, X_{t_{2500}}).$$` }</span>
+on a fine uniform mesh <span>{ String.raw`$0 = t_1 < \cdots < t_{2500} = 10.0$` }</span>.
+
+`embed:generate.jl`
+
+With these samples, we are able to visualize the trajectories and statistics of the empirical distribution.
+In the visualization below, the $100$ blue paths demonstrate our sample trajectories $t \mapsto X_t$.
+The green dots represent the empirical distribution of $X_t$ for the time $t$ over which the mouse currently hovers.
+For such an empirical distribution, we may compare the moment generating function and a kernel density estimation of the density to those of the real long-term distribution $\mu_X$.
+
+<Visualization />
+
+## Takeaway
+
+From the perspective of a mathematician, the closed form of the characteristic function 
+$$u \mapsto \rmE(e^{iuX_t} | X_0 = x),$$ 
+or similarly moment generating function 
+$$u \mapsto \rmE(e^{uX_t} | X_0 = x),$$
+helps make analytical statements regarding the process $X$.
+From the perspective of someone interested in computer simulation, costly samples of $X_T$ could potentially be approximated by efficient samples of $\mu_X$.

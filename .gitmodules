@@ -1,0 +1,6 @@
+[submodule "bulma-prism"]
+	path = bulma-prism
+	url = https://github.com/loopmode/bulma-prism.git
+[submodule "assets/bulma-hack"]
+	path = assets/bulma-hack
+	url = https://github.com/loopmode/bulma-prism.git

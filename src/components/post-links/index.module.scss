@@ -1,0 +1,17 @@
+.post {
+  display: block;
+  padding: 0.5em 1em; 
+  &:hover {
+    background: var(--white-ter);
+  }
+}
+
+.posts {
+  border: 1px solid var(--grey);
+  & > * {
+    border-bottom: 1px solid var(--grey);
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}

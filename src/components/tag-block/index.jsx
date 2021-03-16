@@ -9,14 +9,14 @@ import { tagBlock } from './index.module.scss';
 export default function TagBlock() {
   const data = useStaticQuery(graphql`
     query {
-      allPage {
+      allPost {
         nodes {
           tags
         }
       }
     }
   `);
-  return <Tags tags={ processTags(data.allPage.nodes) } />
+  return <Tags tags={ processTags(data.allPost.nodes) } />
 }
 
 function Tags({ tags }) {
@@ -28,7 +28,7 @@ function Tags({ tags }) {
       .size([300, 300])
       .words(tags)
       .padding(5)
-      .rotate(() => -45 + Math.random() * 45)
+      .rotate(() => -10 + Math.random() * 10)
       .fontSize(d => 30 * d.scale)
       .on("end", words => draw(words, ref.current));
 
@@ -85,5 +85,7 @@ function processTags(pages) {
     .range([1.0, 0.25]);
 
   // preprocess for d3-cloud and rendering
-  return firstPass.map(obj => ({ ...obj, scale: scale(obj.count) }));
+  return firstPass
+    .map(obj => ({ ...obj, scale: scale(obj.count) }))
+    .sort((a, b) => a.count < b.count ? -1 : 1);
 }

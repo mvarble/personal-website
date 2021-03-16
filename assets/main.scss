@@ -1,27 +1,27 @@
 @charset "utf-8";
 
-// Import a Google Font
+// Import a Google Font 
 @import url('https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap');
 
-// Import Katex
+// Import Katex 
 @import "~katex/dist/katex.css";
 
-// Update Bulma's global variables
+// Update Bulma's global variables 
 $family-sans-serif: 'KaTeX_Main', Times New Roman, serif;
 $primary: #8A4D76;
 
-// Update some of Bulma's component variables
+// Update some of Bulma's component variables 
 $size-1: 4rem;
 $menu-item-active-background-color: $primary;
 $section-padding: 1.5rem 1.5rem;
 
-// Import Bulma
-@import "~bulma/bulma.sass";
+// Import Bulma 
+@import "./bulma-hack/bulma.sass";
 
-// Import fontawesome
+// Import fontawesome 
 @import "~@fortawesome/fontawesome-free/css/all.css";
 
-// Declare some custom styles
+// Declare some custom styles 
 html {
   background: #FBFBFA;
   overflow-y: inherit;
@@ -34,15 +34,30 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Fredericka the Great', cursive;
   margin-bottom: 0;
+  color: $primary;
 }
 
 .katex {
   font-size: 1em;
 }
 
-.content blockquote {
-  background: #f6f9ff;
-  border-left: 5px solid $link;
+.katex-scroll {
+  overflow-x: auto;
+  overflow-y: visible;
+}
+
+.content {
+  & h1, & h2, & h3, & h4, & h5, & h6 {
+    color: $primary;
+  }
+  & blockquote {
+    background: #f6f9ff;
+    border-left: 5px solid $link;
+  }
+}
+
+div.gatsby-highlight {
+  border-left: 5px solid #c19e86;
 }
 
 :root {
