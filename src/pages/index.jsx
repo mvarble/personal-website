@@ -1,17 +1,17 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
 
 import { content } from './index.module.scss';
 import matthew from '../../assets/matthew.jpg'
 import Samneric from '../components/samneric';
 import TagBlock from '../components/tag-block';
 import QueryPosts from '../components/query-posts';
+import Head from '../components/head';
+import Navbar from '../components/navbar';
 
 export default function Home() {
   return <>
-    <Helmet>
-      <title>{ 'Home | rat.supply' }</title>
-    </Helmet>
+    <Head title={ 'Home' } />
+    <Navbar />
     <div className="is-marginless is-paddingless">
       <div className="section">
         <div className="columns">
@@ -21,7 +21,7 @@ export default function Home() {
                 <div>
                   <h1>Howdy!</h1>
                   <p>
-                    My name is Matthew Varble.
+                    My name is Matthew Varble <span role="img" aria-label="cowboy">🤠</span>.
                     I am a mathematics PhD student at UCSB researching probability theory.
                     Broadly speaking, I am interested in stochastic processes and numerical analysis.
                     There is just something about combining mathematics and software engineering!

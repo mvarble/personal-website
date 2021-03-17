@@ -23,9 +23,12 @@ function PostLink({ title, slug, date, tags, filterTags }) {
     <Link to={ slug } className={ post }>
       <span 
         className="is-size-3"
-        style={{ color: 'var(--primary)' }}>
+        style={{ color: 'var(--danger)' }}>
         { title }
       </span>
+      <div style={{ paddingLeft: '1em', fontSize: 'small', marginBottom: '0.5em' }}>
+        { date }
+      </div>
       <div style={{ paddingLeft: '1em' }}>
         { styledTags }
       </div>

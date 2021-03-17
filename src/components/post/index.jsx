@@ -1,47 +1,12 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
-import { graphql, Link } from 'gatsby';
+import { graphql } from 'gatsby';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
-import useMutationObserver from "@rooks/use-mutation-observer"
-import renderMathInElement from 'katex/dist/contrib/auto-render.js';
 
-import katexConfig from '../../katex';
+import useKaTeX from '../../hooks/use-katex';
 import Title from '../title';
+import Head from '../head';
+import Navbar from '../navbar';
 import { PostLink, PostLinks } from '../post-links';
-
-function useKaTeX(data) {
-  // create a ref so that we can allow KaTeX to manipulate DOM
-  const ref = React.useRef();
-
-  // observe KaTeX mutations so that we can wrap display math in scroll box
-  useMutationObserver(ref, () => {
-    ref.current.querySelectorAll('span.katex-display').forEach(elm => {
-      const parent = elm.parentNode;
-      if (
-        parent.tagName !== 'DIV' || !parent.classList.contains('katex-scroll')
-      ) {
-        parent.innerHTML = `<div class="katex-scroll">${parent.innerHTML}</div>`;
-      }
-    });
-  });
-
-  // parse the katex
-  React.useEffect(() => {
-    renderMathInElement(
-      ref.current, 
-      { 
-        ...katexConfig,
-        delimiters: [
-          {left: "$$", right: "$$", display: true},
-          {left: "$", right: "$", display: false},
-        ]
-      },
-    );
-  }, [data, ref]);
-
-  // return the ref
-  return ref;
-}
 
 export default function App({ data }) {
   // use ref with KaTeX render callback
@@ -50,14 +15,8 @@ export default function App({ data }) {
   // render the application
   return (
     <div ref={ ref }>
-      <Helmet>
-        <title>{ `${data.post.title} | rat.supply` }</title>
-      </Helmet>
-      <nav className="navbar is-success">
-        <div class="navbar-brand">
-          <Link to="/" className="navbar-item">rat.supply</Link>
-        </div>
-      </nav>
+      <Head title={ data.post.title } />
+      <Navbar />
       <div className="is-marginless is-paddingless">
         <div className="columns">
           <div 

@@ -32,7 +32,7 @@ export default function Visualization(props) {
 
   // parse the props
   const {
-    trajectoryDims=[800, 300],
+    trajectoryDims=[650, 280],
     metaHeight=255,
     paddingTop=80,
     paddingRight=20,
@@ -363,15 +363,17 @@ export default function Visualization(props) {
 
   return (
     <blockquote style={{ overflowX: 'auto', overflowY: 'visible' }}>
-      <div 
-        ref={ ref }
-        style={{ 
-          background: 'white', 
-          border: '1px solid var(--link)', 
-          width: `${trajectoryDims[0] + margins.left + margins.right }px`,
-          margin: '1em',
-        }}
-      />
+      <div style={{ margin: '1em' }}>
+        <div 
+          ref={ ref }
+          style={{ 
+            background: 'white', 
+            border: '1px solid var(--link)', 
+            width: `${trajectoryDims[0] + margins.left + margins.right }px`,
+            margin: '0 auto',
+          }}
+        />
+      </div>
     </blockquote>
   );
 }

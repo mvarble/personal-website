@@ -1,7 +1,7 @@
 ---
 title: Affine resolution
 slug: /affine-resolution
-date: 2021-03-15
+date: 2021-03-17
 tags: [
   probability,
   stochastic-processes,
@@ -14,3 +14,97 @@ related: [
 ]
 ---
 
+import Proof from '../../src/components/proof';
+
+In the seminal paper of Duffie, et al. [[1]](https://projecteuclid.org/journals/annals-of-applied-probability/volume-13/issue-3/Affine-processes-and-applications-in-finance/10.1214/aoap/1060202833.full), [[2]](https://web.stanford.edu/~duffie/affine.pdf), the class of *affine processes* is extensively explored and motivated with examples of applications to finance.
+From the perspective of the moment generating function, an affine process $X$ on $\bbR^d$ is characterized very succinctly&mdash;it is Markov and satsifies the following *affine transform formula*.
+
+> $$\rmE\Big( e^{u^\T X_T} | X_t = x \Big) = \exp\Big(\psi_0(t, T, u) + \psi(t, T, u)^\T x \Big), \quad u \in i\bbR^d $$
+
+Here, we are adopting the slightly more general time-inhomogeneous case discussed in [[3]](https://www.sciencedirect.com/science/article/pii/S0304414904001838).
+There are some great papers (for instance, [[4]](https://www.research-collection.ethz.ch/handle/20.500.11850/46416), [[5]](https://projecteuclid.org/journals/annals-of-applied-probability/volume-25/issue-2/Exponential-moments-of-affine-processes/10.1214/14-AAP1009.full), [[6]](https://arxiv.org/abs/1811.00122)) that subsequently study these objects&mdash;be it generalizing results, weakening hypotheses, focusing on specific cases, or studying related statistical procedures.
+Each of these acknowledge a very important result about affine processes: the transition semigroup from $X$ and affine transform formula above induces dynamics on $\psi_0, \psi_1$ which ultimately boil down to an integro-differential equation.
+
+<span>{ String.raw`$$\left\{\begin{array}{ll}
+  \displaystyle \frac{\partial}{\partial t} \psi_0(t, T, u) = -R_0\big(t, \psi(t, T, u)\big) & \psi_0(T, T, u) = 0 \\[1em]
+  \displaystyle \frac{\partial}{\partial t} \psi(t, T, u) = -R(t, \psi(t, T, u)\big) & \psi(T, T, u) = u 
+\end{array}\right.$$`}</span>
+
+<span>{ String.raw`$$R_i(s, u) = \frac12 u^\T a_i(s) u + u^\T b_i(s) + \int_{\bbR^d} \big( e^{u^\T y} - 1 - 1_{\lVert y \rVert \leq 1} u^\T y \big) m_i(s, {\rm d}y) , \quad i = 0, \ldots, d $$` }</span>
+
+<span>{ String.raw`for symmetric-positive-definite-valued functions $a_0, \ldots, a_d: \bbR_+ \rightarrow S_d^+$, vector-valued functions $b_0,\ldots, b_d: \bbR_+ \rightarrow \bbR^d$, and time-varying Radon measures, $m_0, \ldots, m_d: \bbR_+ \times \calR^d \rightarrow \bbR_+$ on the Borel sets $\calR^d$. This offers a parameterization for affine processes`}</span>
+&mdash;any such collection of functions induce a differential equation of which there is a corresponding affine process satisfying the affine transform formula.
+The point of this post is to explain how these parameters manifest as a stochastic differential equation for $X$ when it has finite activity.
+
+## Finite activity
+
+Let us assume that $m_0(s, \cdot), \ldots, m_d(s, \cdot)$ are finite measures for all $s \geq 0$.
+With such an assumption, we may define the total measures $k_i(s) = m_i(s, \bbR^d) \in (0,\infty)$ and factor out probability measures $\nu_i(s, \cdot)$ like so.
+
+<span>{ String.raw`$$ m_i(s, {\rm d}y) = k_i(s) \nu_i(s, {\rm d}y) $$` }</span>
+
+Additionally, this assumption allows us to reparameterize our vector-valued functions $b_i$
+
+<span>{ String.raw`$$ b_i(s) \leftarrow b_i(s) - \int_{\bbR^d} 1_{\lVert y \rVert \leq 1} y m_i(s, {\rm d}y)  $$` }</span>
+
+so that each $R_i$ may be rewritten more succinctly.
+
+<span>{ String.raw`$$ R_i(s, u) = \frac12 u^\T a_i(s) u + u^\T b_i(s) + \int_{\bbR^d} \big( e^{u^\T y} - 1 \big) k_i(s) \nu_i(s, {\rm d}y) $$` }</span>
+
+## Stochastic differential equation
+
+<span>{ String.raw`
+  With the parameters $a_0, b_0, k_0, \nu_0, \ldots, a_d, b_d, k_d, \nu_d$, we may now define affine functions $\alpha, \beta, \kappa$ like so.
+  $$\begin{aligned}
+    \alpha(s, x) &= a_0(s) + \sum_{i=1}^d x_i a_i(s) \\
+    \beta(s, x) &= b_0(s) + \sum_{i=1}^d x_i b_i(s) \\
+    \kappa(s, x, {\rm d}y) &= k_0(s)\nu_0(s, {\rm d}y) + \sum_{i=1}^d x_i k_i(s) \nu_i(s, {\rm d}y)
+  \end{aligned}$$
+`}</span>
+
+With such functions, we may consider a stochastic process $X$ solving the following differential equation for a filtration $\calF$
+
+<span>{ String.raw`$$ X_t = X_0 + \int_0^t \beta(s, X_s) {\rm d}s + \int_0^t \sigma(s, X_s) {\rm d}W_s + \int_{[0,t] \times \bbR^d} y \mu({\rm d}s \times {\rm d}y) $$`}</span>
+
+where $\sigma$ is some function satisfying $\sigma\sigma^\T = \alpha$, $W$ is a standard $\calF$-Brownian motion on $\bbR^d$, and $\mu$ is an integer-valued random measure with $\calF$-compensator $\mu^P$ as so.
+
+<span>{ String.raw`$$ \mu^P({\rm d}s \times {\rm d}y) = \kappa(s, X_{s-}, {\rm d}y) {\rm d}s$$` }</span>
+
+A solution $X$ to this stochastic differential equation will be an affine process with the same parameters in the affine transform formula.
+
+<Proof>
+  <span>{ String.raw`
+  Fix parameters $a_0, b_0, k_0, \nu_0, \ldots, a_d, b_d, k_d, \nu_d$ such that there exists some $T > 0$ such that the differential equation associated to the parameters
+  $$\left\{\begin{array}{ll}
+    \displaystyle \frac{\partial}{\partial t} \psi_0(t, T, u) = -R_0\big(t, \psi(t, T, u)\big) & \psi_0(T, T, u) = 0 \\[1em]
+    \displaystyle \frac{\partial}{\partial t} \psi(t, T, u) = -R(t, \psi(t, T, u)\big) & \psi(T, T, u) = u 
+    \end{array}\right.$$
+  has a solution $\psi_0(\cdot, T, u), \psi(\cdot, T, u)$ for all $u \in i\bbR^d$.
+  Let $X$ be a solution to the stochastic differential equation induced by the same parameters.
+  Now define $f: \bbR_+ \times \bbR^d \rightarrow \bbR$ as the deterministic function in our affine transform formula.
+  $$ f(t, x) = \exp\Big( \psi_0(t, T, u) + \psi(t, T, u)^\T x \Big) $$
+  We now evaluate the $M_t = f(t, X_t)$ according to It&ocirc;'s formula.
+  $$\begin{aligned}
+    M_t &= M_0 + \int_0^t f_t(s, X_s) {\rm d}s + \int_0^t \nabla_xf(s, X_{s-}) {\rm d}X^c_s \\
+        &\qquad + \frac12 \int_0^t ({\rm d}X^c_s)^\T H_xf(s, X_{s-}) {\rm d}X^c_s + \int_{[0,t] \times \bbR^d} \big( f(s, X_{s-} + y) - f(s, X_{s-}) \big) \mu({\rm d}s \times {\rm d}y) \\[2em]
+        &= M_0 + \int_0^t f(s, X_s) \Big( \frac{\partial}{\partial t}\psi_0(s, T, u) + \frac{\partial}{\partial t}\psi(s, T, u)^\T X_{s-} \Big) {\rm d}s + \int_0^t f(s, X_{s-}) \psi(s, T, u)^\T \Big( \beta(X_s) {\rm d}s + \sigma(X_s) {\rm d}W_s \Big) \\
+        &\qquad + \frac12 \int_0^t f(s, X_{s-}) \sigma(X_s)^\T \psi(s, T, u) \psi(s, T, u)^\T \sigma(X_s) {\rm d}s + \int_{[0,t]\times\bbR^d} f(s, X_{s-})\big( e^{\psi(s, T, u)^\T y} - 1 \big) \mu({\rm d}s \times {\rm d}y) \\[2em]
+        &= M_0 + \int_0^t f(s, X_s) \psi(s, T, u)^\T \sigma(X_s) {\rm d}W_s + \int_{[0,t]\times\bbR^d} f(s, X_{s-}) \big(e^{\psi(s, T, u)^\T y} - 1 \big) (\mu - \mu^P)({\rm d}s \times {\rm d}y) \\
+        &\qquad + \int_0^t f(s, X_{s-}) \Bigg( \frac{\partial}{\partial t}\psi_0(s, T, u) + \frac{\partial}{\partial t}\psi(s, T, u)^\T X_{s-} + \frac12\psi(s, T, u)^\T \alpha(X_s) \psi(s, T, u) + \psi(s, T, u)^\T \beta(X_s) \Bigg) {\rm d}s \\
+        &\qquad + \int_{[0,t]\times\bbR^d} f(s, X_{s-}) \big( e^{\psi(s, T, u)^\T y} - 1 \big) \mu^P({\rm d}s \times {\rm d}y) \\[2em]
+        &= M_0 + \int_0^t f(s, X_s) \psi(s, T, u)^\T \sigma(X_s) {\rm d}W_s + \int_{[0,t]\times\bbR^d} f(s, X_{s-}) \big(e^{\psi(s, T, u)^\T y} - 1 \big) (\mu - \mu^P)({\rm d}s \times {\rm d}y) \\
+        &\qquad + \int_0^t f(s, X_{s-}) \Bigg( \frac{\partial}{\partial t}\psi_0(s, T, u) + \frac{\partial}{\partial t}\psi(s, T, u)^\T X_s + \frac12\psi(s, T, u)^\T \alpha(X_s) \psi(s, T, u) + \psi(s, T, u)^\T \beta(X_s) + \int_{\bbR^d} \big(e^{\psi(t, T, u)^\T y} - 1 \big) \kappa(s, X_{s-}, {\rm d}y) \Big) {\rm d}s \\[2em]
+        &= M_0 + \int_0^t f(s, X_s) \psi(s, T, u)^\T \sigma(X_s) {\rm d}W_s + \int_{[0,t]\times\bbR^d} f(s, X_{s-}) \big(e^{\psi(s, T, u)^\T y} - 1 \big) (\mu - \mu^P)({\rm d}s \times {\rm d}y) \\
+        &\qquad + \int_0^t f(s, X_{s-}) \Bigg( \Big( \frac{\partial}{\partial t}\psi_0(s, T, u) + R_0\big(s, \psi(s, T, u)\big) \Big) + \Big(\frac{\partial}{\partial t}\psi(s, T, u) + R\big(s, \psi(s, T, u)\big) \Big)^\T X_s \Bigg) {\rm d}s \\[2em]
+        &= M_0 + \int_0^t f(s, X_s) \psi(s, T, u)^\T \sigma(X_s) {\rm d}W_s + \int_{[0,t]\times\bbR^d} f(s, X_{s-}) \big(e^{\psi(s, T, u)^\T y} - 1 \big) (\mu - \mu^P)({\rm d}s \times {\rm d}y)
+  \end{aligned}$$
+  The local martingale structure of $W$ and $\mu - \mu^P$ is preserved through stochastic integration, so we may conclude that $M$ is a local martingale.
+  Because $u \in i\bbR^d$, it turns out that the real part of $\psi_0(t, u) + \psi(t, u)^\T x$ is nonpositive for all $x \in \bbR^d$.
+  This tells us that
+  $$ |M_t| = \big| f(t, X_t) \big| \leq 1 $$
+  for all $t \geq 0$, and so $M$ is a martingale.
+  We conclude with the following for each $t \geq 0$.
+  $$ \rmE\Big( e^{u^\T X_T} | X_t = x \Big) = \rmE\Big(M_T | X_t = x \Big) = M_t = \exp\Big( \psi_0(t, T, u) + \psi(t, T, u)^\T X_t \Big) $$
+  This shows that the solution $X$ to the stochastic differential equation satisfies the affine transform formula up to terminal time $T$.
+  `}</span>
+</Proof>

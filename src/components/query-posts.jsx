@@ -6,7 +6,7 @@ import { PostLink, PostLinks } from './post-links';
 /**
  * Components
  */
-export default function PostsFromQuery({ 
+export default function QueryPosts({ 
   startDate, 
   endDate, 
   title, 
@@ -21,7 +21,11 @@ export default function PostsFromQuery({
     .map(({ id, ...p }) => <PostLink key={ id } filterTags={ tags } { ...p } />);
 
   // render
-  return <PostLinks>{ matched }</PostLinks>;
+  return (
+    matched.length
+    ? <PostLinks>{ matched }</PostLinks>
+    : <div>No posts match your query</div>
+  );
 }
 
 

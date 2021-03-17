@@ -1,6 +1,10 @@
 .tag-block {
   margin: 1em auto; 
-  width: 300px;
+  & svg {
+    margin: 0 auto;
+    display: block;
+    border: 3px solid red;
+  }
   & a:hover {
     filter: brightness(150%);
   }

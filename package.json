@@ -30,6 +30,7 @@
     "react-dom": "^17.0.1",
     "react-helmet": "^6.1.0",
     "react-spring": "^8.0.27",
+    "react-use-measure": "^2.0.3",
     "rehype-autolink-headings": "^5.0.1",
     "rehype-slug": "^4.0.1",
     "remark-disable-tokenizers": "^1.1.0",

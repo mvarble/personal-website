@@ -22,7 +22,41 @@ export default function TagBlock() {
 function Tags({ tags }) {
   // create a ref/callback for d3 to edit the dom
   const ref = React.useRef();
+
+  // create a state and callback for resizes
+  const [width, setWidth] = React.useState(0);
+  const resize = React.useCallback(
+    size => setWidth(Math.min(size, 500)), 
+    [setWidth]
+  );
+
+  // first callback for initializing width
   React.useEffect(() => {
+    if (width !== 0) return;
+    resize(ref.current.parentElement.offsetWidth - 50);
+  }, [width, resize, ref]);
+
+  // second callback for resizes
+  React.useEffect(() => {
+    const observer = new ResizeObserver(entries => entries.forEach(entry => {
+      resize(entry.contentRect.width - 50);
+    }));
+    observer.observe(ref.current.parentElement);
+    return () => observer.disconnect();
+  }, [resize, ref]);
+
+  // third callback actually appends attribute to svg
+  React.useEffect(() => {
+    if (!ref.current.children[0]) return;
+    ref.current.children[0].setAttribute("width", width);
+    ref.current.children[0].setAttribute("height", width);
+  }, [ref, width]);
+
+  // final render
+  React.useEffect(() => {
+    // don't rerender if svg already exists.
+    if (ref.current.children[0]) return;
+    
     // establish the cloud algorithm
     const layout = cloud()
       .size([300, 300])
@@ -30,7 +64,7 @@ function Tags({ tags }) {
       .padding(5)
       .rotate(() => -10 + Math.random() * 10)
       .fontSize(d => 30 * d.scale)
-      .on("end", words => draw(words, ref.current));
+      .on("end", words => draw(words, ref.current, width));
 
     // run the cloud algorithm
     layout.start();
@@ -38,15 +72,19 @@ function Tags({ tags }) {
     // create and return the cleanup function
     const cleanup = () => d3.select(ref.current).selectAll('*').remove();
     return cleanup;
-  }, [ref, tags]);
+  }, [ref, tags, width]);
 
+
+
+  // render the div
   return <div ref={ ref } className={ tagBlock } />;
 }
 
-function draw(words, dom) {
+function draw(words, dom, width) {
   d3.select(dom).append("svg")
-    .attr("width", 300)
-    .attr("height", 300)
+    .attr("viewBox", "0 0 300 300")
+    .attr("width", width)
+    .attr("height", width)
     .append("g")
     .attr("transform", `translate(150, 150)`)
     .selectAll("text")
