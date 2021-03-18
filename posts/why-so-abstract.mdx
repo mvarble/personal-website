@@ -1,0 +1,71 @@
+---
+title: Why so abstract, $(\Omega, \Sigma, \rmP)$?
+slug: /why-so-abstract
+date: 2021-03-18
+tags: [
+  probability,
+  meta-probability,
+  math,
+]
+---
+
+Perhaps one of the most clever and important abstractions in probability theory is that of having a measure space $(\Omega, \Sigma, \rmP)$ that we never explicitly study.
+Instead, we implicitly study the object by analyzing the measurable functions $X: \Omega \rightarrow S$ into other measurable spaces $(S, \calS)$ with known structure (like being Borel, finite, etc.).
+At first, this practice seems rather odd&mdash;why do we never care to explain exactly what $(\Omega, \Sigma, \rmP)$ is?
+This question is quickly answered when we think of the objective of applying probability, which for the purposes of this post will be as follows.
+
+> We use probability to model and analyze the random outcomes of all sorts of objects $X$ we would otherwise measure in the real world.
+
+## Example model
+
+<p>{ String.raw`
+  For instance, if we have to roll $5$ dice, the random outcome of each die could be encoded with functions $X_1, \ldots, X_5: \Omega \rightarrow \{1, \ldots, 6\}$ defined on a probability space $(\Omega, \Sigma, \rmP)$.
+  With such a setup, we can concisely denote probabilities of events, like the first dice rolling no smaller than a 5
+  $$ \rmP(X_1 \geq 5) = \rmP\big( X_1^{-1}\{5, 6\} \big), $$
+  we are able to quickly define notions like independence,
+  $$ \rmP\big( X_1 \in A, X_2 \in B \big) = \rmP\big( X_1 \in A \big) \rmP\big( X_2 \in B \big) $$
+  and we may also use algebra and composition to encode related random outcomes, like the number of $2$'s rolled.
+  $$ \sum_{i=1}^5 1_{\{2\}}(X_i): \Omega \rightarrow \{0, \ldots, 5\} $$
+  Any inference we could make with the outcomes of $5$-dice rolls $x_1, \ldots, x_5 \in \{1, \ldots, 6\}$ would be an expression $f(x_1, \ldots, x_5)$ like above, and so we may immediately model it as a random object $f(X_1, \ldots, X_5)$.
+  This is massively convenient when compared to studying $(\Omega, \Sigma, \rmP)$ directly.
+`}</p>
+
+## Damn measures!
+
+Let's actually verify this by doing the same model entirely from the perspective of studying $(\Omega, \Sigma, \rmP)$.
+The smallest space $(\tilde\Omega, \tilde\Sigma)$ which measures these $5$ dice rolls is the following product space.
+
+<span>{ String.raw`$$\tilde\Omega = \{ 1, \ldots, 6 \}^5, \quad \tilde\Sigma = 2^{\tilde\Omega}$$` }</span>
+
+By *smallest*, I mean to suggest that any $(\Omega, \Sigma, \rmP)$ that equips the $5$ dice rolls will immediately induce a measure $\tilde\rmP$ on $(\tilde\Omega, \tilde\Sigma)$ as follows,
+
+<span>{ String.raw`$$\tilde\rmP(A_1 \times \cdots \times A_5) = \rmP\big( X_1 \in A_1, \ldots, X_5 \in A_5 \big)$$` }</span>
+
+and so one may always *push forward* the model $(\Omega, \Sigma, \rmP)$ to $(\tilde\Omega, \tilde\Sigma, \tilde\rmP)$.
+With a specific measure space $(\tilde\Omega, \tilde\Sigma, \tilde\rmP)$ in mind, let us now consider how we would model the notions we had above.
+The first of which, denoting the probability of a specific event, looks far less concise now.
+<span>{ String.raw`$$ \rmP\big(\{5, 6\} \times \{1, 2, 3, 4, 5, 6\} \times \cdots \times \{1, 2, 3, 4, 5, 6\}\big)$$` }</span>
+<p>{ String.raw`
+  It takes us a moment to realize we are talking about the first die rolling no smaller than a $5$; we need to fill $\{1, 2, 3, 4, 5, 6\}$ for the die we otherwise don't care about.
+  Independence of the first two die rolls now amounts to
+  $$ \tilde\rmP\big(A \times B \times \{1, 2, 3, 4, 5, 6\} \times \cdots \times \{1, 2, 3, 4, 5, 6\}\big) = \tilde\rmP_1(A) \tilde\rmP_2(B) $$
+  for measures $\tilde\rmP_1, \tilde\rmP_2$ on $(\{1, 2, 3, 4, 5, 6\}, 2^{\{1, 2, 3, 4, 5, 6\}})$.
+  Meanwhile, the events associated to the number of $2$'s rolled are now captured by the following measure.
+  $$ A \mapsto \int_{\tilde\Omega} 1_A \big( 1_{\{2\}}(\omega_1 + \cdots + \omega_5) \big) {\rm d}\tilde\rmP(\omega_1, \ldots, \omega_5) $$
+  The same can be said about an abstract inference $f$.
+  $$ A \mapsto \int_{\tilde\Omega} 1_A \big( f(\omega_1, \ldots, \omega_5) \big) {\rm d}\tilde\rmP(\omega_1, \ldots, \omega_5) $$
+`}</p>
+
+<div className="message is-danger" style={{ textAlign: 'center' }}>
+  <div className="message-body">
+    Wow. That is a mouthful.
+  </div>
+</div>
+
+# Takeaway
+
+The reason we keep $(\Omega, \Sigma, \rmP)$ abstract is merely simplification.
+In probability, we study objects $X: \Omega \rightarrow S$ we'd otherwise observe as $x \in S$ for some space $S$.
+Our inferences $f(x) \in T$ are now immediately modeled as subsequent random objects $f(X) = f \circ X: \Omega \rightarrow T$.
+As such, any deterministic thing we would do with an observation can itself be understood by our probability model.
+This allows all of our actions&mdash;before we even commit them&mdash;to fall victim to our meticulous probabilistic investigation <span rol="img" aria-label="nerd">🤓</span>.

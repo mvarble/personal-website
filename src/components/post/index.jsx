@@ -11,6 +11,18 @@ import { PostLink, PostLinks } from '../post-links';
 export default function App({ data }) {
   // use ref with KaTeX render callback
   const ref = useKaTeX(data);
+
+  // related posts block renders if we have any
+  const relatedPosts = (
+    <div className="section">
+      <h1>Related posts</h1>
+      <PostLinks>
+        { 
+          data.post.related.map(post => <PostLink key={ post.slug } { ...post } />) 
+        }
+      </PostLinks>
+    </div>
+  );
   
   // render the application
   return (
@@ -27,14 +39,7 @@ export default function App({ data }) {
                 <Title { ...data.post }/>
                 <MDXRenderer>{data.post.body}</MDXRenderer>
               </div>
-              <div className="section">
-                <h1>Related posts</h1>
-                <PostLinks>
-                  { 
-                    data.post.related.map(post => <PostLink key={ post.slug } { ...post } />) 
-                  }
-                </PostLinks>
-              </div>
+              { data.post.related.length ? relatedPosts : null }
             </div>
           </div>
         </div>

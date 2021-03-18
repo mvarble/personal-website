@@ -51,13 +51,21 @@ h1, h2, h3, h4, h5, h6 {
     color: $primary;
   }
   & blockquote {
-    background: #f6f9ff;
-    border-left: 5px solid $link;
+    @extend .message-body;
+    background: #eef6fc;
+    border-color: #3298dc;
+    color: $text;
   }
 }
 
 div.gatsby-highlight {
-  border-left: 5px solid #c19e86;
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 0 0 0 4px;
+  border-color: #dbdbdb;
+  > pre {
+    background: #f5f5f5;
+  }
 }
 
 :root {

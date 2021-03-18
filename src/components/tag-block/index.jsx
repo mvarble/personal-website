@@ -63,7 +63,7 @@ function Tags({ tags }) {
       .words(tags)
       .padding(5)
       .rotate(() => -10 + Math.random() * 10)
-      .fontSize(d => 30 * d.scale)
+      .fontSize(d => 20 * d.scale)
       .on("end", words => draw(words, ref.current, width));
 
     // run the cloud algorithm
@@ -120,7 +120,7 @@ function processTags(pages) {
   ], [0, 0]);
   const scale = d3.scaleLinear()
     .domain(countRange)
-    .range([1.0, 0.25]);
+    .range([0.25, 1.0]);
 
   // preprocess for d3-cloud and rendering
   return firstPass

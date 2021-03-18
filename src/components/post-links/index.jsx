@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'gatsby';
 
 import { post, posts } from './index.module.scss';
+import useKaTeX from '../../hooks/use-katex';
 
 function PostLink({ title, slug, date, tags, filterTags }) {
   // create a quick function for deciding if a tag is highlighted
@@ -18,9 +19,12 @@ function PostLink({ title, slug, date, tags, filterTags }) {
     </span>
   ));
 
+  // use a katex ref so that titles can have math
+  const ref = useKaTeX();
+
   // render
   return (
-    <Link to={ slug } className={ post }>
+    <Link to={ slug } className={ post } ref={ ref } >
       <span 
         className="is-size-3"
         style={{ color: 'var(--danger)' }}>

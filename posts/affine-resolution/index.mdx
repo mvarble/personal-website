@@ -83,7 +83,7 @@ A solution $X$ to this stochastic differential equation will be an affine proces
   Let $X$ be a solution to the stochastic differential equation induced by the same parameters.
   Now define $f: \bbR_+ \times \bbR^d \rightarrow \bbR$ as the deterministic function in our affine transform formula.
   $$ f(t, x) = \exp\Big( \psi_0(t, T, u) + \psi(t, T, u)^\T x \Big) $$
-  We now evaluate the $M_t = f(t, X_t)$ according to It&ocirc;'s formula.
+  We now evaluate the $M_t = f(t, X_t)$ according to Itô's formula.
   $$\begin{aligned}
     M_t &= M_0 + \int_0^t f_t(s, X_s) {\rm d}s + \int_0^t \nabla_xf(s, X_{s-}) {\rm d}X^c_s \\
         &\qquad + \frac12 \int_0^t ({\rm d}X^c_s)^\T H_xf(s, X_{s-}) {\rm d}X^c_s + \int_{[0,t] \times \bbR^d} \big( f(s, X_{s-} + y) - f(s, X_{s-}) \big) \mu({\rm d}s \times {\rm d}y) \\[2em]
