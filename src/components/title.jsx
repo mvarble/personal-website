@@ -1,5 +1,5 @@
 import React from 'react';
-import { navigate } from 'gatsby';
+import { Link } from 'gatsby';
 
 export default function Title({ title, tags, date }) {
   return (
@@ -9,15 +9,14 @@ export default function Title({ title, tags, date }) {
       <div style={{ margin: '1em' }}>
         { 
           tags.map(tag => 
-            <button 
-              key={ tag }
-              className="button is-small is-success is-rounded is-outlined"
-              style={{ margin: '0.25em', fontSize: '10px' }}
-              onClick={ () => navigate(`/search?tags[]=${tag}`) }
-              onKeyDown={ () => navigate(`/search?tags[]=${tag}`) }
-            >
-              { tag }
-            </button>
+            <Link to="/search" state={{ tags: [tag] }} key={ tag }>
+              <button 
+                className="button is-small is-success is-rounded is-outlined"
+                style={{ margin: '0.25em', fontSize: '10px' }}
+              >
+                { tag }
+              </button>
+            </Link>
           )
         }
       </div>

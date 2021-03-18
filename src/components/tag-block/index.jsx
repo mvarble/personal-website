@@ -1,8 +1,8 @@
 import React from 'react';
 import fp from 'lodash/fp';
-import * as d3 from 'd3';
+import { scaleLinear, interpolateInferno }  from 'd3';
 import cloud from 'd3-cloud';
-import { useStaticQuery, graphql } from 'gatsby';
+import { useStaticQuery, graphql, Link } from 'gatsby';
 
 import { tagBlock } from './index.module.scss';
 
@@ -20,23 +20,25 @@ export default function TagBlock() {
 }
 
 function Tags({ tags }) {
-  // create a ref/callback for d3 to edit the dom
+  // create a ref to measure the size of the window
   const ref = React.useRef();
 
-  // create a state and callback for resizes
-  const [width, setWidth] = React.useState(0);
+  // create a state
+  const [state, setState] = React.useState({ width: 0, words: [] });
+
+  // create a callback for resizes
   const resize = React.useCallback(
-    size => setWidth(Math.min(size, 500)), 
-    [setWidth]
+    size => setState(fp.set('width')(Math.min(size, 500))), 
+    [setState]
   );
 
-  // first callback for initializing width
+  // effect: initialize width
   React.useEffect(() => {
-    if (width !== 0) return;
+    if (state.width !== 0) return;
     resize(ref.current.parentElement.offsetWidth - 50);
-  }, [width, resize, ref]);
+  }, [state, resize, ref]);
 
-  // second callback for resizes
+  // effect: change dimensions on parent resizes
   React.useEffect(() => {
     const observer = new ResizeObserver(entries => entries.forEach(entry => {
       resize(entry.contentRect.width - 50);
@@ -45,17 +47,15 @@ function Tags({ tags }) {
     return () => observer.disconnect();
   }, [resize, ref]);
 
-  // third callback actually appends attribute to svg
+  // effect: if tags change, clear words
   React.useEffect(() => {
-    if (!ref.current.children[0]) return;
-    ref.current.children[0].setAttribute("width", width);
-    ref.current.children[0].setAttribute("height", width);
-  }, [ref, width]);
+    setState(fp.set('words')([]));
+  }, [tags]);
 
-  // final render
+  // effect: run d3-cloud
   React.useEffect(() => {
-    // don't rerender if svg already exists.
-    if (ref.current.children[0]) return;
+    // only populate if words don't exist
+    if (state.words.length) return;
     
     // establish the cloud algorithm
     const layout = cloud()
@@ -64,41 +64,37 @@ function Tags({ tags }) {
       .padding(5)
       .rotate(() => -10 + Math.random() * 10)
       .fontSize(d => 20 * d.scale)
-      .on("end", words => draw(words, ref.current, width));
+      .on("end", words => setState(fp.set('words')(words)));
 
     // run the cloud algorithm
     layout.start();
-
-    // create and return the cleanup function
-    const cleanup = () => d3.select(ref.current).selectAll('*').remove();
-    return cleanup;
-  }, [ref, tags, width]);
-
-
+  }, [state, setState, tags]);
 
   // render the div
-  return <div ref={ ref } className={ tagBlock } />;
-}
-
-function draw(words, dom, width) {
-  d3.select(dom).append("svg")
-    .attr("viewBox", "0 0 300 300")
-    .attr("width", width)
-    .attr("height", width)
-    .append("g")
-    .attr("transform", `translate(150, 150)`)
-    .selectAll("text")
-    .data(words)
-    .enter()
-    .append("a")
-    .attr("xlink:href", d => `/search?tags[]=${d.text}`)
-    .append("text")
-    .text(d => d.text)
-    .style("font-size", d => d.size + "px")
-    .style("font-family", d => d.font)
-    .style("fill", (_, i) => d3.interpolateInferno(0.8*(1 - i / words.length)))
-    .attr("text-anchor", "middle")
-    .attr("transform", d => `translate(${d.x}, ${d.y}) rotate(${d.rotate})`);
+  return (
+    <div ref={ ref } className={ tagBlock } >
+      <svg viewBox="0 0 300 300" width={ state.width } height={ state.width }>
+        <g transform="translate(150, 150)">
+          {
+            state.words.map(({ text, size, x, y, rotate, font }, i) => (
+              <Link to="/search" state={{ tags: [text] }} key={ text }>
+                <text
+                  textAnchor="middle"
+                  transform={ `translate(${x}, ${y}) rotate(${rotate})` }
+                  style={{
+                    fontFamily: font,
+                    fontSize: `${size}px`,
+                    fill: interpolateInferno(0.8 * (1 - i / state.words.length)),
+                  }}>
+                  { text }
+                </text>
+              </Link>
+            ))
+          }
+        </g>
+      </svg>
+    </div>
+  );
 }
 
 function processTags(pages) {
@@ -118,9 +114,7 @@ function processTags(pages) {
     count < min ? count : min,
     count > max ? count : max,
   ], [0, 0]);
-  const scale = d3.scaleLinear()
-    .domain(countRange)
-    .range([0.25, 1.0]);
+  const scale = scaleLinear().domain(countRange).range([0.25, 1.0]);
 
   // preprocess for d3-cloud and rendering
   return firstPass
