@@ -4,6 +4,7 @@ node_js:
 cache:
   directories:
     - "$HOME/.npm"
+    - "$HOME/.rvm"
 before_script:
   - gatsby clean && gatsby build
 deploy:

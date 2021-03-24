@@ -1,0 +1,25 @@
+.image-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  & > :first-child {
+    flex: 1 1 60%;
+  }
+  & > :last-child {
+    overflow-x: hidden;
+    flex: 1 1 40%;
+    min-width: 280px;
+    box-sizing: border-box;
+    margin: 0 auto;
+  }
+  &.left {
+    flex-direction: row-reverse;
+  }
+}
+
+.scene {
+  max-width: 600px;
+  margin: 1em;
+  & canvas {
+    background: var(--grey);
+  }
+}

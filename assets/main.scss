@@ -55,6 +55,10 @@ h1, h2, h3, h4, h5, h6 {
     background: #eef6fc;
     border-color: #3298dc;
     color: $text;
+    &.is-success {
+      background: #ebfffc;
+      border-color: #00d1b2;
+    }
   }
 }
 

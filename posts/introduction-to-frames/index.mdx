@@ -1,0 +1,363 @@
+---
+title: Introduction to frames
+slug: /introduction-to-frames
+date: 2021-03-24
+tags: [
+  frames,
+  linear-algebra,
+  graphics,
+  rats,
+  solar,
+]
+---
+
+import { imageWrap, left } from './index.module.scss';
+import { 
+  R3Diagram, 
+  TwoFrameDiagram,
+  ChickenLocation,
+  EricAtSam,
+  EricRightStep,
+  Translation,
+  Rotation,
+  Scale,
+} from './diagrams';
+import {
+  EarthYear,
+  EarthTilt,
+  EarthSpin,
+  MapCoordinates,
+  EarthPosition,
+} from './solar';
+
+<div className={ imageWrap }>
+  <div>
+    <p>{ String.raw`
+      In our first linear algebra course, we learned about the vector space $\bbR^3$ and how the linear operations on this space play with the geometry quite well.
+      Addition $v + w$ corresponds to displacing $v$ and then $w$, while scalar multiplication $\alpha v$ corresponds to scaling $v$ by $\alpha$.
+      From this, we are able to represent physical transformations (e.g. rotations, translations, and scales) in terms of simple affine maps $T: \bbR^3 \rightarrow \bbR^3$.
+      To this end, linear algebra becomes a very powerful tool for modeling the physical world.
+    ` }</p>
+    <p>{ String.raw`
+      However, one limitation of representing locations and displacements as elements of $\bbR^3$ is that the coordinate system is absolute.
+      In the real world, it is often advantageous to speak relatively: for instance, I may tell you a location as follows.
+    `}</p>
+    <blockquote>
+      Look at that cute rat, about $2$-meters in front of you!
+    </blockquote>
+    <p>{ String.raw`
+      You would then be excited by the spectacle and reply:
+    `}</p>
+    <blockquote className="is-success">
+      He's a <small><b>baby</b></small> boy!
+      How did you notice him, even though he is $3$-meters behind you?!
+    </blockquote>
+    to which I would respond:
+    <blockquote>
+      I <big><b>always</b></big> know when a dang <big><b>rat</b></big> is around.
+    </blockquote>
+    Just as our language allows us to speak of the same location in different ways, we would like our locations $\calL$ and displacements $\calD$ to manifest as different coordinates in $\bbR^3$, relative to a <em>frame</em> of reference.
+    This post explains how this is done.
+  </div>
+  <R3Diagram />
+</div>
+
+## Simple example
+
+Say there are two rats&mdash;Sam and Eric&mdash;standing at different locations, oriented in different ways.
+
+<TwoFrameDiagram />
+
+Sam tells Eric the location of some tasty chicken.
+
+> Eric, the chicken is $4.2$ steps right of me, $6.9$ steps forward, and $6.66$ steps up.
+
+<ChickenLocation />
+
+In order for Eric to understand this location from his own frame of reference, he needs to answer $4$ questions.
+
+<blockquote className="is-success">
+  <b>Question 1.</b> What is Sam's location, relative to my frame of reference?
+</blockquote>
+
+Eric recognizes Sam is $x$-steps right, $y$-steps forward, and $z$-steps up.
+To him, Sam's location is a coordinate vector $(x, y, z) \in \bbR^3$.
+If Eric needed to, he could displace $(x, y, z)$ relative to his perspective to find himself at Sam's location.
+
+<EricAtSam />
+
+Once at Sam's location, he must trace Sam's own steps.
+
+<blockquote className="is-success">
+  <b>Question 2.</b> What steps must I take to simulate Sam's step right?
+</blockquote>
+
+<span>{ String.raw`
+  Though Eric is at the same location as Sam, a step right for Sam is not the same as that for Eric.
+  Let's say it is the case that if Eric takes $a_{11}$ steps right, $a_{21}$ steps forward, and $a_{31}$ steps up, he will simulate the same as a step right for Sam.
+`}</span>
+
+<EricRightStep />
+
+<span>{ String.raw`
+  Since Sam said to take $4.2$ steps right to get towards chicken, so Eric must make the displacement $4.2(a_{11}, a_{21}, a_{31})$ to simulate such steps.
+` }</span>
+
+From here, we can probably guess the last two questions Eric must ask.
+
+<blockquote className="is-success">
+  <b>Question 3.</b> What steps must I take to simulate Sam's step forward?
+</blockquote>
+
+<span>{ String.raw`Let's say this is $(a_{12}, a_{22}, a_{32})$. Eric would use this information to displace $6.9(a_{12}, a_{22}, a_{32})$.` }</span>
+
+<blockquote className="is-success">
+  <b>Question 4.</b> What steps must I take to simulate Sam's step upward?
+</blockquote>
+
+<span>{ String.raw`
+  Let's say this is $(a_{13}, a_{23}, a_{33})$. 
+  Eric would use this information to displace $6.66(a_{13}, a_{23}, a_{33})$.
+`}</span>
+
+<p style={{ marginTop: '1em' }}>{ String.raw`
+  In total, Eric can get to the chicken like so.
+  $$\begin{pmatrix} x \\ y \\ z \end{pmatrix} + 4.2 \begin{pmatrix} a_{11} \\ a_{21} \\ a_{31} \end{pmatrix} + 6.9 \begin{pmatrix} a_{12} \\ a_{22} \\ a_{32} \end{pmatrix} + 6.66 \begin{pmatrix} a_{13} \\ a_{23} \\ a_{33} \end{pmatrix} $$
+  This linear combination can be simplified to the following matrix product.
+  $$\begin{pmatrix} a_{11} & a_{12} & a_{13} & x \\ a_{21} & a_{22} & a_{23} & y \\ a_{31} & a_{32} & a_{33} & z \\ 0 & 0 & 0 & 1 \end{pmatrix} \begin{pmatrix} 4.2 \\ 6.9 \\ 6.66 \\ 1 \end{pmatrix}$$
+  Organizing our calculations this way is nice, because the coordinates $(4.2, 6.9, 6.66) \in \mathbb R^3$ of the chicken in Sam's frame are nicely packed into a single vector.
+  $$\begin{pmatrix} a_{11} & a_{12} & a_{13} & x \\ a_{21} & a_{22} & a_{23} & y \\ a_{31} & a_{32} & a_{33} & z \\ 0 & 0 & 0 & 1 \end{pmatrix} \begin{pmatrix} { \color{red} 4.2 } \\ { \color{red} 6.9 } \\ { \color{red} 6.66 } \\ 1 \end{pmatrix}$$
+` }</p>
+
+If Sam were to describe a new location with respect to his frame as a coordinate vector $(u, v, w) \in \mathbb R^3$, Eric may reuse the <i>relative frame matrix</i> obtained from the $4$ questions to understand the location as a coordinate vector $(a, b, c) \in \mathbb R^3$ in his own coordinate system.
+
+<span>{ String.raw`$$ \begin{pmatrix} a \\ b \\ c \\ 1 \end{pmatrix} = \begin{pmatrix} a_{11} & a_{12} & a_{13} & x \\ a_{21} & a_{22} & a_{23} & y \\ a_{31} & a_{32} & a_{33} & z \\ 0 & 0 & 0 & 1 \end{pmatrix} \begin{pmatrix} u \\ v \\ w \\ 1 \end{pmatrix}$$ `}</span>
+
+## No, my right
+
+The above matrix does not only help Sam and Eric immediately translate locations between coordinate systems.
+It also helps them translate displacements between coordinate systems.
+For instance, if Sam told Eric:
+
+> From where you are standing, take a step right.
+
+Eric is an empathetic rat; he knows Sam is talking about *right* from his own perspective. 
+<span>{ String.raw`
+  That said, Eric remembers to displace $(a_{11}, a_{21}, a_{31})$ in his own frame, even though such a displacement is $(1,0,0)$ to Sam. 
+  To no surprise, this displacement is immediately calculated with the following matrix product.
+  $$ \begin{pmatrix} a_{11} \\ a_{21} \\ a_{31} \\ 0 \end{pmatrix} = \begin{pmatrix} a_{11} & a_{12} & a_{13} & x \\ a_{21} & a_{22} & a_{23} & y \\ a_{31} & a_{32} & a_{33} & z \\ 0 & 0 & 0 & 1 \end{pmatrix} \begin{pmatrix} 1 \\ 0 \\ 0 \\ 0 \end{pmatrix}$$
+  Note that the key difference between this calculation and that for the location of the chicken is the $0$ in the $4$-th component of the vector. 
+` }</span>
+
+## Frame abstraction
+
+<p>{ String.raw`
+  Now that we have seen an example, we may create an abstraction.
+  Denote the set of locations and displacements in space with the sets $\calL$ and $\calD$, respectively.
+  These sets should have the following algebraic structure.
+  $$\begin{aligned}
+    p \in \calL, ~ d \in \calD &\quad \leadsto \quad p + d \in \calL \\
+    p, q \in \calL &\quad \leadsto \quad p - q \in \calD \\
+    c, d \in \calD, ~ \alpha \in \bbR &\quad \leadsto \quad c + \alpha d \in \calD \\
+  \end{aligned}$$
+  The first rule tells us that we may always displace from a location to another location, the second rule is that the difference of locations is always a displacement, while the last is simply that displacements form a real vector space.
+  Define a family $\calF$ of frames which serve as our coordinate systems.
+  For a frame $F \in \calF$ and a location $p \in \calL$, we may define $[p]_F \in \bbR^3$ as the coordinates of $p$ with respect to $F$.
+  Similarly denote the coordinates $[d]_F \in \bbR^3$ of the displacement $d \in \calD$ with respect to the frame $F \in \calF$.
+  Because we want this map $[\cdot]_F$ to provide coordinates, it must be bijective on its restrictions to $\calL$ and $\calD$ and preserve the algebraic structure.
+  $$\begin{aligned}
+    [p]_F - [q]_F = [p - q]_F, & \quad p, q \in \calL  \\
+    [p]_F + [d]_F = [p + d]_F, & \quad p \in \calL, ~ d \in \calD  \\
+    [c]_F + \alpha [d]_F = [c + \alpha d]_F & \quad c, d \in \calD, ~ \alpha \in \bbR
+  \end{aligned}$$
+  Bijectivity of $[\cdot]_F$ means that each frame $F$ has an origin $o_F \in \calL$ characterized by $[o_F]_F = 0 \in \bbR^3$ and standard displacements $d_{F1}, d_{F2}, d_{F3} \in \calD$ characterized by
+  $$\begin{array}{l} [d_{F1}]_F = (1,0,0) \\[1em] [d_{F2}]_F = (0,1,0) \\[1em] [d_{F3}]_F = (0,0,1) \end{array}$$
+`}</p>
+
+<p>{ String.raw`
+  To each frame $F$, we may embed the information of $\calL \cup \calD$ and $[\cdot]_F$ into $\bbR^4$ with a map $\langle \cdot \rangle_F: \calL \cup \calD \rightarrow \bbR^4$ as follows.
+  $$\begin{array}{l}
+    \displaystyle \langle p \rangle_F = \begin{pmatrix} [p]_F \\ 1 \end{pmatrix}, \quad p \in \calL\\[1em]
+    \displaystyle \langle d \rangle_F = \begin{pmatrix} [d]_F \\ 0 \end{pmatrix}, \quad d \in \calD 
+  \end{array}$$
+  With this map, we now have the coordinate space $\langle \calL \cup \calD \rangle_F$ associated to a frame $F$.
+`}</p>
+
+## Frame transformations
+
+<p>{ String.raw`
+  Similar to our example with Sam and Eric, we may think of the frames $F, G \in \calF$ as physical objects under which transformations $F \rightarrow G$ correspond to changes in coordinate systems $T_{FG}: \langle \calL \cup \calD\rangle_G \rightarrow \langle \calL \cup \calD\rangle_F$.
+  Transformations $F \rightarrow G$ are defined so that the following contravariant diagram commutes.
+`}</p>
+
+<div style={{ overflowX: 'auto' }}>
+  <div style={{ 
+    display: 'grid',
+    gridTemplateColumns: 'auto 80px 80px 80px 80px 80px auto',
+    gridTemplateRows: '40px 40px 40px',
+    justifyItems: 'center',
+  }}>
+    <span />
+      <span>$F$</span>
+      <span>$\longrightarrow$</span>
+      <span>$G$</span>
+      <span>$\longrightarrow$</span>
+      <span>$H$</span>
+    <span />
+    <span />
+      <span>$\downarrow$</span>
+      <span></span>
+      <span>$\downarrow$</span>
+      <span></span>
+      <span>$\downarrow$</span>
+    <span />
+    <span />
+      <span>$\langle \calL \cup \calD \rangle_F$</span>
+      <span>{ String.raw`$\xleftarrow{T_{FG}}$` }</span>
+      <span>$\langle \calL \cup \calD \rangle_G$</span>
+      <span>{ String.raw`$\xleftarrow{T_{GH}}$` }</span>
+      <span>$\langle \calL \cup \calD \rangle_H$</span>
+    <span />
+  </div>
+</div>
+
+<p>{ String.raw`
+  We will encode our coordinate transform $T_{FG} \in \bbR^{4\times 4}$ to satisfy the following.
+  $$ \langle a \rangle_F = T_{FG}\langle a \rangle_G, \quad a \in \calL \cup \calD$$
+  Of course, this specifically translates to the following.
+  $$\begin{pmatrix} [p]_F \\ 1 \end{pmatrix} = T_{FG} \begin{pmatrix} [p]_G \\ 1 \end{pmatrix}, \quad p \in \calL $$
+  $$\begin{pmatrix} [d]_F \\ 0 \end{pmatrix} = T_{FG} \begin{pmatrix} [d]_G \\ 0 \end{pmatrix}, \quad d \in \calL $$
+  This setup is useful, as we may define a frame $G$ in terms of the affine coordinate transform $T_{FG}$ that is induced from transporting $F \rightarrow G$.
+  Consider the fundamental rigid body transforms $F \rightarrow G$ that we may define.
+`}</p>
+
+### Translations
+
+<div className={ `${imageWrap} ${left}` }>
+  <div>
+    <p>{ String.raw`
+      Translations of $F$ that preserve orientation but change origin $[o_G]_F = (x, y, z)$ have the following matrix structure.
+      $$ T_{FG} = \begin{pmatrix} 1 & 0 & 0 & x \\ 0 & 1 & 0 & y \\ 0 & 0 & 0 & z \\ 0 & 0 & 0 & 1 \end{pmatrix} $$
+    `}</p>
+  </div>
+  <div>
+    <Translation />
+  </div>
+</div>
+
+### Rotations
+
+<div className={ `${imageWrap} ${left}` }>
+  <div>
+    <p>{ String.raw`
+      If we would like to rotate a frame $F$ around an axis $d \in \calD$, we can construct a rotation matrix $R^F_d(\theta) \in \bbR^{3\times 3}$, defined to act as follows on each $x \in \bbR^3$.
+      $$\begin{aligned} 
+        R^F_d(\theta)x &= \Big(\frac{[d]_F}{R} \cdot x \Big) \frac{[d]_F}{R} + \cos\theta\Big(\frac{[d]_F}{R} \times x\Big) \times x + \sin\theta\Big(\frac{[d]_F}{R} \times x\Big), \\
+        R &= \Big\lVert [d]_F \Big\rVert
+      \end{aligned}$$
+      Then, the relative frame matrix would be the following block matrix.
+      $$ T_{FG} = \begin{pmatrix} R^F_d(\theta) & 0 \\ 0 & 1 \end{pmatrix} $$
+      
+    `}</p>
+  </div>
+  <div>
+    <Rotation />
+  </div>
+</div>
+
+### Scales
+
+<div className={ `${imageWrap} ${left}` }>
+  <div>
+    <p>{ String.raw`
+      If we would like to scale a frame $F$ so that the cardinal directions (right, forward, up) scale by $(a, b, c)$, we would have the following relative frame matrix.
+      $$ T_{FG} = \begin{pmatrix} a & 0 & 0 & 0 \\ 0 & b & 0 & 0 \\ 0 & 0 & c & 0 \\ 0 & 0 & 0 & 1 \end{pmatrix}$$
+    `}</p>
+  </div>
+  <div>
+    <Scale />
+  </div>
+</div>
+
+## Celestial frames
+
+<p>{ String.raw`
+  Let us finish this post with an example demonstrating the effectiveness of frames.
+  We would like to understand the coordinates of a solar radiation vector of a person standing on earth at (latitude, longitude) coordinates $(\phi, \theta)$ at a given time $t$.
+  This person's frame $F_p(t, \phi, \theta)$ should be such that standard basis vectors $d_{F_p(t, \phi, \theta)1}$, $d_{F_p(t, \phi, \theta)2}$, and $d_{F_p(t, \phi, \theta)3}$ point east, north, and toward the sky, respectively.
+  The solar radiation vector $s(t, \phi, \theta)$ has complicated coordinates $[s(t, \phi, \theta)]_{F_p(t,\phi,\theta)}$ that would be difficult to calculate directly without the help of frames.
+  However, if we create the frame $F_p(t, \phi, \theta)$ though simple successive frame transformations at a celestial perspective, all of this is quite easy.
+`}</p>
+
+<p>{ String.raw`
+  We start by imposing a base frame $F_s$ which simply puts the sun at the origin and gives a fixed orientation for our solar system.
+  From here, we transport $F_s \rightarrow F_y(t)$, where $F_y(t)$ is a frame responsible for creating the dynamics of the earth around the sun.
+  Denote the relative frame matrix associated to the transport $F_s \rightarrow F_y(t)$ by $T_y(t)$.
+  $$\begin{aligned}
+     T_y(t) &= \begin{pmatrix} 1 & 0 & 0 & D\cos\omega_y(t) \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & D\sin\omega_y(t) \\ 0 & 0 & 0 & 1 \end{pmatrix} \\
+    D &= 1.496 \times 10^8 \\
+    \omega_d(t) &= 2\pi t \\
+    \omega_y(t) &= \omega_d(t) / 364.24
+  \end{aligned}$$
+  Note that the configuration of $F_y(t)$ relative to $F_s$ is periodic on $364.24$; this imposes that a timestep of $t=1$ corresponds to one day in the year.
+`}</p>
+
+<EarthYear />
+
+<p>{ String.raw`
+  Now we introduce the tilt of the earth's axis by peforming a frame transform $F_y(t) \rightarrow F_a(t)$ with relative frame matrix $T_a$.
+  $$\begin{aligned}
+     T_a &= \begin{pmatrix} \cos\alpha & -\sin\alpha & 0 & 0 \\ \sin\alpha & \cos\alpha & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & 1 \end{pmatrix} \\
+     \alpha &= 23.45 * \pi/180
+  \end{aligned}$$
+`}</p>
+
+<EarthTilt />
+
+<p>{ String.raw`
+  Now that earth's north pole is encoded in $F_a(t)$, we may introduce the spin with a transform $F_a(t) \rightarrow F_d(t)$ with relative frame matrix $T_d(t)$.
+  $$ T_d(t) = \begin{pmatrix} \cos\omega_d(t) & 0 & -\sin\omega_d(t) & 0 \\ 0 & 1 & 0 & 0 \\ \sin\omega_d(t) & 0 & \cos\omega_d(t) & 0 \\ 0 & 0 & 0 & 1 \end{pmatrix}$$
+`}</p>
+
+<EarthSpin />
+
+<p>{ String.raw`
+  Now that the configuration of the earth in the solar system is declared, we need a frame transform $F_d(t) \rightarrow F_p(t, \phi, \theta)$ to our person's configuration, dependent on (latitude, longitude) coordinates $(\phi,\theta)$.
+  Denote the relative frame matrix associated to $F_d(t) \rightarrow F_p(t, \phi, \theta)$ by $T_p(\phi, \theta)$.
+  $$
+    \begin{aligned}
+      T_p(\phi, \theta) 
+      &= \begin{pmatrix}
+        -\sin\eta(\theta) & \cos\sigma(\phi) \cos\eta(\theta) & \sin\sigma(\phi) \cos\eta(\theta) & R\sin\sigma(\phi) \cos\eta(\theta) \\
+        0 & -\sin\sigma(\phi) & \cos\sigma(\phi) & R\cos\sigma(\phi) \\
+        \cos\eta(\theta) & \cos\sigma(\phi) \sin\eta(\theta) & \sin\sigma(\phi) \sin\eta(\theta) & R \sin\sigma(\phi) \sin\eta(\theta) \\
+        0 & 0 & 0 & 1
+      \end{pmatrix}  \\
+      \sigma(\phi) &= \pi (180 - \theta) / 180 \\
+      \eta(\theta) &= \pi (\phi - 90) / 180 \\
+      R &= 6371
+    \end{aligned}
+  $$
+`}</p>
+
+<MapCoordinates />
+
+<EarthPosition />
+
+<p>{ String.raw`
+  Now that the frames are established, we note that the solar radiation $s(t, \phi, \theta)$ is the displacement from the origin $o_{F_s}$ to the position of the person $o_{F_p(t, \phi, \theta)}$.
+  $$ s(t, \phi, \theta) = o_{F_p(t,\phi,\theta)} - o_{F_s} $$
+  We now use our frame transform algebra to get our desired coordinates.
+  $$\begin{aligned}
+    &\big\langle s(t, \phi, \theta) \big\rangle_{F_p(t,\phi,\theta)} \\
+    &\quad=\big\langle o_{F_p(t, \phi, \theta)} \big\rangle_{F_p(t,\phi,\theta)} - \big\langle o_{F_s} \big\rangle_{F_p(t, \phi,\theta)} \\
+    &\quad= \begin{pmatrix} 0 \\ 0 \\ 0 \\ 1 \end{pmatrix} - T_p(\phi, \theta) \big\langle o_{F_s} \big\rangle_{F_d(t)} \\
+    &\quad= \begin{pmatrix} 0 \\ 0 \\ 0 \\ 1 \end{pmatrix} - T_p(\phi, \theta) \cdot T_d(t) \big\langle o_{F_s} \big\rangle_{F_a(t)} \\
+    &\quad= \begin{pmatrix} 0 \\ 0 \\ 0 \\ 1 \end{pmatrix} - T_p(\phi, \theta) \cdot T_d(t) \cdot T_a \big\langle o_{F_s} \big\rangle_{F_y(t)} \\
+    &\quad= \begin{pmatrix} 0 \\ 0 \\ 0 \\ 1 \end{pmatrix} - T_p(\phi, \theta) \cdot T_d(t) \cdot T_a \cdot T_y(t) \big\langle o_{F_s} \big\rangle_{F_s(t)} \\
+    &\quad= \begin{pmatrix} 0 \\ 0 \\ 0 \\ 1 \end{pmatrix} - T_p(\phi, \theta) \cdot T_d(t) \cdot T_a \cdot T_y(t) \begin{pmatrix} 0 \\ 0 \\ 0 \\ 1 \end{pmatrix}
+  \end{aligned}$$
+  The matrix product above is tedious to calculate by hand, but we now have a closed form expression for the desired coordinates.
+  $$ \big[s(t, \phi, \theta)\big]_{F_p(t, \phi, \theta)} =  - \begin{pmatrix} 1 & 0 & 0 & 0\\ 0 & 1 & 0 &0 \\ 0 & 0 & 1 & 0 \end{pmatrix}T_p(\phi, \theta) \cdot T_d(t) \cdot T_a \cdot T_y(t) \begin{pmatrix} 0 \\ 0 \\ 0 \\ 1 \end{pmatrix} $$
+`}</p>
+
