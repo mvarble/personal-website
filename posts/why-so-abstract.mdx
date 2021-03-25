@@ -51,14 +51,15 @@ The first of which, denoting the probability of a specific event, looks far less
   $$ \tilde\rmP\big(A \times B \times \{1, 2, 3, 4, 5, 6\} \times \cdots \times \{1, 2, 3, 4, 5, 6\}\big) = \tilde\rmP_1(A) \tilde\rmP_2(B) $$
   for measures $\tilde\rmP_1, \tilde\rmP_2$ on $(\{1, 2, 3, 4, 5, 6\}, 2^{\{1, 2, 3, 4, 5, 6\}})$.
   Meanwhile, the events associated to the number of $2$'s rolled are now captured by the following measure.
-  $$ A \mapsto \int_{\tilde\Omega} 1_A \big( 1_{\{2\}}(\omega_1 + \cdots + \omega_5) \big) {\rm d}\tilde\rmP(\omega_1, \ldots, \omega_5) $$
+  $$ A \mapsto \int_{\tilde\Omega} 1_A \Big( \sum_{i=1}^5 1_{\{2\}}(\omega_i) \Big) {\rm d}\tilde\rmP(\omega_1, \ldots, \omega_5) $$
   The same can be said about an abstract inference $f$.
   $$ A \mapsto \int_{\tilde\Omega} 1_A \big( f(\omega_1, \ldots, \omega_5) \big) {\rm d}\tilde\rmP(\omega_1, \ldots, \omega_5) $$
 `}</p>
 
 <div className="message is-danger" style={{ textAlign: 'center' }}>
   <div className="message-body">
-    Wow. That is a mouthful.
+    Wow. 
+    That is a mouthful.
   </div>
 </div>
 
