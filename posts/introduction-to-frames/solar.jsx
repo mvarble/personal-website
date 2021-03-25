@@ -31,16 +31,16 @@ const omegaY = t => omegaD(t) / DAYS;
  * frames
  */
 const fus = t => new THREE.Matrix4().set(
-  cos(omegaY(t)), 0, -sin(omegaY(t)), 0,
+  cos(omegaY(t)), 0, sin(omegaY(t)), 0,
   0, 1, 0, 0,
-  sin(omegaY(t)), 0, cos(omegaY(t)), 0,
+  -sin(omegaY(t)), 0, cos(omegaY(t)), 0,
   0, 0, 0, 1
 );
 
 const fse = t => new THREE.Matrix4().set(
-  cos(omegaY(t)), 0, sin(omegaY(t)), D,
+  cos(omegaY(t)), 0, -sin(omegaY(t)), D,
   0, 1, 0, 0,
-  -sin(omegaY(t)), 0, cos(omegaY(t)), 0,
+  sin(omegaY(t)), 0, cos(omegaY(t)), 0,
   0, 0, 0, 1
 );
 
@@ -52,9 +52,9 @@ const fees = new THREE.Matrix4().set(
 );
 
 const feed = t => new THREE.Matrix4().set(
-  R * cos(omegaD(t)), 0, -R * sin(omegaD(t)), 0,
+  R * cos(omegaD(t)), 0, R * sin(omegaD(t)), 0,
   0, R, 0, 0,
-  R * sin(omegaD(t)), 0, R * cos(omegaD(t)), 0,
+  -R * sin(omegaD(t)), 0, R * cos(omegaD(t)), 0,
   0, 0, 0, 1
 );
 

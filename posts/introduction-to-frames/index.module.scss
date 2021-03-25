@@ -3,6 +3,7 @@
   flex-wrap: wrap;
   & > :first-child {
     flex: 1 1 60%;
+    max-width: 100%;
   }
   & > :last-child {
     overflow-x: hidden;

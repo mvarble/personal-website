@@ -250,20 +250,21 @@ Eric is an empathetic rat; he knows Sam is talking about *right* from his own pe
 <div className={ `${imageWrap} ${left}` }>
   <div>
     <p>{ String.raw`
-      If we would like to rotate a frame $F$ around an axis $d \in \calD$, we can construct a rotation matrix $R^F_d(\theta) \in \bbR^{3\times 3}$, defined to act as follows on each $x \in \bbR^3$.
-      $$\begin{aligned} 
-        R^F_d(\theta)x &= \Big(\frac{[d]_F}{R} \cdot x \Big) \frac{[d]_F}{R} + \cos\theta\Big(\frac{[d]_F}{R} \times x\Big) \times x + \sin\theta\Big(\frac{[d]_F}{R} \times x\Big), \\
-        R &= \Big\lVert [d]_F \Big\rVert
-      \end{aligned}$$
-      Then, the relative frame matrix would be the following block matrix.
-      $$ T_{FG} = \begin{pmatrix} R^F_d(\theta) & 0 \\ 0 & 1 \end{pmatrix} $$
-      
+      If we would like to rotate a frame $F$ around an axis $d \in \calD$, we can construct a rotation matrix $R^F_d(\theta) \in \bbR^{3\times 3}$ as below, then use this to create the following relative frame block matrix.
+      $$ T_{FG} = \begin{pmatrix} R^F_d(\theta) & 0 \\ 0 & 1 \end{pmatrix} $$ 
     `}</p>
   </div>
   <div>
     <Rotation />
   </div>
 </div>
+
+<span>{ String.raw`
+    $$\begin{aligned} 
+      R^F_d(\theta)x &= \Big(\frac{[d]_F}{R} \cdot x \Big) \frac{[d]_F}{R} + \cos\theta\Big(\frac{[d]_F}{R} \times x\Big) \times x + \sin\theta\Big(\frac{[d]_F}{R} \times x\Big), \\
+      R &= \Big\lVert [d]_F \Big\rVert
+    \end{aligned}$$
+`}</span>
 
 ### Scales
 
@@ -294,7 +295,7 @@ Eric is an empathetic rat; he knows Sam is talking about *right* from his own pe
   From here, we transport $F_s \rightarrow F_y(t)$, where $F_y(t)$ is a frame responsible for creating the dynamics of the earth around the sun.
   Denote the relative frame matrix associated to the transport $F_s \rightarrow F_y(t)$ by $T_y(t)$.
   $$\begin{aligned}
-     T_y(t) &= \begin{pmatrix} 1 & 0 & 0 & D\cos\omega_y(t) \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & D\sin\omega_y(t) \\ 0 & 0 & 0 & 1 \end{pmatrix} \\
+     T_y(t) &= \begin{pmatrix} 1 & 0 & 0 & D\cos\omega_y(t) \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & -D\sin\omega_y(t) \\ 0 & 0 & 0 & 1 \end{pmatrix} \\
     D &= 1.496 \times 10^8 \\
     \omega_d(t) &= 2\pi t \\
     \omega_y(t) &= \omega_d(t) / 364.24
@@ -316,7 +317,7 @@ Eric is an empathetic rat; he knows Sam is talking about *right* from his own pe
 
 <p>{ String.raw`
   Now that earth's north pole is encoded in $F_a(t)$, we may introduce the spin with a transform $F_a(t) \rightarrow F_d(t)$ with relative frame matrix $T_d(t)$.
-  $$ T_d(t) = \begin{pmatrix} \cos\omega_d(t) & 0 & -\sin\omega_d(t) & 0 \\ 0 & 1 & 0 & 0 \\ \sin\omega_d(t) & 0 & \cos\omega_d(t) & 0 \\ 0 & 0 & 0 & 1 \end{pmatrix}$$
+  $$ T_d(t) = \begin{pmatrix} \cos\omega_d(t) & 0 & \sin\omega_d(t) & 0 \\ 0 & 1 & 0 & 0 \\ -\sin\omega_d(t) & 0 & \cos\omega_d(t) & 0 \\ 0 & 0 & 0 & 1 \end{pmatrix}$$
 `}</p>
 
 <EarthSpin />
