@@ -55,9 +55,15 @@ h1, h2, h3, h4, h5, h6 {
     background: #eef6fc;
     border-color: #3298dc;
     color: $text;
+    & > strong:first-child, & > p > strong:first-child {
+      color: var(--link);
+    }
     &.is-success {
       background: #ebfffc;
       border-color: #00d1b2;
+      & > strong:first-child, & > p > strong:first-child {
+        color: #257953;
+      }
     }
   }
 }
