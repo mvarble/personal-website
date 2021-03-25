@@ -261,7 +261,7 @@ function MapCoordinates() {
         <SliderDeg name="\phi" prop={ phi } set={ setPhi } min={ -90 } max={ 90 } sides={['S', 'N']} />
         <SliderDeg name="\theta" prop={ theta } set={ setTheta } min={ -180 } max={ 180 } sides={['W', 'E']} />
         <div>
-          <i>(Interact above)</i> { String.raw`For fixed (longitude, latitude) parameters $(\phi, \theta)$, the transform $T_p(\phi, \theta)$ maps a frame onto the sphere.` }
+          <i>(Interact above)</i> { String.raw`For fixed (latitude, longitude) parameters $(\phi, \theta)$, the transform $T_p(\phi, \theta)$ maps a frame onto the sphere.` }
         </div>
       </div>
     </Diagram>
