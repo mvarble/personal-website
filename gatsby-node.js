@@ -1,5 +1,6 @@
 // require fp for get method
 const fp = require('lodash/fp');
+const graphql = require('gatsby').graphql;
 
 // this creates our page schema
 exports.createSchemaCustomization = ({ actions, schema }) => {
@@ -11,6 +12,7 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
       tags: [String!]!
       date: Date! @dateformat(formatString: "YYYY-MM-DD")
       related: [Post!]
+      citations: [Reference!]
     }
   `);
 };
@@ -40,6 +42,16 @@ exports.createResolvers = ({ createResolvers, ...rest }) => {
             .filter(({ slug }) => related.includes(slug));
         },
       },
+      citations: {
+        resolve: async (source, args, context, info) => {
+          const { references } = JSON.parse(source.internal.content);
+          const refs = await context.nodeModel.runQuery({ 
+            query: { filter: { key: { in: references } } },
+            type: "Reference",
+          })
+          return refs || []
+        },
+      }
     },
   });
 }
@@ -67,6 +79,7 @@ exports.onCreateNode = ({
   }
   const tags = fp.get('frontmatter.tags')(node) || [];
   const related = fp.get('frontmatter.related')(node) || [];
+  const references = fp.get('frontmatter.references')(node) || [];
 
   // create the id for the node
   const id = createNodeId(`${node.id} >>> Post`);
@@ -85,7 +98,7 @@ exports.onCreateNode = ({
     internal: {
       type: 'Post',
       contentDigest: createContentDigest(node.rawBody),
-      content: JSON.stringify({ related }),
+      content: JSON.stringify({ related, references }),
       description: 'Post',
     },
   });

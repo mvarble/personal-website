@@ -14,10 +14,14 @@ tags: [
 related: [
   /affine-resolution
 ]
+references: [
+  kallenberg2002,
+]
 ---
 
 import data from './data.json'
 import Visualization from './visualization.jsx';
+import Cite from '../../src/components/cite';
 
 A square-root diffusion process $X$&mdash;also known a *Cox-Ingersoll-Ross (CIR)* process&mdash;is that which is defined by the following stochastic differential equation
 
@@ -34,7 +38,7 @@ We then demonstrate numerically how samples $\rmP(X_T \in \cdot | X_0 = x)$ dist
 >
 > $$ \lim_{t\rightarrow\infty} \rmP(X_t \in \cdot) = \mu_X $$
 
-A classic result of L&eacute;vy [[1]](https://en.wikipedia.org/wiki/L%C3%A9vy%27s_continuity_theorem), [[2]](https://doi.org/10.1007/978-1-4757-4015-8) dictates that such a weak convergence is determined by that of pointwise convergence of the characteristic functions.
+A classic result of L&eacute;vy (see <Cite bibKey="kallenberg2002">Kallenberg</Cite> or [Wikipedia](https://en.wikipedia.org/wiki/L%C3%A9vy%27s_continuity_theorem)) dictates that such a weak convergence is determined by that of pointwise convergence of the characteristic functions.
 
 $$ \lim_{t\rightarrow\infty} \rmE\big( e^{iu X_t} \big) = \int e^{iuy} \mu_X({\rm d} y), \quad u \in \bbR $$
 

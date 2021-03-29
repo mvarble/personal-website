@@ -8,7 +8,7 @@ function useCubemap(array) {
   return React.useMemo(() => {
     const loader = new THREE.CubeTextureLoader();
     return loader.load(array);
-  }, []);
+  }, []); // eslint-disable-line
 }
 
 const useOutside = () => useCubemap(outside);

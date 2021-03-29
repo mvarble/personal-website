@@ -1,0 +1,22 @@
+.content {
+  margin: 0 1em;
+}
+
+.content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
+  position: relative;
+  margin-left: -1em;
+  padding-left: 1em;
+  & > a {
+    position: absolute;
+    visibility: hidden;
+    left: 0;
+    text-decoration: none;
+    color: var(--main);
+    opacity: 0.5;
+  }
+  &:hover > a {
+    visibility: visible;
+  }
+}
+
+

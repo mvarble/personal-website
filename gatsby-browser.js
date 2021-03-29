@@ -1,2 +1,2 @@
 import 'prismjs/themes/prism.css';
-import './assets/main.scss';
+import './src/main.scss';

@@ -1,9 +1,8 @@
 import React from 'react';
 import * as THREE from 'three';
 import { Canvas, useUpdate, useThree } from 'react-three-fiber';
-import { OrbitControls, PerspectiveCamera, Html } from '@react-three/drei';
-import { animationFrameScheduler, interval } from 'rxjs';
-import { map, scan, skip } from 'rxjs/operators';
+import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
+import { scan } from 'rxjs/operators';
 
 import TeX from '../../src/components/tex';
 import { Diagram, timers$ } from './diagrams';
@@ -106,7 +105,7 @@ function AnimatedFrame({ time=5000, pause=500, functions }) {
     );
     const subscription = observable$.subscribe({ next: set});
     return () => subscription.unsubscribe();
-  }, [set, time, pause]);
+  }, [set, time, pause]); // eslint-disable-line
 
   // update references as according to state
   const frame = useUpdate(obj => {

@@ -12,17 +12,25 @@ tags: [
 related: [
   /long-time-cir
 ]
+references: [
+  duffie2003,
+  filipovic2005,
+  cuchiero2011,
+  keller-ressel2015,
+]
 ---
 
 import Proof from '../../src/components/proof';
+import Cite from '../../src/components/cite';
 
-In the seminal paper of Duffie, et al. [[1]](https://projecteuclid.org/journals/annals-of-applied-probability/volume-13/issue-3/Affine-processes-and-applications-in-finance/10.1214/aoap/1060202833.full), [[2]](https://web.stanford.edu/~duffie/affine.pdf), the class of *affine processes* is extensively explored and motivated with examples of applications to finance.
+
+In the seminal paper of <Cite bibKey="duffie2003">Duffie, et al.</Cite>, the class of *affine processes* is extensively explored and motivated with examples of applications to finance.
 From the perspective of the moment generating function, an affine process $X$ on $\bbR^d$ is characterized very succinctly&mdash;it is Markov and satsifies the following *affine transform formula*.
 
 > $$\rmE\Big( e^{u^\T X_T} | X_t = x \Big) = \exp\Big(\psi_0(t, T, u) + \psi(t, T, u)^\T x \Big), \quad u \in i\bbR^d $$
 
-Here, we are adopting the slightly more general time-inhomogeneous case discussed in [[3]](https://www.sciencedirect.com/science/article/pii/S0304414904001838).
-There are some great papers (for instance, [[4]](https://www.research-collection.ethz.ch/handle/20.500.11850/46416), [[5]](https://projecteuclid.org/journals/annals-of-applied-probability/volume-25/issue-2/Exponential-moments-of-affine-processes/10.1214/14-AAP1009.full), [[6]](https://arxiv.org/abs/1811.00122)) that subsequently study these objects&mdash;be it generalizing results, weakening hypotheses, focusing on specific cases, or studying related statistical procedures.
+Here, we are adopting the slightly more general time-inhomogeneous case discussed in <Cite bibKey="filipovic2005">Filipovi&cacute;</Cite>.
+There are some great papers (for instance, <Cite bibKey="cuchiero2011"/>, <Cite bibKey="keller-ressel2015" />) that subsequently study these objects&mdash;be it generalizing results, weakening hypotheses, focusing on specific cases, or studying related statistical procedures.
 Each of these acknowledge a very important result about affine processes: the transition semigroup from $X$ and affine transform formula above induces dynamics on $\psi_0, \psi_1$ which ultimately boil down to an integro-differential equation.
 
 <span>{ String.raw`$$\left\{\begin{array}{ll}
