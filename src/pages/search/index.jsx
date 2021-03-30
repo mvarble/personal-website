@@ -1,5 +1,6 @@
 import React from 'react';
 import DatePicker from 'react-date-picker';
+import fp from 'lodash/fp';
 
 import QueryPosts from '../../components/query-posts';
 import Head from '../../components/head';
@@ -15,9 +16,9 @@ export default function Search({ location }) {
 
   // perform a state update based off of location data
   React.useEffect(() => {
-    setTitle(location.state.title);
-    setDates(location.state.dates || [undefined, undefined]);
-    setTags(location.state.tags || []);
+    setTitle(fp.get('title')(location.state));
+    setDates(fp.get('dates')(location.state) || [undefined, undefined]);
+    setTags(fp.get('tags')(location.tags) || []);
   }, [location.state, setTitle, setDates, setTags]);
 
   // render accordingly
