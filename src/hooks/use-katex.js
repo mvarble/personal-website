@@ -10,6 +10,7 @@ export default function useKaTeX(data) {
 
   // observe KaTeX mutations so that we can wrap display math in scroll box
   useMutationObserver(ref, () => {
+    if (!ref.current) return;
     ref.current.querySelectorAll('span.katex-display').forEach(elm => {
       const parent = elm.parentNode;
       if (

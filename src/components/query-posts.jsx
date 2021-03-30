@@ -7,24 +7,24 @@ import { PostLink, PostLinks } from './post-links';
  * Components
  */
 export default function QueryPosts({ 
-  startDate, 
-  endDate, 
   title, 
-  tags
+  dates=[undefined, undefined],
+  tags,
+  empty,
 }) {
   // hook for establishing page data
   const data = usePosts();
 
   // filter the page data
   const matched = data.allPost.nodes
-    .filter(page => testMatch(page, { startDate, endDate, title, tags }))
+    .filter(page => testMatch(page, { dates, title, tags }))
     .map(({ id, ...p }) => <PostLink key={ id } filterTags={ tags } { ...p } />);
 
   // render
   return (
     matched.length
     ? <PostLinks>{ matched }</PostLinks>
-    : <div>No posts match your query</div>
+    : (empty || <div>No posts match your query</div>)
   );
 }
 
@@ -52,10 +52,10 @@ function usePosts() {
 /**
  * our functions for testing a match
  */
-function testMatch(page, { startDate, endDate, title, tags }) {
+function testMatch(page, { dates, title, tags }) {
   return (
-    compareDates(startDate, page.date)
-    && compareDates(page.date, endDate)
+    compareDates(dates[0], page.date)
+    && compareDates(page.date, dates[1])
     && testTitle(title, page.title)
     && testTags(tags, page.tags)
   );
@@ -68,7 +68,7 @@ function compareDates(date1, date2) {
 }
 
 function testTitle(title, pageTitle) {
-  return (!title || pageTitle.includes(title));
+  return (!title || pageTitle.toLocaleLowerCase().includes(title.toLocaleLowerCase()));
 }
 
 function testTags(tags, pageTags) {

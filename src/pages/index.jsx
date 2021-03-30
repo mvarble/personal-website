@@ -37,7 +37,7 @@ export default function Home() {
               <p>
                 I will also likely talk about math/programming problems that excite me.
                 Ideally, I will also write sequences of posts that build up an understanding of my favorite concepts in probability theory.
-                To explore my site, either feel free to start with the word map of tags I commonly use
+                To explore my site, either feel free to click the search button above, use the word map of tags I commonly use
               </p>
               <TagBlock />
               <p>

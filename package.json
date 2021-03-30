@@ -29,6 +29,7 @@
     "mathjs": "^9.3.0",
     "prismjs": "^1.23.0",
     "react": "^17.0.1",
+    "react-date-picker": "^8.1.1",
     "react-dom": "^17.0.1",
     "react-helmet": "^6.1.0",
     "react-spring": "^8.0.27",

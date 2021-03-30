@@ -17,7 +17,10 @@ export default function App({ data, ...props }) {
   // sort and parse the citations, if any
   const citations = data.post.citations.sort(citationSort);
   const set = useCitations(state => state.set);
-  set(citations);
+  React.useEffect(() => set(citations), [set, citations]);
+
+  // for all of the citation uses, we create links to reference
+  const citationUses = useCitations(state => state.citationUses);
 
   // render citations, if any
   const refsSection = (
@@ -27,7 +30,7 @@ export default function App({ data, ...props }) {
           citations.map((citation, i) => 
             <div key={ citation.key } style={{ display: 'flex', margin: '1em 0' }}>
               <span style={{ marginRight: '0.5em' }}>{ `[${i}]` }</span>
-              <Citation citation={ citation }/>
+              <Citation citation={ citation } uses={ citationUses[citation.key] } />
             </div>
           ) 
         }</div>
@@ -86,7 +89,27 @@ function parseAuthors(authors) {
     return `${authors[0]} et al.`
 }
 
-function Citation({ citation, ...props }) {
+function Citation({ citation, uses, ...props }) {
+  const links = React.useMemo(() => (
+      <span style={{ marginRight: '0.5em' }}>
+        <i>
+          (back to text:
+          {
+            Array.from({ length: uses }).map((_, i) => (
+              <a 
+                href={ `#reference-${citation.key}-${i}` } 
+                key={ i } 
+                style={{ marginLeft: '0.25em' }}>
+                <span role="img" aria-label="go up">👆</span>
+              </a>
+            ))
+          }
+          )
+        </i>
+      </span>
+    ),
+    [citation.key, uses],
+  );
   if (citation.entry_type === 'article') {
     return (
       <span id={ `references-${citation.key}` } { ...props }>
@@ -96,7 +119,8 @@ function Citation({ citation, ...props }) {
           <i>{ `${citation.journal}, ` }</i>
           { `${citation.volume}(${citation.number}):${citation.pages}, ${citation.month || ''} ${citation.year}.` }
         </span> 
-        <a href={ `${citation.url}` }>[link]</a>
+        { links }
+        <a href={ `${citation.url}` }>[external link]</a>
       </span>
     );
   }
@@ -108,7 +132,8 @@ function Citation({ citation, ...props }) {
         <span style={{ marginRight: '0.5em' }}>
           { `${citation.publisher}, ${citation.year}.` }
         </span> 
-        <a href={ `${citation.url}` }>[link]</a>
+        { links }
+        <a href={ `${citation.url}` }>[external link]</a>
       </span>
     );
   }
@@ -120,7 +145,8 @@ function Citation({ citation, ...props }) {
         <span style={{ marginRight: '0.5em' }}>
           { `PhD thesis, ${citation.school}, ${citation.month || ''} ${citation.year}.` }
         </span> 
-        <a href={ `${citation.url}` }>[link]</a>
+        { links }
+        <a href={ `${citation.url}` }>[external link]</a>
       </span>
     );
   }
