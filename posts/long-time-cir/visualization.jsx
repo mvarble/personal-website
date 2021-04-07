@@ -45,15 +45,13 @@ export default function Visualization(props) {
 
   // allow d3 to perform updates
   React.useEffect(() => {
+    const width = trajectoryDims[0] + margins.left + margins.right;
+    const height = trajectoryDims[1] + metaHeight + margins.bottom + margins.top + paddingTop;
 
     // create and append the svg
     const svg = d3.select(ref.current)
       .append('svg')
-      .attr("width", trajectoryDims[0] + margins.left + margins.right)
-      .attr("height",
-        trajectoryDims[1] + metaHeight + margins.bottom +
-          margins.top + paddingTop
-      );
+      .attr("viewBox", `0 0 ${width} ${height}`);
 
     /**
     * Append Legend
@@ -361,19 +359,5 @@ export default function Visualization(props) {
     trueColor,
   ]);
 
-  return (
-    <blockquote style={{ overflowX: 'auto', overflowY: 'visible' }}>
-      <div style={{ margin: '1em' }}>
-        <div 
-          ref={ ref }
-          style={{ 
-            background: 'white', 
-            border: '1px solid var(--link)', 
-            width: `${trajectoryDims[0] + margins.left + margins.right }px`,
-            margin: '0 auto',
-          }}
-        />
-      </div>
-    </blockquote>
-  );
+  return <div ref={ ref } />;
 }
