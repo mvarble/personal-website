@@ -21,8 +21,6 @@ export default function Search({ location }) {
     setTags(fp.get('tags')(location.state) || []);
   }, [location.state, setTitle, setDates, setTags]);
 
-  console.log(tags);
-
   // render accordingly
   return <>
     <Head title={ 'Search' } />
