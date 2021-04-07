@@ -18,8 +18,10 @@ export default function Search({ location }) {
   React.useEffect(() => {
     setTitle(fp.get('title')(location.state));
     setDates(fp.get('dates')(location.state) || [undefined, undefined]);
-    setTags(fp.get('tags')(location.tags) || []);
+    setTags(fp.get('tags')(location.state) || []);
   }, [location.state, setTitle, setDates, setTags]);
+
+  console.log(tags);
 
   // render accordingly
   return <>

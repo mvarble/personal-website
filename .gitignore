@@ -4,3 +4,4 @@ public
 *.swp
 *.swo
 .firebase
+firebase-debug.log
