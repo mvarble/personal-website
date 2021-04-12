@@ -112,7 +112,8 @@ export default function Density({
         value={ z } 
         min={ -1 } 
         max={ 1 } 
-        step={ 0.1 } />
+        step={ 0.1 } 
+        style={{ maxWidth: '256px', margin: '0 auto' }}/>
     </div>
   );
 }

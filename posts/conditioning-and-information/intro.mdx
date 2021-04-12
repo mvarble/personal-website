@@ -38,33 +38,18 @@ We construct a $\rmP(\cdot|Z=z)$ to have conditional density function $p(\cdot|z
 
 $$ p(x|z) = \frac{p(x, z)}{\int_{\bbR^m} p(y, z) {\rm d}y} $$
 
-<div style={{ margin: '1em 0' }}>
-  <div className="box"
-    style={{
-      display: 'block',
-      margin: '0 auto',
-      maxWidth: '800px', 
-    }}
-    >
-    <div 
-      style={{ 
-        display: 'flex',
-        flexWrap: 'wrap', 
-        margin: '0 auto' }}>
-      <div style={{ 
-        width: '100%', 
-        maxWidth: '500px', 
-        margin: '0 auto',
-        border: '1px solid var(--info)',
-      }}>
-        <Density />
-      </div>
-      <div style={{ padding: '1em' }}>{ String.raw`
-        The value $p(x, z)$ represents a likelihood of $(X, Z)$ at the location $(x, z)$.
-        The slice $x \mapsto p(x, z)$ of the graph for some fixed $z$ should have the right likelihoods, but we must normalize to get $p(x|z)$.
-      `}</div>
-    </div>
-  </div>
+<div className="card"
+  style={{
+    display: 'block',
+    margin: '1em auto',
+    maxWidth: '800px', 
+  }}
+  >
+  <Density className="card-image" />
+  <div className="card-content">{ String.raw`
+    The value $p(x, z)$ represents a likelihood of $(X, Z)$ at the location $(x, z)$.
+    The slice $x \mapsto p(x, z)$ of the graph for some fixed $z$ should have the right likelihoods, but we must normalize to get $p(x|z)$.
+  `}</div>
 </div>
 
 This construction $\rmP(X \in {\rm d}x | Z = z) = p(x|z) {\rm d}x$ will satisfy the consistency condition we require.
@@ -86,17 +71,20 @@ This construction $\rmP(X \in {\rm d}x | Z = z) = p(x|z) {\rm d}x$ will satisfy 
 On the other hand, when $(\Omega, \Sigma, \rmP)$ needs to be rich enough to equip stochastic processes, no such density $p$ over a Lebesgue measure that can encode $\rmP$.
 We must look for different tools to define a conditional measure $\rmP(\cdot|Z=z)$ from one $\rmP$ when the observation $z$ is something like a path.
 
-<div style={{ display: 'flex', marginBottom: '1em' }}>
-  <div className="box" style={{ margin: '0 auto', maxWidth: '800px' }}>
-    <img src={ ratPath } alt="complicated-rat-path" style={{ maxHeight: '300px', margin: '1em auto', display: 'block' }}/>
-    <div style={{ marginTop: '1em' }}>{ String.raw`
-        Sam will walk a random path in $\bbR^2$, denoted by the following measurable function.
-        $$ W: \Omega \rightarrow (\bbR^2)^{[0,T]} $$
-        At time $t < T$, Sam reflects on his path $Z = W|_{[0,t]}$ he made.
-        He observes this path is $z \in \bbR^{[0,t]}$; how does his final position $W(T)$ now distribute?
-        $$ \rmP\big( W(T) \in A | Z = z \big) = \; ??? $$
-      `}
-    </div>
+<div className="card" style={{ margin: '1em auto', maxWidth: '800px' }}>
+  <div className="card-image">
+    <img 
+      src={ ratPath } 
+      alt="complicated-rat-path" 
+      style={{ maxHeight: '300px', margin: '1em auto', display: 'block' }}/>
+  </div>
+  <div className="card-content">{ String.raw`
+      Sam will walk a random path in $\bbR^2$, denoted by the following measurable function.
+      $$ W: \Omega \rightarrow (\bbR^2)^{[0,T]} $$
+      At time $t < T$, Sam reflects on his path $Z = W|_{[0,t]}$ he made.
+      He observes this path is $z \in \bbR^{[0,t]}$; how does his final position $W(T)$ now distribute?
+      $$ \rmP\big( W(T) \in A | Z = z \big) = \; ??? $$
+    `}
   </div>
 </div>
 
