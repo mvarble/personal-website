@@ -5,26 +5,14 @@ import * as math from 'mathjs';
 
 import data from './data.json';
 
-// parse the data and downsample
-const { a, b, sigma } = data;
-const samples = data.samples.map(sample => sample.filter((_, i) => i % 10 === 0));
-const times = samples[0].map(d => d.t);
-const T = times[times.length - 1];
-
-// encode properties of the long-time distribution
-const shape = 2 * a * b / math.pow(sigma, 2);
-const rate = 2 * a / math.pow(sigma, 2);
-const trueDensity = x => (
-  math.pow(rate, shape) * math.pow(x, shape - 1) * 
-  math.exp(-rate * x) / math.gamma(shape)
-);
-
 // create a kernel for density estimation
-const kernel = (x, center, bandwidth) => (
-  math.abs(x - center) <= bandwidth
-  ? 0.75 * (1 - math.pow((x - center) / bandwidth, 2)) / bandwidth
-  : 0.0
-)
+function kernel(x, center, bandwidth) {
+  return (
+    math.abs(x - center) <= bandwidth
+    ? 0.75 * (1 - math.pow((x - center) / bandwidth, 2)) / bandwidth
+    : 0.0
+  );
+}
 
 function Legend({ empiricalColor, trueColor, ...props }) {
   return (
@@ -43,11 +31,14 @@ function useAxis(ref, axis, props) {
     Object.keys(props).forEach(k => node.attr(k, props[k]));
     node.call(axis)
     return () => node.remove();
-  }, [axis, props]);
+  }, [ref, axis, props]);
   return ref;
 }
 
 function Trajectories({ 
+  T,
+  samples,
+  times,
   trajectoryDims, 
   trajectoryColor, 
   empiricalColor,
@@ -69,11 +60,11 @@ function Trajectories({
   const line = d3.line().x(r => timeScale(r.t)).y(r => spaceScale(r.xt));
   const dsL = React.useMemo(
     () => samples.map(s => line(s.slice(0, state.index))),
-    [timeScale, spaceScale, state.index],
+    [line, samples, state.index],
   );
   const dsR = React.useMemo(
     () => samples.map(s => line(s.slice(math.max(state.index-1, 0)))),
-    [timeScale, spaceScale, state.index],
+    [line, samples, state.index],
   );
 
   // create the callback which sets the index on mousemove
@@ -82,7 +73,7 @@ function Trajectories({
     const index = d3.bisect(times, t);
     const points = samples.map(s => s[index]);
     set({ index, points });
-  }, [timeScale, set]);
+  }, [samples, times, timeScale, set]);
 
   // create axes
   const ref = React.useRef();
@@ -136,6 +127,9 @@ function Trajectories({
 }
 
 function MGFs({ 
+  a,
+  b,
+  sigma,
   trajectoryDims, 
   paddingRight, 
   paddingTop, 
@@ -180,7 +174,7 @@ function MGFs({
       return { u, expu };
     }).filter(({ expu }) => expu < mgfMax);
     return d3.line().x(d => uScale(d.u)).y(d => mgfScale(d.expu))(curveData);
-  }, [uScale, uMax, meshSize, a, b, sigma, mgfScale, state.points]);
+  }, [uScale, uMax, meshSize, mgfScale, state.points]);
 
   // create axes
   const ref = React.useRef();
@@ -212,6 +206,7 @@ function MGFs({
 }
 
 function Densities({
+  trueDensity,
   trajectoryDims,
   paddingRight,
   paddingTop, 
@@ -227,11 +222,11 @@ function Densities({
   const scaleX = d3.scaleLinear()
     .domain([0, maxX])
     .range([0, (trajectoryDims[0] - paddingRight) / 2]);
-
   const maxY = 0.8
   const scaleY = d3.scaleLinear()
     .domain([0, maxY])
     .range([metaHeight, 0]);
+  const line = d3.line().x(d => scaleX(d.x)).y(d => scaleY(d.y));
 
   // memoize the true density path
   const meshSize = 100;
@@ -240,8 +235,8 @@ function Densities({
       const x = i * maxX / meshSize;
       return { x, y: trueDensity(x) };
     });
-    return d3.line().x(d => scaleX(d.x)).y(d => scaleY(d.y))(data);
-  }, [meshSize, maxX, trueDensity, scaleX, scaleY]);
+    return line(data);
+  }, [meshSize, maxX, trueDensity, line]);
 
   // memoize the empirical density path on marginal updates
   const empiricalD = React.useMemo(() => {
@@ -253,8 +248,8 @@ function Densities({
       );
       return { x, y };
     }).filter(({ y }) => y < maxY);
-    return d3.line().x(d => scaleX(d.x)).y(d => scaleY(d.y))(data);
-  }, [meshSize, maxX, state.points, kernel, bandwidth, maxY]);
+    return line(data)
+  }, [meshSize, maxX, state.points, bandwidth, maxY, line]);
   
   // create axes
   const ref = React.useRef();
@@ -295,23 +290,13 @@ function Densities({
 }
 
 export default function Visualization(props) {
-  // create a ref so d3 may manipulate the dom
-  const ref = React.useRef();
-
-  // parse the props
-  const {
-    trajectoryDims=[650, 280],
-    metaHeight=255,
-    paddingTop=80,
-    paddingRight=20,
-    margins={ top: 10, right: 30, bottom: 20, left: 40 },
-    bandwidth=0.5,
-    trajectoryColor='rgb(150, 180, 255)',
-    empiricalColor='green',
-    trueColor='red',
-  } = props;
-
-  // calculate the dimensions of the visualization
+  // constants that we will not use as props
+  const trajectoryDims = [650, 280];
+  const metaHeight = 255;
+  const paddingTop = 80;
+  const paddingRight = 20;
+  const margins = { top: 10, right: 30, bottom: 20, left: 40 };
+  const bandwidth = 0.5;
   const width = trajectoryDims[0] + margins.left + margins.right;
   const height = trajectoryDims[1] + metaHeight + margins.bottom +
     margins.top + paddingTop;
@@ -328,20 +313,50 @@ export default function Visualization(props) {
     margins.top + paddingTop + trajectoryDims[1],
   ];
 
+  // parse the props
+  const {
+    trajectoryColor='rgb(150, 180, 255)',
+    empiricalColor='green',
+    trueColor='red',
+  } = props;
+  const parsed = React.useMemo(() => {
+    const { a, b, sigma } = data;
+    const samples = data.samples.map(s => s.filter((_, i) => i % 10 === 0));
+    const times = samples[0].map(d => d.t);
+    const shape = 2 * a * b / math.pow(sigma, 2);
+    const rate = 2 * a / math.pow(sigma, 2);
+    return {
+      a,
+      b,
+      sigma,
+      shape,
+      rate,
+      trueDensity: x => (
+        math.pow(rate, shape) * math.pow(x, shape - 1) * 
+        math.exp(-rate * x) / math.gamma(shape)
+      ),
+      samples,
+      times,
+      T: times[times.length - 1],
+    };
+  }, []);
+
   // create a state for the current marginal of the trajectory
   const [state, set] = React.useState({ 
     index: 25,
-    points: samples.map(s => s[25]),
+    points: parsed.samples.map(s => s[25]),
   });
  
   // render the svg
   return (
     <svg viewBox={ `0 0 ${width} ${height}` }>
       <Legend 
+        { ...parsed }
         empiricalColor={ empiricalColor } 
         trueColor={ trueColor } 
         transform={ `translate(${legendPosition}) rotate(90)` } />
       <Trajectories 
+        { ...parsed }
         trajectoryDims={ trajectoryDims } 
         trajectoryColor={ trajectoryColor  }
         empiricalColor={ empiricalColor } 
@@ -349,6 +364,7 @@ export default function Visualization(props) {
         set={ set }
         transform={ `translate(${margins.left}, ${margins.top})` } />
       <MGFs
+        { ...parsed }
         trajectoryDims={ trajectoryDims }
         paddingRight={ paddingRight }
         paddingTop={ paddingTop }
@@ -359,6 +375,7 @@ export default function Visualization(props) {
         transform={ `translate(${mgfPosition})` }
       />
       <Densities
+        { ...parsed }
         empiricalColor={ empiricalColor } 
         trueColor={ trueColor } 
         trajectoryDims={ trajectoryDims }

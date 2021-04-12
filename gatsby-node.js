@@ -2,6 +2,17 @@
 const fp = require('lodash/fp');
 const graphql = require('gatsby').graphql;
 
+// this deals with the @react-three/drei Html component
+exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
+  if (stage === 'build-html' || stage === 'develop-html') {
+    actions.setWebpackConfig({
+      module: {
+        rules: [{ test: /@react-three\/drei/, use: loaders.null() }]
+      }
+    })
+  }
+};
+
 // this creates our page schema
 exports.createSchemaCustomization = ({ actions, schema }) => {
   actions.createTypes(`

@@ -169,7 +169,7 @@ function TagField({ tag, setTags }) {
   return (
     <span className="tag is-info" style={{ margin: '0.5em' }}>
       { tag }
-      <button 
+      <button  // eslint-disable-line
         className="delete" 
         onClick={ () => setTags(tags => tags.filter(t => t !== tag)) } />
     </span>

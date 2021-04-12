@@ -1,0 +1,137 @@
+---
+title: Conditioning and information
+slug: /conditioning-and-information
+date: 2021-04-09
+tags: [
+  probability,
+  meta-probability,
+  sigma-algebras,
+  information,
+  rats
+]
+related: [
+  /why-so-abstract
+]
+references: [
+
+]
+---
+
+import { Link } from 'gatsby';
+
+import Proof from '../../src/components/proof';
+import Density from './density';
+import ratPath from './rat-path.svg';
+
+In a previous post, <Link to="/why-so-abstract">Why so abstract $(\Omega, \Sigma, \rmP)$?</Link>, I made the following bold claim.
+
+> We use probability to model and analyze the unpredictable outcomes of all sorts of objects $X$ we would otherwise measure in the real world.
+
+Following on this idea, one might argue that _unpredictable_ is a relative concept: what one rat might find unpredictable might be entirely explainable from another's point of view.
+In probability, the enlightened rat's knowledge is best explained by identifying a random object $Z: \Omega \rightarrow O$ it has *observed*.
+The naive rat will see $Z$ as taking some nontrivial distribution, where the enlightened one will somehow be able to claim it takes some specific value $z$.
+
+This construction is no easy task, because it requires the existence of a probability measure $\rmP(\cdot | Z = z)$ on the space $(\Omega, \Sigma)$ from one $\rmP$, such that the following consistency condition holds.
+$$ \rmP(X \in A) = \int_O \rmP(X \in A | Z=z) \rmP(Z \in {\rm d}z) $$
+When our entire probability space is designed around a joint variable $(X, Z)$ with density $p$ with respect to the Lebesgue measure on $\bbR^{m+n}$, the construction is simple.
+We construct a $\rmP(\cdot|Z=z)$ to have conditional density function $p(\cdot|z)$ with respect to the Lebesgue measure on $\bbR^m$.
+
+$$ p(x|z) = \frac{p(x, z)}{\int_{\bbR^m} p(y, z) {\rm d}y} $$
+
+<div style={{ margin: '1em 0' }}>
+  <div className="box"
+    style={{
+      display: 'block',
+      margin: '0 auto',
+      maxWidth: '800px', 
+    }}
+    >
+    <div 
+      style={{ 
+        display: 'flex',
+        flexWrap: 'wrap', 
+        margin: '0 auto' }}>
+      <div style={{ 
+        width: '100%', 
+        maxWidth: '500px', 
+        margin: '0 auto',
+        border: '1px solid var(--info)',
+      }}>
+        <Density />
+      </div>
+      <div style={{ padding: '1em' }}>{ String.raw`
+        The value $p(x, z)$ represents a likelihood of $(X, Z)$ at the location $(x, z)$.
+        The slice $x \mapsto p(x, z)$ of the graph for some fixed $z$ should have the right likelihoods, but we must normalize to get $p(x|z)$.
+      `}</div>
+    </div>
+  </div>
+</div>
+
+This construction $\rmP(X \in {\rm d}x | Z = z) = p(x|z) {\rm d}x$ will satisfy the consistency condition we require.
+
+<Proof>{ String.raw`
+  $$\begin{aligned}
+    \rmP(X \in A) 
+    &= \rmP(X \in A, Z \in \bbR^n) \\
+    &= \int_{A \times \bbR^n} \rmP( X \in {\rm d}x, Z \in {\rm d}z ) \\
+    &= \int_{\bbR^n}\int_A p(x, z) {\rm d}x {\rm d}z \\
+    &= \int_{\bbR^n} \Bigg( \int_A \frac{p(x, z) {\rm d} x}{\int_{\bbR^m} p(y, z) {\rm d}y} \Bigg) \Bigg( \int_{\bbR^m} p(y, z) {\rm d}y \Bigg) {\rm d}z \\
+    &= \int_{\bbR^n} \Bigg( \int_A p(x|z) {\rm d}x \Bigg) \rmP(Z \in {\rm d}z) \\
+    &= \int_{\bbR^n} \Bigg( \int_A \rmP(X \in {\rm d}x | Z=z) \Bigg) \rmP(Z \in {\rm d}z) \\
+    &= \int_{\bbR^n} \rmP(X \in A | Z=z) \rmP(Z \in {\rm d}z)
+  \end{aligned}$$
+`}</Proof>
+
+
+On the other hand, when $(\Omega, \Sigma, \rmP)$ needs to be rich enough to equip stochastic processes, no such density $p$ over a Lebesgue measure that can encode $\rmP$.
+We must look for different tools to define a conditional measure $\rmP(\cdot|Z=z)$ from one $\rmP$ when the observation $z$ is something like a path.
+
+<div style={{ display: 'flex', marginBottom: '1em' }}>
+  <div className="box" style={{ margin: '0 auto', maxWidth: '800px' }}>
+    <img src={ ratPath } alt="complicated-rat-path" style={{ maxHeight: '300px', margin: '1em auto', display: 'block' }}/>
+    <div style={{ marginTop: '1em' }}>{ String.raw`
+        Sam will walk a random path in $\bbR^2$, denoted by the following measurable function.
+        $$ W: \Omega \rightarrow (\bbR^2)^{[0,T]} $$
+        At time $t < T$, Sam reflects on his path $Z = W|_{[0,t]}$ he made.
+        He observes this path is $z \in \bbR^{[0,t]}$; how does his final position $W(T)$ now distribute?
+        $$ \rmP\big( W(T) \in A | Z = z \big) = \; ??? $$
+      `}
+    </div>
+  </div>
+</div>
+
+In my next posts, I intend to show how one creates a conditional measure $\rmP(\cdot|Z=z)$, starting only with the abstract space $(\Omega, \Sigma, \rmP)$ and an observation map $Z: \Omega \rightarrow O$ into some measurable space $(O, \calO)$.
+This cannot be done generally, but as long as we only care to ask questions like probabilities
+$$ \rmP\Big(X \in A | Z = z\Big) $$
+and expectations 
+$$ \rmE\Big(g(X) | Z = z\Big) $$
+for random variables $X: \Omega \rightarrow S$ taking values in *reasonable* measurable spaces $(S, \calS)$, there exists a way to construct a conditional probability measure $\rmP(\cdot|Z = z)$.
+Examples of these *reasonable* measurable spaces $(S, \calS)$ include the following, where $\calS$ is a Borel algebra induced by a usual topology.
+
+<ul>
+  <li>finite spaces { String.raw`$S = \{1, \ldots, d\}$` },</li>
+  <li>finite-dimensional vector spaces $S = \bbR^d$,</li>
+  <li>space of continuous functions $S = C[0,T]$,</li>
+  <li>c&agrave;dl&agrave;g functions $S = D[0,T]$.</li>
+</ul>
+
+Overall, the construction of a conditional probability distribution $\rmP(\cdot|Z=z)$ from an observation of $Z: \Omega \rightarrow O$ into some measurable space $(O, \calO)$ is summarized as follows.
+
+<ol>
+  <li>{ String.raw`
+    Classify all inferences $f(Z) = f \circ Z$ one would make for nonnegative measurable functions $f: O \rightarrow \bbR$.
+    Namely, do this from the perspective of the underlying space $(\Omega, \Sigma)$.
+  `}</li>
+  <li>{ String.raw`
+    For other random objects $X: \Omega \rightarrow S$, construct conditional expectations for nonnegative bounded functions $g: S \rightarrow \bbR$.
+    $$ \rmE\big( g(X) | Z = z \big) = \cdots $$
+  ` }</li>
+  <li>{ String.raw`
+    Subsequently define the conditional probability distributions on 
+  `} <em>reasonable</em> { String.raw` spaces $(S, \calS)$ for each of the random objects $X: \Omega \rightarrow S$.
+    $$ \rmP\big( X \in A | Z = z \big) = \rmE\big( 1_A(X) | Z = z \big) $$
+  `}</li>
+  <li>{ String.raw`
+    Stitch together the distributions in such a way that we may identify a measure $\rmP\big( \cdot | Z=z\big)$ on $(\Omega, \Sigma)$.
+  `}</li>
+</ol>

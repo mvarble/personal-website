@@ -7,6 +7,7 @@ const decorations = letters.reduce(
     [`\\rm${l}`]: `\\mathrm{${l}}`,
     [`\\bb${l}`]: `\\mathbb{${l}}`,
     '\\T': '\\top',
+    '\\:': '\\!:\\!',
   }),
   {}
 );

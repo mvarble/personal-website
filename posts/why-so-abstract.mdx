@@ -7,6 +7,9 @@ tags: [
   meta-probability,
   math,
 ]
+related: [
+  /information-and-sigma-algebras
+]
 ---
 
 Perhaps one of the most clever and important abstractions in probability theory is that of having a measure space $(\Omega, \Sigma, \rmP)$ that we never explicitly study.
@@ -14,17 +17,17 @@ Instead, we implicitly study the object by analyzing the measurable functions $X
 At first, this practice seems rather odd&mdash;why do we never care to explain exactly what $(\Omega, \Sigma, \rmP)$ is?
 This question is quickly answered when we think of the objective of applying probability, which for the purposes of this post will be as follows.
 
-> We use probability to model and analyze the random outcomes of all sorts of objects $X$ we would otherwise measure in the real world.
+> We use probability to model and analyze the unpredictable outcomes of all sorts of objects $X$ we would otherwise measure in the real world.
 
 ## Example model
 
 <p>{ String.raw`
-  For instance, if we have to roll $5$ dice, the random outcome of each die could be encoded with functions $X_1, \ldots, X_5: \Omega \rightarrow \{1, \ldots, 6\}$ defined on a probability space $(\Omega, \Sigma, \rmP)$.
+  For instance, if we have to roll $5$ dice, the unpredictable outcome of each die could be encoded with functions $X_1, \ldots, X_5: \Omega \rightarrow \{1, \ldots, 6\}$ defined on a probability space $(\Omega, \Sigma, \rmP)$.
   With such a setup, we can concisely denote probabilities of events, like the first dice rolling no smaller than a 5
   $$ \rmP(X_1 \geq 5) = \rmP\big( X_1^{-1}\{5, 6\} \big), $$
   we are able to quickly define notions like independence,
   $$ \rmP\big( X_1 \in A, X_2 \in B \big) = \rmP\big( X_1 \in A \big) \rmP\big( X_2 \in B \big) $$
-  and we may also use algebra and composition to encode related random outcomes, like the number of $2$'s rolled.
+  and we may also use algebra and composition to encode related unpredictable outcomes, like the number of $2$'s rolled.
   $$ \sum_{i=1}^5 1_{\{2\}}(X_i): \Omega \rightarrow \{0, \ldots, 5\} $$
   Any inference we could make with the outcomes of $5$-dice rolls $x_1, \ldots, x_5 \in \{1, \ldots, 6\}$ would be an expression $f(x_1, \ldots, x_5)$ like above, and so we may immediately model it as a random object $f(X_1, \ldots, X_5)$.
   This is massively convenient when compared to studying $(\Omega, \Sigma, \rmP)$ directly.
