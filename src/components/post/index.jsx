@@ -21,7 +21,6 @@ export default function App({ data, ...props }) {
 
   // for all of the citation uses, we create links to reference
   const citationUses = useCitations(state => state.citationUses);
-  console.log(citationUses);
 
   // render citations, if any
   const refsSection = (

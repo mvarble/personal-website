@@ -11,7 +11,6 @@ export default function Cite({ bibKey, children }) {
     shallow
   );
 
-
   // memoize an id on first render
   const id = React.useMemo(() => requestKey(bibKey), [requestKey, bibKey]);
 
