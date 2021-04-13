@@ -21,6 +21,7 @@ export default function App({ data, ...props }) {
 
   // for all of the citation uses, we create links to reference
   const citationUses = useCitations(state => state.citationUses);
+  console.log(citationUses);
 
   // render citations, if any
   const refsSection = (
@@ -75,7 +76,15 @@ export default function App({ data, ...props }) {
 }
 
 function citationSort(a, b) {
-  return a.year.localeCompare(b.year) || a.title.localeCompare(b.title);
+  return (
+    a.year && b.year
+    ? a.year.localeCompare(b.year) || a.title.localeCompare(b.title)
+    : (
+      (a.year && !b.year) 
+      ? -1
+      : (b.year && !a.year ? 1 : a.title.localeCompare(b.title))
+    )
+  );
 }
 
 function parseAuthors(authors) {
@@ -91,11 +100,13 @@ function parseAuthors(authors) {
 
 function Citation({ citation, uses, ...props }) {
   const links = React.useMemo(() => (
+    uses
+    ? (
       <span style={{ marginRight: '0.5em' }}>
         <i>
           (back to text:
           {
-            Array.from({ length: uses }).map((_, i) => (
+            Array(uses).fill().map((_, i) => (
               <a 
                 href={ `#reference-${citation.key}-${i}` } 
                 key={ i } 
@@ -107,7 +118,7 @@ function Citation({ citation, uses, ...props }) {
           )
         </i>
       </span>
-    ),
+    ) : null),
     [citation.key, uses],
   );
   if (citation.entry_type === 'article') {
@@ -120,7 +131,7 @@ function Citation({ citation, uses, ...props }) {
           { `${citation.volume}(${citation.number}):${citation.pages}, ${citation.month || ''} ${citation.year}.` }
         </span> 
         { links }
-        <a href={ `${citation.url}` }>[external link]</a>
+        <a href={ citation.url }>[external link]</a>
       </span>
     );
   }
@@ -133,7 +144,7 @@ function Citation({ citation, uses, ...props }) {
           { `${citation.publisher}, ${citation.year}.` }
         </span> 
         { links }
-        <a href={ `${citation.url}` }>[external link]</a>
+        <a href={ citation.url }>[external link]</a>
       </span>
     );
   }
@@ -146,7 +157,17 @@ function Citation({ citation, uses, ...props }) {
           { `PhD thesis, ${citation.school}, ${citation.month || ''} ${citation.year}.` }
         </span> 
         { links }
-        <a href={ `${citation.url}` }>[external link]</a>
+        <a href={ citation.url }>[external link]</a>
+      </span>
+    );
+  }
+  if (citation.entry_type === 'website') {
+    return (
+      <span id={ `references-${citation.key}` } { ...props }>
+        <span style={{ marginRight: '0.5em' }}><i>{ `${citation.title}.` }</i></span>
+        <span>Website. </span>
+        { links }
+        <a href={ citation.url }>{ decodeURI(citation.url) }</a>
       </span>
     );
   }

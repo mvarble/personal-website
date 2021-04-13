@@ -15,6 +15,10 @@ related: [
   /affine-resolution
 ]
 references: [
+  levy-continuity-wiki,
+  gamma-wiki,
+  euler-maruyama-wiki,
+  julia,
   kallenberg2002,
 ]
 ---
@@ -37,7 +41,7 @@ We then demonstrate numerically how samples $\rmP(X_T \in \cdot | X_0 = x)$ dist
 >
 > $$ \lim_{t\rightarrow\infty} \rmP(X_t \in \cdot) = \mu_X $$
 
-A classic result of L&eacute;vy (see <Cite bibKey="kallenberg2002">Kallenberg</Cite> or [Wikipedia](https://en.wikipedia.org/wiki/L%C3%A9vy%27s_continuity_theorem)) dictates that such a weak convergence is determined by that of pointwise convergence of the characteristic functions.
+A classic result of L&eacute;vy (see <Cite bibKey="kallenberg2002">Kallenberg</Cite> or <Cite bibKey="levy-continuity-wiki">Wikipedia</Cite>) dictates that such a weak convergence is determined by that of pointwise convergence of the characteristic functions.
 
 $$ \lim_{t\rightarrow\infty} \rmE\big( e^{iu X_t} \big) = \int e^{iuy} \mu_X({\rm d} y), \quad u \in \bbR $$
 
@@ -65,7 +69,7 @@ It is now clear that our pointwise limit is as follows.
 
 $$ \lim_{t\rightarrow\infty} \rmE\big( e^{iu X_t} | X_0 = x \big) = \exp\Bigg(\frac{2ab}{\sigma^2}\log\Big(\frac{2a}{2a-i\sigma^2 u}\Big)\Bigg) = \Big( 1 - \frac{\sigma^2}{2a}iu\Big)^{-2ab/\sigma^2} $$
 
-The keen eye will recognize that the final expression above is the characteristic function of a [Gamma distribution](https://en.wikipedia.org/wiki/Gamma_distribution) of shape $2ab/\sigma^2$ and rate $2a/\sigma^2$.
+The keen eye will recognize that the final expression above is the characteristic function of a <Cite bibKey="gamma-wiki">Gamma distribution</Cite> of shape $2ab/\sigma^2$ and rate $2a/\sigma^2$.
 
 $$ \mu_X = \operatorname{Gamma}\Big(\text{shape} = \frac{2ab}{\sigma^2}, \text{rate} = \frac{2a}{\sigma^2} \Big) $$
 
@@ -84,7 +88,7 @@ $$` }</span>
 From the perspective of Monte Carlo, the fact that $X$ has a long-time distribution $\mu_X$ should mean that samples of a marginal $X_T$ for a large time $T$ should distribute similar to $\mu_X$.
 We intend to show this by taking such samples and comparing the empirical moment generating function and density to those of $\mu_X$ above.
 
-Below, we write small [Julia](https://julialang.org/) script which invokes a simple [Euler-Maruyama](https://en.wikipedia.org/wiki/Euler%E2%80%93Maruyama_method) scheme to simulate $100$ (biased) samples of marginals
+Below, we write small <Cite bibKey="julia">Julia</Cite> script which invokes a simple <Cite bibKey="euler-maruyama-wiki">Euler-Maruyama</Cite> scheme to simulate $100$ (biased) samples of marginals
 <span>{ String.raw`$$(X_{t_1},\ldots, X_{t_{2500}}).$$` }</span>
 on a fine uniform mesh <span>{ String.raw`$0 = t_1 < \cdots < t_{2500} = 10.0$` }</span>.
 
