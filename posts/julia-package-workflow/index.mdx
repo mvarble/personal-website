@@ -27,8 +27,8 @@ An important thing for me is to be able to develop in the directory of my choosi
 Let's call the following in a shell.
 
 ```shell
-mkdir ~/development/my-new-script-directory
-cd ~/development/my-new-script-directory
+mkdir ~/dev/my-new-script-directory
+cd ~/dev/my-new-script-directory
 ```
 
 From here, I declare a local environment and immediately add <Cite bibKey="revise-jl">Revise.jl</Cite>.
@@ -57,7 +57,7 @@ When developing a package, I effectively do the same thing.
 Suppose I already have some package.
 
 ```
-development/SomePackage.jl/
+~/dev/SomePackage.jl/
 ├── Manifest.toml
 ├── Project.toml
 ├── src
@@ -91,7 +91,7 @@ includet("index.jl")
 More importantly, because I told Pkg to develop `SomePackage.jl` relatively when running `dev ../`, I may also edit the source files of `SomePackage` in the parent directory and ensure changes propogate to the REPL.
 
 On separate development sessions, the `sandbox` environment will still have `SomePackage.jl` in the Manifest, so all we must do is be sure to include Revise.
-In other words, each time I return back to developing, I go to the `~/development/SomePackage.jl/sandbox` directory in a shell and run the following,
+In other words, each time I return back to developing, I go to the `~/dev/SomePackage.jl/sandbox` directory in a shell and run the following,
 
 ```shell
 julia
