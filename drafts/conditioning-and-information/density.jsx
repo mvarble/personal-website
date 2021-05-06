@@ -44,7 +44,7 @@ function Axes() {
       <Line points={ [[0, 0, 1], [0, 0, 0], [1, 0, 0]] } />
       <Line points={ [[0, 1, 0], [0, 0, 0]] } />
       <Html position={ [1, 0, 0] }><TeX>$x$</TeX></Html>
-      <Html position={ [0, 1, 0] }><TeX>$z$</TeX></Html>
+      <Html position={ [0, 1, 0] }><TeX>$y$</TeX></Html>
     </group>
   );
 }
@@ -60,15 +60,15 @@ export default function Density({
   stepsV = 100,
   ...props
 }) {
-  // create a state for the current z-value
-  const [z, setZ] = React.useState(0.8);
+  // create a state for the current y-value
+  const [y, setY] = React.useState(0.8);
 
   // memoize some points on marginal change
   const [xMin, xMax] = domain[1];
   const points = React.useMemo(() => Array(stepsU+1).fill().map((_, i) => {
     const x = xMin + (xMax - xMin) * i / stepsU;
-    return [x, z, density(x, z)];
-  }), [xMin, xMax, stepsU, density, z]);
+    return [x, y, density(x, y)];
+  }), [xMin, xMax, stepsU, density, y]);
 
   return (
     <div 
@@ -94,7 +94,7 @@ export default function Density({
         />
         <Surface 
           domain={ [domain[1], [0, 1]] } 
-          func={ (x, y) => [x, z, y * density(x, z)] } 
+          func={ (x, v) => [x, y, v * density(x, y)] } 
           stepsU={ stepsU } 
           stepsV={ stepsV } 
           color="#ff8080"
@@ -108,8 +108,8 @@ export default function Density({
       </Canvas>
       <input 
         type="range" 
-        onChange={ e => setZ(e.target.value) } 
-        value={ z } 
+        onChange={ e => setY(e.target.value) } 
+        value={ y } 
         min={ -1 } 
         max={ 1 } 
         step={ 0.1 } 

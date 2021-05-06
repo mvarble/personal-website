@@ -1,35 +1,12 @@
----
-title: Conditioning and information
-slug: /conditioning-and-information
-date: 2021-04-12
-tags: [
-  probability,
-  meta-probability,
-  sigma-algebras,
-  information,
-  rats
-]
-related: [
-  /why-so-abstract
-]
-references: [
 
-]
----
 
-import { Link } from 'gatsby';
+<span>{ String.raw`$$ A \mapsto \int_O \rmP(A | Z=z) \mu({\rm d}z) $$` }</span>
 
-import Proof from '../../src/components/proof';
-import Density from './density';
-import ratPath from './rat-path.svg';
+A probability kernel is precisely the object we use to capture this concept.
+By declaring measurable spaces $(O, \calO)$ and $(\Omega', \Sigma')$ respectively corresponding to the observations and all other events, a probability kernel is a map 
+<span>{ String.raw`$$ \rmP(\cdot|Z=\cdot): \Sigma' \times O \rightarrow [0, 1] $$` }</span>
+such that $\rmP(\cdot|Z=z)$ is a probability measure for each $z \in O$ and $\rmP(A|Z=\cdot)$ is $\calO/\calR$-measurable for each $A \in \Sigma'$.
 
-In a previous post, <Link to="/why-so-abstract">Why so abstract $(\Omega, \Sigma, \rmP)$?</Link>, I made the following bold claim.
-
-> We use probability to model and analyze the unpredictable outcomes of all sorts of objects $X$ we would otherwise measure in the real world.
-
-Following on this idea, one might argue that _unpredictable_ is a relative concept: what one rat might find unpredictable might be entirely explainable from another's point of view.
-In probability, the enlightened rat's knowledge is best explained by identifying a random object $Z: \Omega \rightarrow O$ it has *observed*.
-The naive rat will see $Z$ as taking some nontrivial distribution, where the enlightened one will somehow be able to claim it takes some specific value $z$.
 
 This construction is no easy task, because it requires the existence of a probability measure $\rmP(\cdot | Z = z)$ on the space $(\Omega, \Sigma)$ from one $\rmP$, such that the following consistency condition holds.
 $$ \rmP(X \in A) = \int_O \rmP(X \in A | Z=z) \rmP(Z \in {\rm d}z) $$

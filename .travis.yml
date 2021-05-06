@@ -6,6 +6,7 @@ cache:
     - "$HOME/.npm"
     - "$HOME/.rvm"
 before_script:
+  - npm link submodules/map-citations
   - gatsby clean && gatsby build
 deploy:
   - provider: firebase

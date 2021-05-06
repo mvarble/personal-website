@@ -1,23 +1,16 @@
 import React from 'react';
-import shallow from 'zustand/shallow';
 import { Link } from 'gatsby';
+import shallow from 'zustand/shallow';
 
 import useCitations from '../hooks/use-citations';
 
-export default function Cite({ bibKey, children }) {
-  // use the state of citations
-  const [getNumber, requestKey] = useCitations(
-    state => [state.getNumber, state.requestKey],
+export default function Cite({ bibKey, children, id }) {
+  const [reference, numbers] = useCitations(
+    state => [state.reference, state.numbers], 
     shallow
   );
-
-  // memoize an id on first render
-  const id = React.useMemo(() => requestKey(bibKey), [requestKey, bibKey]);
-
-  // get a number for the citation
-  const number = getNumber(bibKey);
-
-  // render accordingly
+  const number = `${numbers[bibKey]}` || '?';
+  React.useEffect(() => reference(bibKey, id), [reference, bibKey, id]);
   return (
     <Link to={ `#references-${bibKey}` } id={ `reference-${bibKey}-${id}` }>
       <span>{ children }</span>

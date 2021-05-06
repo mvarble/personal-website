@@ -21,7 +21,7 @@ import {
   Translation,
   Rotation,
   Scale,
-} from './diagrams';
+} from './frame-diagrams';
 import {
   EarthYear,
   EarthTilt,
@@ -334,8 +334,8 @@ Eric is an empathetic rat; he knows Sam is talking about *right* from his own pe
         \cos\eta(\theta) & \cos\sigma(\phi) \sin\eta(\theta) & \sin\sigma(\phi) \sin\eta(\theta) & R \sin\sigma(\phi) \sin\eta(\theta) \\
         0 & 0 & 0 & 1
       \end{pmatrix}  \\
-      \sigma(\phi) &= \pi (180 - \theta) / 180 \\
-      \eta(\theta) &= \pi (\phi - 90) / 180 \\
+      \sigma(\phi) &= \pi (\phi - 90) / 180 \\
+      \eta(\theta) &= \pi (180 - \theta) / 180  \\
       R &= 6371
     \end{aligned}
   $$

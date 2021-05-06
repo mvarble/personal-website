@@ -5,71 +5,24 @@ import { OrbitControls, PerspectiveCamera } from '@react-three/drei';
 import { scan } from 'rxjs/operators';
 
 import TeX from '../../src/components/tex';
-import { Diagram, timers$ } from './diagrams';
-import { useSpace } from './cubemaps';
-import Earth from './earth';
+import timers$ from '../assets/timers';
+import { useSpace } from '../assets/cubemaps';
+import Earth from '../assets/earth';
+import solarFrames from '../assets/solar-frames';
+import Diagram from '../assets/diagram';
 
 /**
- * constants
+ * constants for visualizing solar frames
  */
-const cos = Math.cos;
-const sin = Math.sin;
-const PI = Math.PI;
 const D = 5.0;
 const R = 1.0;
-const ALPHA = 23.45 * PI / 180;
+const TILT = 23.45 * Math.PI / 180;
 const DAYS = 10;
 
 /**
- * angular timeframes
+ * solar frames
  */
-const omegaD = t => 2 * PI * t;
-const omegaY = t => omegaD(t) / DAYS;
-
-/**
- * frames
- */
-const fus = t => new THREE.Matrix4().set(
-  cos(omegaY(t)), 0, sin(omegaY(t)), 0,
-  0, 1, 0, 0,
-  -sin(omegaY(t)), 0, cos(omegaY(t)), 0,
-  0, 0, 0, 1
-);
-
-const fse = t => new THREE.Matrix4().set(
-  cos(omegaY(t)), 0, -sin(omegaY(t)), D,
-  0, 1, 0, 0,
-  sin(omegaY(t)), 0, cos(omegaY(t)), 0,
-  0, 0, 0, 1
-);
-
-const fees = new THREE.Matrix4().set(
-  cos(ALPHA), -sin(ALPHA), 0, 0,
-  sin(ALPHA), cos(ALPHA), 0, 0,
-  0, 0, 1, 0,
-  0, 0, 0, 1
-);
-
-const feed = t => new THREE.Matrix4().set(
-  R * cos(omegaD(t)), 0, R * sin(omegaD(t)), 0,
-  0, R, 0, 0,
-  -R * sin(omegaD(t)), 0, R * cos(omegaD(t)), 0,
-  0, 0, 0, 1
-);
-
-const toLong = theta => PI * (180-theta) / 180;
-const toLat = phi => PI * (phi - 90) / 180;
-
-const feep = (phi, theta) => {
-  const lat = toLat(phi);
-  const long = toLong(theta);
-  return new THREE.Matrix4().set(
-    -sin(long), cos(lat) * cos(long), sin(lat) * cos(long), sin(lat) * cos(long),
-    0, -sin(lat), cos(lat), cos(lat),
-    cos(long), cos(lat) * sin(long), sin(lat) * sin(long), sin(lat) * sin(long),
-    0, 0, 0, 1
-  );
-};
+const { Tyear, Ttilt, Tday, Tmap } = solarFrames({ D, R, TILT, DAYS });
 
 /**
  * React components
@@ -141,10 +94,7 @@ function EarthYear() {
       <Canvas style={{ height: '350px' }}> 
         <PerspectiveCamera position={ [0, 12, 8] } makeDefault />
         <OrbitControls enableDamping={ false } />
-        <AnimatedFrame 
-          functions={ 
-            [t => fus(t * DAYS), t => fse(t * DAYS)]
-          } />
+        <AnimatedFrame functions={ [t => Tyear(t * DAYS)] } />
       </Canvas>
       <span>
         <i>(Interact above)</i> Dynamics of earth throughout year visualized with $F_y(t)$. 
@@ -161,10 +111,7 @@ function EarthTilt() {
       <Canvas style={{ height: '350px' }}> 
         <PerspectiveCamera position={ [0, 12, 8] } makeDefault />
         <OrbitControls enableDamping={ false } />
-        <AnimatedFrame 
-          functions={ 
-            [t => fus(t * DAYS), t => fse(t * DAYS), t => fees]
-          } />
+        <AnimatedFrame functions={ [t => Tyear(t * DAYS), t => Ttilt] } />
       </Canvas>
       <span>
         <i>(Interact above)</i> Introduce tilt of earth's polar axis with { String.raw`$F_a(t)$`}.
@@ -182,10 +129,9 @@ function EarthSpin() {
         <OrbitControls enableDamping={ false } />
         <AnimatedFrame 
           functions={ [
-            t => fus(t * DAYS), 
-            t => fse(t * DAYS), 
-            t => fees, 
-            t => feed(t * DAYS),
+            t => Tyear(t * DAYS),
+            t => Ttilt, 
+            t => Tday(t * DAYS),
           ] } />
       </Canvas>
       <span>
@@ -232,7 +178,7 @@ function PersonFrame({ phi, theta }) {
   const frame = useUpdate(obj => {
     obj.matrixAutoUpdate = false;
     obj.matrixWorldNeedsUpdate = true;
-    obj.matrix = feep(phi, theta);
+    obj.matrix = Tmap(phi, theta);
   }, [phi, theta]);
   return (
     <object3D ref={ frame }>
@@ -277,11 +223,10 @@ function EarthPosition() {
         <AnimatedFrame 
           time={ 10000 }
           functions={ [
-            t => fus(t * DAYS), 
-            t => fse(t * DAYS), 
-            t => fees, 
-            t => feed(t * DAYS),
-            t => feep(36.1378, -115.1619),
+            t => Tyear(t * DAYS),
+            t => Ttilt, 
+            t => Tday(t * DAYS),
+            t => Tmap(36.1378, -115.1619),
           ] } />
       </Canvas>
       <span>

@@ -1,15 +1,33 @@
+// development flag for whether or not we show drafts
+const DEVELOPMENT = (
+  process && process.env && process.env.NODE_ENV === 'development'
+);
+
+// filesystem depends on development
+const filesystem = (() => {
+  const posts = {
+    resolve: 'gatsby-source-filesystem',
+    options: {
+      name: 'posts',
+      path: 'posts',
+    },
+  }
+  const drafts = {
+    resolve: 'gatsby-source-filesystem',
+    options: {
+      name: 'drafts',
+      path: 'drafts',
+    },
+  };
+  return DEVELOPMENT ? [posts, drafts] : [posts];
+})();
+
 /*
  * configure the autolinks
  */
 module.exports = {
   plugins: [
-    {
-      resolve: 'gatsby-source-filesystem',
-      options: {
-        name: 'posts',
-        path: 'posts',
-      },
-    },
+    ...filesystem,
     {
       resolve: 'gatsby-plugin-mdx',
       options: {
@@ -27,6 +45,7 @@ module.exports = {
           [require('remark-disable-tokenizers'), { block: ['indentedCode'] }],
         ],
         rehypePlugins: [
+          require('map-citations'), // local submodule
           require('rehype-slug'),
           [
             require('rehype-autolink-headings'), 

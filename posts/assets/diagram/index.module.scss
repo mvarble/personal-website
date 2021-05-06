@@ -1,0 +1,7 @@
+.scene {
+  max-width: 600px;
+  margin: 1em;
+  & canvas {
+    background: var(--grey);
+  }
+}

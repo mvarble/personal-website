@@ -1,14 +1,15 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
+import shallow from 'zustand/shallow';
 
 import { content } from './index.module.scss';
 import useKaTeX from '../../hooks/use-katex';
-import useCitations from '../../hooks/use-citations';
 import Title from '../title';
 import Head from '../head';
 import Navbar from '../navbar';
 import { PostLink, PostLinks } from '../post-links';
+import useCitations from '../../hooks/use-citations';
 
 export default function App({ data, ...props }) {
   // use ref with KaTeX render callback
@@ -16,11 +17,15 @@ export default function App({ data, ...props }) {
 
   // sort and parse the citations, if any
   const citations = data.post.citations.sort(citationSort);
-  const set = useCitations(state => state.set);
-  React.useEffect(() => set(citations), [set, citations]);
 
-  // for all of the citation uses, we create links to reference
-  const citationUses = useCitations(state => state.citationUses);
+  // propogate the citation state for numbering and obtain the uses
+  const [setNumbers, uses] = useCitations(s => [s.setNumbers, s.uses], shallow);
+  React.useEffect(() => setNumbers(
+    citations.reduce(
+      (obj, { key }, i) => ({ ...obj, [key]: i }),
+      {}
+    )
+  ), [setNumbers, citations]);
 
   // render citations, if any
   const refsSection = (
@@ -30,7 +35,7 @@ export default function App({ data, ...props }) {
           citations.map((citation, i) => 
             <div key={ citation.key } style={{ display: 'flex', margin: '1em 0' }}>
               <span style={{ marginRight: '0.5em' }}>{ `[${i}]` }</span>
-              <Citation citation={ citation } uses={ citationUses[citation.key] } />
+              <Citation citation={ citation } uses={ uses[citation.key] } />
             </div>
           ) 
         }</div>
@@ -107,8 +112,8 @@ function Citation({ citation, uses, ...props }) {
           {
             Array(uses).fill().map((_, i) => (
               <a 
-                href={ `#reference-${citation.key}-${i}` } 
-                key={ i } 
+                href={ `#reference-${citation.key}-${i+1}` } 
+                key={ i+1 } 
                 style={{ marginLeft: '0.25em' }}>
                 <span role="img" aria-label="go up">👆</span>
               </a>

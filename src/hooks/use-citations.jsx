@@ -1,19 +1,13 @@
 import create from 'zustand';
 import fp from 'lodash/fp';
 
-const useCitations = create((set, get) => ({
-  citations: [],
-  citationUses: {},
-  set: citations => set(fp.set('citations')(citations)),
-  getNumber: key => {
-    const number = get().citations.findIndex(c => c.key === key);
-    return (number === -1) ? '?' : `${number}`;
-  },
-  requestKey: key => {
-    const value = fp.get(`citationUses[${key}]`)(get()) || 0;
-    set(fp.set(`citationUses[${key}]`)(value + 1));
-    return value;
-  }
+const useCitations = create(set => ({
+  numbers: {},
+  uses: {},
+  setNumbers: obj => set(fp.set('numbers')(obj)),
+  reference: (bibKey, id) => set(
+    fp.update(`uses[${bibKey}]`)(val => Math.max(val || 0, id))
+  ),
 }));
 
 export default useCitations;

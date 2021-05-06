@@ -6,14 +6,14 @@ import {
   Line,
   Html,
 } from '@react-three/drei';
-import * as THREE from 'three';
+import { Matrix4, Vector4, Euler } from 'three';
 import { interpolateSpectral, interpolateArray } from 'd3';
-import { animationFrameScheduler, interval } from 'rxjs';
-import { map, concatMap, takeWhile } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
-import Arrow from './arrow';
-import { scene } from './index.module.scss';
 import TeX from '../../src/components/tex';
+import Arrow from '../assets/arrow';
+import timers$ from '../assets/timers';
+import Diagram from '../assets/diagram';
 
 function R3Diagram() {
   return (
@@ -78,24 +78,8 @@ function R3Diagram() {
 }
 export { R3Diagram }
 
-function Diagram({ children }) {
-  return (
-    <div style={{ margin: '1em' }}>
-      <div className={ `${scene} card` } style={{ maxWidth: '600px', margin: '0 auto' }}>
-        <div className="card-image">
-          { Array.isArray(children) ? children[0] : null }
-        </div>
-        <div className="card-content">
-          { Array.isArray(children) ? children.slice(1) : null }
-        </div>
-      </div>
-    </div>
-  );
-}
-export { Diagram };
-
-const samMatrix = new THREE.Matrix4()
-  .makeRotationFromEuler(new THREE.Euler(-1, 0, 2))
+const samMatrix = new Matrix4()
+  .makeRotationFromEuler(new Euler(-1, 0, 2))
   .setPosition(-1, 1, 2);
 
 function SamFrame({ children }) {
@@ -181,26 +165,6 @@ function ChickenLocation() {
 }
 export { ChickenLocation };
 
-function timers$(time, pause) {
-  return interval(0, animationFrameScheduler).pipe(
-    concatMap(part => {
-      const startTime = animationFrameScheduler.now();
-      return interval(0, animationFrameScheduler).pipe(
-        map(_ => {
-          const t = animationFrameScheduler.now() - startTime;
-          return { 
-            part,
-            progress: Math.min(t / time, 1.0),
-            pause: Math.max(0.0, Math.min((t - time) / pause, 1.0)),
-          };
-        }),
-        takeWhile(d => d.pause < 1.0)
-      );
-    }),
-  );
-}
-export { timers$ };
-
 function EricAtSam({ time=500 }) {
   // create the animation timing
   const [position, setPosition] = React.useState(undefined);
@@ -268,7 +232,7 @@ function EricAtSam({ time=500 }) {
 export { EricAtSam };
 
 function EricRightStep({ time=500 }) {
-  const step = React.useMemo(() => (new THREE.Vector4(1, 0, 0, 0))
+  const step = React.useMemo(() => (new Vector4(1, 0, 0, 0))
     .applyMatrix4(samMatrix)
     .toArray()
     .slice(0, 3), []);
