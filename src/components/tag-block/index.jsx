@@ -63,7 +63,7 @@ function Tags({ tags }) {
       .words(tags)
       .padding(5)
       .rotate(() => -10 + Math.random() * 10)
-      .fontSize(d => 20 * d.scale)
+      .fontSize(d => 30 * d.scale)
       .on("end", words => setState(fp.set('words')(words)));
 
     // run the cloud algorithm

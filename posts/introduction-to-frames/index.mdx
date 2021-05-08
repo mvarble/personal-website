@@ -352,13 +352,14 @@ Eric is an empathetic rat; he knows Sam is talking about *right* from his own pe
   $$\begin{aligned}
     &\big\langle s(t, \phi, \theta) \big\rangle_{F_p(t,\phi,\theta)} \\
     &\quad=\big\langle o_{F_p(t, \phi, \theta)} \big\rangle_{F_p(t,\phi,\theta)} - \big\langle o_{F_s} \big\rangle_{F_p(t, \phi,\theta)} \\
-    &\quad= \begin{pmatrix} 0 \\ 0 \\ 0 \\ 1 \end{pmatrix} - T_p(\phi, \theta) \big\langle o_{F_s} \big\rangle_{F_d(t)} \\
-    &\quad= \begin{pmatrix} 0 \\ 0 \\ 0 \\ 1 \end{pmatrix} - T_p(\phi, \theta) \cdot T_d(t) \big\langle o_{F_s} \big\rangle_{F_a(t)} \\
-    &\quad= \begin{pmatrix} 0 \\ 0 \\ 0 \\ 1 \end{pmatrix} - T_p(\phi, \theta) \cdot T_d(t) \cdot T_a \big\langle o_{F_s} \big\rangle_{F_y(t)} \\
-    &\quad= \begin{pmatrix} 0 \\ 0 \\ 0 \\ 1 \end{pmatrix} - T_p(\phi, \theta) \cdot T_d(t) \cdot T_a \cdot T_y(t) \big\langle o_{F_s} \big\rangle_{F_s(t)} \\
-    &\quad= \begin{pmatrix} 0 \\ 0 \\ 0 \\ 1 \end{pmatrix} - T_p(\phi, \theta) \cdot T_d(t) \cdot T_a \cdot T_y(t) \begin{pmatrix} 0 \\ 0 \\ 0 \\ 1 \end{pmatrix}
+    &\quad= \begin{pmatrix} 0 \\ 0 \\ 0 \\ 1 \end{pmatrix} - T_p(\phi, \theta)^{-1} \big\langle o_{F_s} \big\rangle_{F_d(t)} \\
+    &\quad= \begin{pmatrix} 0 \\ 0 \\ 0 \\ 1 \end{pmatrix} - T_p(\phi, \theta)^{-1} \cdot T_d(t)^{-1} \big\langle o_{F_s} \big\rangle_{F_a(t)} \\
+    &\quad= \begin{pmatrix} 0 \\ 0 \\ 0 \\ 1 \end{pmatrix} - T_p(\phi, \theta)^{-1} \cdot T_d(t)^{-1} \cdot T_a^{-1} \big\langle o_{F_s} \big\rangle_{F_y(t)} \\
+    &\quad= \begin{pmatrix} 0 \\ 0 \\ 0 \\ 1 \end{pmatrix} - T_p(\phi, \theta)^{-1} \cdot T_d(t)^{-1} \cdot T_a^{-1} \cdot T_y(t)^{-1} \big\langle o_{F_s} \big\rangle_{F_s(t)} \\
+    &\quad= \begin{pmatrix} 0 \\ 0 \\ 0 \\ 1 \end{pmatrix} - T_p(\phi, \theta)^{-1} \cdot T_d(t)^{-1} \cdot T_a^{-1} \cdot T_y(t)^{-1} \begin{pmatrix} 0 \\ 0 \\ 0 \\ 1 \end{pmatrix} \\
+    &\quad= \begin{pmatrix} 0 \\ 0 \\ 0 \\ 1 \end{pmatrix} - \Big( T_y(t) \cdot T_a \cdot T_d(t) \cdot T_p(\phi, \theta) \Big)^{-1} \cdot \begin{pmatrix} 0 \\ 0 \\ 0 \\ 1 \end{pmatrix}
   \end{aligned}$$
   The matrix product above is tedious to calculate by hand, but we now have a closed form expression for the desired coordinates.
-  $$ \big[s(t, \phi, \theta)\big]_{F_p(t, \phi, \theta)} =  - \begin{pmatrix} 1 & 0 & 0 & 0\\ 0 & 1 & 0 &0 \\ 0 & 0 & 1 & 0 \end{pmatrix}T_p(\phi, \theta) \cdot T_d(t) \cdot T_a \cdot T_y(t) \begin{pmatrix} 0 \\ 0 \\ 0 \\ 1 \end{pmatrix} $$
+  $$ \big[s(t, \phi, \theta)\big]_{F_p(t, \phi, \theta)} =  - \begin{pmatrix} 1 & 0 & 0 & 0\\ 0 & 1 & 0 &0 \\ 0 & 0 & 1 & 0 \end{pmatrix} \Big( T_y(t) \cdot T_a \cdot T_d(t) \cdot T_p(\phi, \theta) \Big)^{-1}\begin{pmatrix} 0 \\ 0 \\ 0 \\ 1 \end{pmatrix} $$
 `}</p>
 

@@ -27,7 +27,7 @@ export default function Earth({ children, ...props }) {
   return (
     <object3D { ...props }>
       <mesh>
-        <sphereBufferGeometry args={ [1.0, 32, 32] } />
+        <sphereBufferGeometry args={ [1.0, 64, 64] } />
         <meshPhongMaterial 
           side={ THREE.DoubleSide }
           specular={ 0x333333 }

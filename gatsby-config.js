@@ -30,8 +30,8 @@ const mapCitations = () => tree => {
     if (typeof node.value === 'string' && node.value.match('<Cite')) {
       const bibKey = node.value.match(/(?<=bibKey=")[aA-zZ0-9\-]+(?=")/g);
       if (bibKey) {
-        const id = (citationUses[bibKey] || 0) + 1;
-        citationUses[bibKey] = id;
+        const id = (citationUses[bibKey[0]] || 0) + 1;
+        citationUses[bibKey[0]] = id;
         node.value = node.value.replace('<Cite', `<Cite id="${id}"`);
       }
     }

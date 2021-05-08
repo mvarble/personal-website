@@ -2,14 +2,20 @@
 const fp = require('lodash/fp');
 const graphql = require('gatsby').graphql;
 
-// this deals with the @react-three/drei Html component
+// this deals with the @react-three/drei Html component and allows .gltf imports
 exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
+  const config = {
+    module: {
+      rules: [{ test: /\.gltf$/, use: 'file-loader' }],
+    },
+  };
   if (stage === 'build-html' || stage === 'develop-html') {
-    actions.setWebpackConfig({
-      module: {
-        rules: [{ test: /@react-three\/drei/, use: loaders.null() }]
-      }
-    })
+    actions.setWebpackConfig(fp.update('module.rules')(a => [
+      ...a,
+      { test: /@react-three\/drei/, use: loaders.null() },
+    ])(config));
+  } else {
+    actions.setWebpackConfig(config);
   }
 };
 
