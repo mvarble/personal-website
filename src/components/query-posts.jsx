@@ -11,6 +11,7 @@ export default function QueryPosts({
   dates=[undefined, undefined],
   tags,
   empty,
+  take,
 }) {
   // hook for establishing page data
   const data = usePosts();
@@ -23,7 +24,7 @@ export default function QueryPosts({
   // render
   return (
     matched.length
-    ? <PostLinks>{ matched }</PostLinks>
+    ? <PostLinks>{ Number.isFinite(take) ? matched.slice(0, take) : matched }</PostLinks>
     : (empty || <div>No posts match your query</div>)
   );
 }

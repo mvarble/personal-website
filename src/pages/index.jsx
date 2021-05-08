@@ -44,7 +44,7 @@ export default function Home() {
                 or simply look at the most recent posts!
               </p>
               <div style={{ margin: '1em 0', padding: '1em' }}>
-                <QueryPosts />
+                <QueryPosts take={ 5 } />
               </div>
               <p>
                 You may also be interested in my <a href="https://github.com/mvarble">GitHub account</a> or a website of <a href="https://presentations.rat.supply">presentations I have given</a>.

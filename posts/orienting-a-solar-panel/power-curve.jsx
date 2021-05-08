@@ -127,10 +127,10 @@ function Curve({ t, t0, t1, setT, phi, theta, beta, gamma }) {
       powers,
       d: line().x(d => xScale(d[0])).y(d => yScale(d[1]))(powers)
     };
-  }, [xScale, yScale, t0, t1, t, phi, theta, beta, gamma, meshCount]);
+  }, [xScale, yScale, t0, t1, phi, theta, beta, gamma, meshCount]);
   const optimalD = React.useMemo(() => line().x(d => xScale(d[0])).y(d => yScale(d[1]))(
     generatePowers(meshCount, t0, t1, phi, theta, 0.011528072862786391, 0.8738099847473886)
-  ), [xScale, yScale, t0, t1, t, phi, theta, meshCount]);
+  ), [xScale, yScale, t0, t1, phi, theta, meshCount]);
 
   // create the move callback
   const [i, setI] = React.useState(0);
@@ -141,7 +141,7 @@ function Curve({ t, t0, t1, setT, phi, theta, beta, gamma }) {
     const i = Math.round((t - t0) * meshCount / (t1 - t0));
     setT(t);
     setI(i);
-  }, [setT, setI, xScale, meshCount]);
+  }, [setT, setI, xScale, meshCount, t0, t1]);
 
   return (
     <div style={{ overflow: 'hidden', height: `${height}px` }} ref={ divRef }>

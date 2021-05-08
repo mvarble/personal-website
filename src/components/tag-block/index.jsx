@@ -1,10 +1,12 @@
 import React from 'react';
 import fp from 'lodash/fp';
-import { scaleLinear, interpolateInferno }  from 'd3';
+import { scaleLinear, interpolateViridis }  from 'd3';
 import cloud from 'd3-cloud';
 import { useStaticQuery, graphql, Link } from 'gatsby';
 
 import { tagBlock } from './index.module.scss';
+
+const interpolateColor = interpolateViridis;
 
 export default function TagBlock() {
   const data = useStaticQuery(graphql`
@@ -84,7 +86,7 @@ function Tags({ tags }) {
                   style={{
                     fontFamily: font,
                     fontSize: `${size}px`,
-                    fill: interpolateInferno(0.8 * (1 - i / state.words.length)),
+                    fill: interpolateColor(0.8 * (1 - i / state.words.length)),
                   }}>
                   { text }
                 </text>
