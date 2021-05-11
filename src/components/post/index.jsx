@@ -31,7 +31,7 @@ export default function App({ data, ...props }) {
   const refsSection = (
     <div className="section" style={{ borderBottom: '1px solid var(--grey)' }}>
       <h1>References</h1>
-        <div>{ 
+        <div style={{ overflowX: 'auto' }}>{ 
           citations.map((citation, i) => 
             <div key={ citation.key } style={{ display: 'flex', margin: '1em 0' }}>
               <span style={{ marginRight: '0.5em' }}>{ `[${i}]` }</span>

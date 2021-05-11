@@ -25,10 +25,12 @@ $section-padding: 1.5rem 1.5rem;
 html {
   background: #FBFBFA;
   overflow-y: inherit;
+  overflow-x: hidden;
 }
 
 body {
-  min-width: 280px;
+  position: relative;
+  overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -47,6 +49,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .content {
+  overflow-x: hidden;
   & h1, & h2, & h3, & h4, & h5, & h6 {
     color: $primary;
   }
