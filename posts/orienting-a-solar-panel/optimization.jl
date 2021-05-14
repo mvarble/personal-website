@@ -42,9 +42,9 @@ T_p(ϕ, θ) = begin
   lat = σ(ϕ)
   long = η(θ)
   [
-    -sin(long) cos(lat)*cos(long) sin(lat)*cos(long) sin(lat)*cos(long);
-    0          -sin(lat)          cos(lat)           cos(lat)          ;
-    cos(long)  cos(lat)*sin(long) sin(lat)*sin(long) sin(lat)*sin(long);
+    -sin(long) cos(lat)*cos(long) sin(lat)*cos(long) RADIUS*sin(lat)*cos(long);
+    0          -sin(lat)          cos(lat)           RADIUS*cos(lat)          ;
+    cos(long)  cos(lat)*sin(long) sin(lat)*sin(long) RADIUS*sin(lat)*sin(long);
     0          0                  0                  1
   ]
 end
@@ -66,7 +66,7 @@ panel_normal_m(β, γ) = (T_A(β, γ) * [0; 0; 1; 0])[1:3]
 
 power(t, ϕ, θ, β, γ) = begin
   r = radiation_m(t, ϕ, θ)
-  r[3] <= 0 ? -dot(r, panel_normal_m(β, γ)) : 0
+  r[3] <= 0 ? max(-dot(r, panel_normal_m(β, γ)), 0) : 0
 end
 
 # quadrature approximation of energy function
@@ -76,6 +76,6 @@ end
 
 # optimization
 function optimize_angle(t0, t1, ϕ, θ; init=[0.0, 0.0], kwargs...)
-  objective = action -> -energy(t0, t1, ϕ, θ, action..., QuadNoSplit())
+  objective = action -> -energy(t0, t1, ϕ, θ, action...)
   optimize(objective, init, GradientDescent(), autodiff=:forward, Options(;kwargs...))
 end

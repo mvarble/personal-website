@@ -30,7 +30,7 @@ function Tags({ tags }) {
 
   // create a callback for resizes
   const resize = React.useCallback(
-    size => setState(fp.set('width')(Math.min(size, 500))), 
+    size => setState(fp.set('width')(Math.min(size, 350))), 
     [setState]
   );
 

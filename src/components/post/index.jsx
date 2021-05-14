@@ -56,7 +56,7 @@ export default function App({ data, ...props }) {
  
   // render the application
   return (
-    <div ref={ ref }>
+    <div ref={ ref } style={{ display: 'flex', flexDirection: 'column' }}>
       <Head title={ data.post.title } />
       <Navbar />
       <div className="is-marginless is-paddingless">

@@ -45,9 +45,9 @@ export default function solarFrames({ D, R, TILT, DAYS }) {
     const phi = fromLat(lat);
     const theta = fromLong(long);
     return new Matrix4().set(
-      -sin(theta), cos(phi) * cos(theta), sin(phi) * cos(theta), sin(phi) * cos(theta),
-      0          , -sin(phi)            , cos(phi)             , cos(phi),
-      cos(theta) , cos(phi) * sin(theta), sin(phi) * sin(theta), sin(phi) * sin(theta),
+      -sin(theta), cos(phi) * cos(theta), sin(phi) * cos(theta), R * sin(phi) * cos(theta),
+      0          , -sin(phi)            , cos(phi)             , R * cos(phi),
+      cos(theta) , cos(phi) * sin(theta), sin(phi) * sin(theta), R * sin(phi) * sin(theta),
       0          , 0                    , 0                    , 1
     );
   };

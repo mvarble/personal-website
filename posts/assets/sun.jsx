@@ -5,7 +5,7 @@ export default function Sun({ children, ...props }) {
     <group { ...props }>
       <mesh>
         <meshPhongMaterial emissive={ 0xffbb00 } />
-        <sphereBufferGeometry args={ [5, 32, 32] } />
+        <sphereBufferGeometry args={ [1, 32, 32] } />
       </mesh>
       <pointLight color="white" intensity={ 5 }/>
       { children }

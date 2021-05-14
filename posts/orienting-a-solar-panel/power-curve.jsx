@@ -12,6 +12,7 @@ import { useSpace } from '../../posts/assets/cubemaps';
 
 const D = 1.496e8;
 const R = 6371;
+const SUN_RADIUS = 696.34e6;
 
 const { Tyear, Ttilt, Tday, Tmap, Taction } = solarFrames({
   D,
@@ -31,7 +32,7 @@ export default function PowerCurve({ t0, t1, phi, theta }) {
     <div>
       <div>
         <div style={{ display: 'flex', alignItems: 'center', margin: '1em' }}>
-          <span style={{ paddingRight: '0.5em', fontWeight: 'bold' }}><TeX>{ String.raw`$\beta$` }</TeX></span>
+          <span style={{ paddingRight: '0.5em' }}><TeX>{ String.raw`$\beta$` }</TeX></span>
           <input 
             value={ beta }
             onChange={ e => setBeta(+e.target.value) }
@@ -40,9 +41,12 @@ export default function PowerCurve({ t0, t1, phi, theta }) {
             max={ Math.PI / 2 } 
             step={ 0.01 } 
             style={{ flexGrow: 1 }}/>
+          <span style={{ width: '5em', textAlign: 'center' }}>
+            <TeX>{ String.raw`$${(beta * 180 / Math.PI).toFixed(2)}^\circ$` }</TeX>
+          </span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', margin: '1em' }}>
-          <span style={{ paddingRight: '0.5em', fontWeight: 'bold' }}><TeX>{ String.raw`$\gamma$` }</TeX></span>
+          <span style={{ paddingRight: '0.5em' }}><TeX>{ String.raw`$\gamma$` }</TeX></span>
           <input 
             value={ gamma }
             onChange={ e => setGamma(+e.target.value) }
@@ -51,6 +55,9 @@ export default function PowerCurve({ t0, t1, phi, theta }) {
             max={ Math.PI / 2 } 
             step={ 0.01 } 
             style={{ flexGrow: 1 }}/>
+          <span style={{ width: '5em', textAlign: 'center' }}>
+            <TeX>{ String.raw`$${(gamma * 180 / Math.PI).toFixed(2)}^\circ$` }</TeX>
+          </span>
         </div>
       </div>
       <Curve 
@@ -107,17 +114,20 @@ function Curve({ t, t0, t1, setT, phi, theta, beta, gamma }) {
   // render the axes
   React.useEffect(() => {
     if (!axesRef.current) return;
+    const fakeXScale = scaleLinear()
+      .domain([0, 7])
+      .range([leftMargin, width - rightMargin]);
     select(axesRef.current)
       .append('g')
       .attr('transform', `translate(0, ${topMargin + height - bottomMargin})`)
-      .call(axisBottom(xScale));
+      .call(axisBottom(fakeXScale).ticks(7));
     select(axesRef.current)
       .append('g')
       .attr('transform', `translate(${leftMargin}, 0)`)
       .call(axisLeft(yScale))
     const cleanup = () => select(axesRef.current).selectAll('*').remove();
     return cleanup;
-  }, [axesRef, xScale, yScale, topMargin, leftMargin]);
+  }, [axesRef, yScale, topMargin, leftMargin, width, rightMargin]);
 
   // calculate the line data
   const meshCount = 500;
@@ -199,6 +209,7 @@ function Environment() {
   return null;
 }
 
+
 function EarthScene({ t, phi, theta, beta, gamma }) {
   const ref = useUpdate(obj => {
     const matrix = new Matrix4()
@@ -218,21 +229,22 @@ function EarthScene({ t, phi, theta, beta, gamma }) {
     panel.matrix = Taction(beta, gamma);
   }, [t, phi, theta, beta, gamma]);
 
+
   return (
     <group>
       <Environment />
-      <Sun />
+      <Sun scale={ [ SUN_RADIUS, SUN_RADIUS, SUN_RADIUS ] } />
       <group ref={ ref }>
         <Earth scale={ [R, R, R] } />
         <group>
-          <group position={ [0, 0, R] }>
+          <group position={ [0, 0, 1] }>
             <group>
               <axesHelper scale={ [R/4, R/4, R/4] } />
             </group>
             <group rotation={ [0, Math.PI/8, 0] }>
               <PerspectiveCamera 
                 far={ 3 * R }
-                position={ [R/8, 0, R/2] } 
+                position={ [R/8, 0, R] } 
                 makeDefault />
             </group>
           </group>
