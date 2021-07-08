@@ -1,5 +1,8 @@
 .content {
   margin: 0 1em;
+  & > div:global(.section):not(:last-child) {
+    border-bottom: 1px solid var(--grey);
+  }
 }
 
 .content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
@@ -19,4 +22,8 @@
   }
 }
 
-
+.side-tree {
+  position: fixed;
+  padding: 1em 2em;
+  transition: top 0.25s;
+}

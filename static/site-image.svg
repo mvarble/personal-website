@@ -15,7 +15,10 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
-   sodipodi:docname="site-image.svg">
+   sodipodi:docname="site-image.svg"
+   inkscape:export-filename="/home/mvarble/dropbox/Dropbox/development/websites/matthew-varble-site/static/site-image.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -26,16 +29,16 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.36727749"
-     inkscape:cx="1169.653"
+     inkscape:cx="670.03077"
      inkscape:cy="359.73523"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
      units="px"
      inkscape:window-width="1920"
-     inkscape:window-height="1015"
+     inkscape:window-height="1027"
      inkscape:window-x="0"
-     inkscape:window-y="36"
+     inkscape:window-y="24"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata5">
@@ -45,7 +48,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -70,7 +73,7 @@
          inkscape:label="rat"
          inkscape:transform-center-y="-57.818252"
          inkscape:transform-center-x="-104.37357"
-         transform="translate(16.448536,91.740339)"
+         transform="translate(17.596121,91.740339)"
          id="g898">
         <g
            id="g4639"
@@ -145,14 +148,14 @@
       <text
          id="text1142"
          y="260.26004"
-         x="140.23143"
+         x="127.5316"
          style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
          xml:space="preserve"><tspan
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:50.79999924px;font-family:KaTeX_Main;-inkscape-font-specification:KaTeX_Main;fill:#ffffff;stroke-width:0.26458332"
            y="260.26004"
-           x="140.23143"
+           x="127.5316"
            id="tspan1140"
-           sodipodi:role="line">rat.supply</tspan></text>
+           sodipodi:role="line">rodent.club</tspan></text>
     </g>
   </g>
 </svg>

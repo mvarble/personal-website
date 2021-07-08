@@ -34,23 +34,27 @@ exports.createSchemaCustomization = ({ actions, schema }) => {
   `);
 };
 
+function passthrough(fieldName) {
+  return async (source, args, context, info) => {
+    const type = info.schema.getType('Mdx');
+    const mdxNode = context.nodeModel.getNodeById({ id: source.parent });
+    const resolver = type.getFields().body.resolve;
+    const result = await resolver(
+      mdxNode,
+      args,
+      context,
+      { fieldName },
+    );
+    return result;
+  };
+}
+
 // this creates our resolvers for the Post type
 exports.createResolvers = ({ createResolvers, ...rest }) => {
   createResolvers({
     Post: {
       body: {
-        resolve: async (source, args, context, info) => {
-          const type = info.schema.getType('Mdx');
-          const mdxNode = context.nodeModel.getNodeById({ id: source.parent });
-          const resolver = type.getFields().body.resolve;
-          const result = await resolver(
-            mdxNode,
-            args,
-            context,
-            { fieldName: 'body' },
-          );
-          return result;
-        },
+        resolve: passthrough('body'),
       },
       related: {
         resolve: (source, args, context, info) => {

@@ -3,11 +3,13 @@ import { graphql } from 'gatsby';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import shallow from 'zustand/shallow';
 
-import { content } from './index.module.scss';
+import { content, sideTree } from './index.module.scss';
 import useKaTeX from '../../hooks/use-katex';
+import useUI from '../../hooks/use-ui';
 import Title from '../title';
 import Head from '../head';
 import Navbar from '../navbar';
+import Forest from '../forest';
 import { PostLink, PostLinks } from '../post-links';
 import useCitations from '../../hooks/use-citations';
 
@@ -18,6 +20,37 @@ export default function App({ data, ...props }) {
   // sort and parse the citations, if any
   const citations = data.post.citations.sort(citationSort);
 
+  // get the UI state to position forests
+  const [navbarHidden, margin] = useUI(
+    state => [state.navbarHidden, state.margin],
+    shallow
+  );
+
+  // bind scroll effects to highlight appropriate part of page
+  const [heights, setHeights] = React.useState(undefined);
+  const [current, setCurrent] = React.useState(null);
+  React.useEffect(() => {
+    if (!document || !window) return;
+    const scrollY = document.documentElement.scrollTop;
+    const query = document.querySelectorAll('a[href] > i.fas.fa-link.fa-xs'); // hacky way to grab links
+    const elms = [ ...query ];
+    setHeights(elms.map(elm => [
+      elm.parentNode.attributes.href.value,
+      elm.parentNode.getBoundingClientRect().y + scrollY
+    ]));
+  }, [setHeights, setCurrent]);
+  React.useEffect(() => {
+    if (!heights || !document) return;
+    const callback = () => {
+      const scroll = document.documentElement.scrollTop;
+      let index = heights.findIndex(a => a[1] > scroll);
+      index = (index === -1 ? heights.length : index) - 1;
+      setCurrent(index > -1 ? heights[index][0] : null);
+    };
+    document.addEventListener('scroll', callback);
+    return () => document.removeEventListener('scroll', callback);
+  }, [heights, setCurrent]);
+
   // propogate the citation state for numbering and obtain the uses
   const [setNumbers, uses] = useCitations(s => [s.setNumbers, s.uses], shallow);
   React.useEffect(() => setNumbers(
@@ -26,10 +59,38 @@ export default function App({ data, ...props }) {
       {}
     )
   ), [setNumbers, citations]);
+ 
+  // render the application
+  return (
+    <div ref={ ref } style={{ display: 'flex', flexDirection: 'column' }}>
+      <Head title={ data.post.title } />
+      <Navbar />
+      <aside className={ sideTree } style={{ top: navbarHidden ? 0 : `${margin}px`, right: 0 }}>
+        <Forest trees={ data.post.parent.tableOfContents.items || [] } current={ current } />
+      </aside>
+      <div className="is-marginless is-paddingless">
+        <div className="columns">
+          <div 
+            className="column is-two-thirds-widescreen is-full-desktop" 
+            style={{ margin: '0 auto' }}>
+            <div className={ `${content} content` }>
+              <div className="section">
+                <Title { ...data.post }/>
+                <MDXRenderer>{data.post.body}</MDXRenderer>
+              </div>
+              <References citations={ citations } uses={ uses } />
+              <RelatedPosts posts={ data.post.related } />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
-  // render citations, if any
-  const refsSection = (
-    <div className="section" style={{ borderBottom: '1px solid var(--grey)' }}>
+function References({ citations, uses }) {
+  return citations.length ? (
+    <div className="section">
       <h1>References</h1>
         <div style={{ overflowX: 'auto' }}>{ 
           citations.map((citation, i) => 
@@ -40,43 +101,16 @@ export default function App({ data, ...props }) {
           ) 
         }</div>
     </div>
-  );
- 
-  // related posts block renders if we have any
-  const relatedPosts = (
-    <div className="section">
-      <h1>Related posts</h1>
-      <PostLinks>
-        { 
-          data.post.related.map(post => <PostLink key={ post.slug } { ...post } />) 
-        }
-      </PostLinks>
-    </div>
-  );
- 
-  // render the application
-  return (
-    <div ref={ ref } style={{ display: 'flex', flexDirection: 'column' }}>
-      <Head title={ data.post.title } />
-      <Navbar />
-      <div className="is-marginless is-paddingless">
-        <div className="columns">
-          <div 
-            className="column is-two-thirds-widescreen is-full-desktop" 
-            style={{ margin: '0 auto' }}>
-            <div className={ `${content} content` }>
-              <div className="section" style={{ borderBottom: '1px solid var(--grey)' }}>
-                <Title { ...data.post }/>
-                <MDXRenderer>{data.post.body}</MDXRenderer>
-              </div>
-              { citations.length ? refsSection : null }
-              { data.post.related.length ? relatedPosts : null }
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+  ) : null;
+}
+
+function RelatedPosts({ posts }) {
+  return posts.length ? (<div className="section">
+    <h1>Related posts</h1>
+    <PostLinks>
+      { posts.map(post => <PostLink key={ post.slug } { ...post } />) }
+    </PostLinks>
+  </div>) : null;
 }
 
 function citationSort(a, b) {
@@ -185,6 +219,11 @@ export const query = graphql`
       date
       tags
       body
+      parent {
+        ... on Mdx {
+          tableOfContents
+        }
+      }
       related {
         title
         slug
