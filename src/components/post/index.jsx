@@ -66,7 +66,10 @@ export default function App({ data, ...props }) {
       <Head title={ data.post.title } />
       <Navbar />
       <aside className={ sideTree } style={{ top: navbarHidden ? 0 : `${margin}px`, right: 0 }}>
-        <Forest trees={ data.post.parent.tableOfContents.items || [] } current={ current } />
+        <Forest 
+          className="is-hidden-desktop-only is-hidden-touch" 
+          trees={ data.post.parent.tableOfContents.items || [] } 
+          current={ current } />
       </aside>
       <div className="is-marginless is-paddingless">
         <div className="columns">

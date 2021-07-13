@@ -34,12 +34,6 @@ The naive rat will see $Z$ as taking some nontrivial distribution $\mu$ on a mea
 
 ## Constructing conditional models
 
-### Test
-
-#### Test
- 
-##### Test
-
 <p>{ String.raw`
   From the persepctive of applied probability, we can easily construct models that do this.
   Namely, for each possible observation $z \in O$, we declare a probability space $(\Omega', \Sigma', \rmP_z)$ such that the family $(\rmP_z)_{z\in O}$ yields $\calO/\calB_{[0,1]}$-measurability for the maps
@@ -48,7 +42,7 @@ The naive rat will see $Z$ as taking some nontrivial distribution $\mu$ on a mea
   $$ A \times B \mapsto \int_B \rmP_zA \,\mu({\rm d}z) $$
   This map uniquely extends to a probability measure $\rmP$ on the product space 
   $$ (\Omega, \Sigma) \coloneqq (\Omega'\times O, \Sigma' \otimes \calO). $$
-  From the perspective of Monte Carlo, a sample $(\omega', z) \sim \rmP$ is equivalent to sampling $z \sim \mu$ and $\omega' \sim \rmP_z$.
+  From the perspective of Monte Carlo, a sample $(\omega', z) \sim \rmP$ is equivalent to sequentially sampling $z \sim \mu$ and $\omega' \sim \rmP_z$.
   This would be the perspective of the naive rat, while the enlightened one can bypass immediately to $\omega' \sim \rmP_z$ for the observed $z \in O$. 
   This indicates to us that we would then define $Z: \Omega \rightarrow O$ as the component map $Z(\omega, z) = z$.
   This way, each $B \in \calO$ of positive $\mu$-measure is such that
