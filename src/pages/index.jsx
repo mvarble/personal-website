@@ -8,6 +8,8 @@ import QueryPosts from '../components/query-posts';
 import Head from '../components/head';
 import Navbar from '../components/navbar';
 
+import { Link } from 'gatsby';
+
 export default function Home() {
   return <>
     <Head title={ 'Home' } />
@@ -37,7 +39,7 @@ export default function Home() {
               <p>
                 I will also likely talk about math/programming problems that excite me.
                 Ideally, I will also write sequences of posts that build up an understanding of my favorite concepts in probability theory.
-                To explore my site, either feel free to click the search button above, use the word map of tags I commonly use
+                To explore my site, either feel free to search on the titlebar, use the word map of tags I commonly use:
               </p>
               <TagBlock />
               <p>
@@ -45,6 +47,17 @@ export default function Home() {
               </p>
               <div style={{ margin: '1em 0', padding: '1em' }}>
                 <QueryPosts take={ 5 } />
+                <Link to="/search">
+                  <div 
+                    className="button is-info is-size-4" 
+                    style={{ 
+                      display: 'block',
+                      borderRadius: 0,
+                      borderTop: 'none', 
+                    }}>
+                  More! <span role="img" aria-label="yay!">🤗</span>
+                  </div>
+                </Link>
               </div>
               <p>
                 You may also be interested in my <a href="https://github.com/mvarble">GitHub account</a> or a website of <a href="https://presentations.rat.supply">presentations I have given</a>.

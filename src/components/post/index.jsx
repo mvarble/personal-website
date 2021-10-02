@@ -10,6 +10,7 @@ import Title from '../title';
 import Head from '../head';
 import Navbar from '../navbar';
 import Forest from '../forest';
+import Discussion from '../discussion';
 import { PostLink, PostLinks } from '../post-links';
 import useCitations from '../../hooks/use-citations';
 
@@ -81,6 +82,7 @@ export default function App({ data, ...props }) {
                 <Title { ...data.post }/>
                 <MDXRenderer>{data.post.body}</MDXRenderer>
               </div>
+              <Discussion slug={ data.post.slug } />
               <References citations={ citations } uses={ uses } />
               <RelatedPosts posts={ data.post.related } />
             </div>

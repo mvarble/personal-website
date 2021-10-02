@@ -6,3 +6,5 @@ public
 .firebase
 firebase-debug.log
 *.mp4
+.env
+drafts

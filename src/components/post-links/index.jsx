@@ -26,7 +26,7 @@ function PostLink({ title, slug, date, tags, filterTags }) {
   return (
     <Link to={ slug } className={ post } ref={ ref } >
       <span 
-        className="is-size-3"
+        className="is-size-4"
         style={{ color: 'var(--danger)' }}>
         { title }
       </span>

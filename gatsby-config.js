@@ -1,3 +1,5 @@
+require("dotenv").config({ path: '.env' });
+
 // development flag for whether or not we show drafts
 const DEVELOPMENT = (
   process && process.env && process.env.NODE_ENV === 'development'
@@ -44,6 +46,22 @@ const mapCitations = () => tree => {
 module.exports = {
   plugins: [
     ...filesystem,
+    'gatsby-plugin-portal',
+    {
+      resolve: 'gatsby-plugin-firebase',
+      options: {
+        credentials: {
+          apiKey: process.env.apiKey,
+          authDomain: process.env.authDomain,
+          databaseURL: process.env.databaseURL,
+          projectId: process.env.projectId,
+          storageBucket: process.env.storageBucket,
+          messagingSenderId: process.env.messagingSenderId,
+          appId: process.env.appId,
+          measurementId: process.env.measurementId,
+        }
+      },
+    },
     {
       resolve: 'gatsby-plugin-mdx',
       options: {
