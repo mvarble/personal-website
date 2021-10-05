@@ -6,7 +6,10 @@ const graphql = require('gatsby').graphql;
 exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
   const config = {
     module: {
-      rules: [{ test: /\.gltf$/, use: 'file-loader' }],
+      rules: [
+        { test: /\.gltf$/, use: 'file-loader' },
+        { test: /\.txt$/, use: 'raw-loader' },
+      ],
     },
   };
   if (stage === 'build-html' || stage === 'develop-html') {
