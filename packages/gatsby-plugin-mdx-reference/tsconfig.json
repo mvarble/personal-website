@@ -4,8 +4,6 @@
   "exclude": [
     "node_modules",
     "src/__tests__",
-    "src/__mocks__",
-    "dist",
-    "./node.d.ts"
+    "dist"
   ]
 }

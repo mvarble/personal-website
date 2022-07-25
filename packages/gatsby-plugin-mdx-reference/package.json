@@ -2,21 +2,32 @@
   "name": "@mvarble/gatsby-plugin-mdx-reference",
   "author": "Matthew Varble",
   "license": "MIT",
+  "main": "./index.js",
   "scripts": {
     "build": "npx babel src --out-dir dist/ --ignore \"**/__tests__\" --ignore \"**/__mocks__\" --extensions \".ts\"",
     "typegen": "npx tsc --emitDeclarationOnly --declaration --declarationDir dist/",
-    "prepare": "NODE_ENV=production npm run build && npm run typegen",
-    "watch": "npx babel -w src --out-dir dist/ --ignore \"**/__tests__\" --extensions \".ts,.tsx\"",
-    "test": "npx jest"
+    "bundle": "NODE_ENV=production npm run build && npm run typegen",
+    "watch": "npx babel -w src --out-dir dist/ --ignore \"**/__tests__\" --extensions \".ts,.tsx\""
+  },
+  "files": [
+    "dist/*",
+    "gatsby-node.js"
+  ],
+  "dependencies": {
+    "unist-util-visit": "^4.1.0"
   },
   "peerDependencies": {
     "gatsby": "4.18.0-mdxv4-rc.65",
-    "gatsby-plugin-mdx": "4.0.0-rc.0"
+    "gatsby-plugin-mdx": "4.0.0-rc.0",
+    "gatsby-source-filesystem": "^4.18.1"
   },
   "devDependencies": {
     "@babel/cli": "^7.18.9",
     "@babel/core": "^7.18.9",
-    "cross-env": "^7.0.3",
-    "typescript": "^4.7.4"
+    "@babel/preset-env": "^7.18.9",
+    "@babel/preset-typescript": "^7.18.6",
+    "@mdx-js/mdx": "^2.1.2",
+    "typescript": "^4.7.4",
+    "vfile": "^5.3.4"
   }
 }

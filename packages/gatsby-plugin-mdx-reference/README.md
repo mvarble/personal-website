@@ -1,69 +1,117 @@
 # gatsby-plugin-mdx-reference
 
-This plugin will produce from each `Mdx` node (sourced from `gatsby-plugin-mdx`) a collection `MdxReferent` nodes that appear in the body.
-The `MdxReferent` type is the same as the `Mdx` type, but the parent will be the relevant `Mdx` node (as opposed to the `File` node).
-This plugin was designed with the intent to be able to refer to specific content within an mdx body throughout the Gatsby application.
+This plugin will identify `Mdx` nodes (sourced from `gatsby-plugin-mdx`) with identifier strings in their frontmatter.
+An `MdxReference` node makes this identification with an `identifier` field from the `Mdx` frontmatter and an `absolutePath` field derived from the `File` node that is the parent of the `Mdx` node.
+In addition to creating nodes, this plugin also transforms `Mdx` content by implementing a resolver which allows one to import mdx content via the identifier.
+The `MdxReference` node will track all `Mdx` nodes which import using this resolver; this helps for site metadata.
 Take the following files as example.
+
+
+*Mdx with an identifier*
 
 ```mdx
 ---
-title: MDX file which contains `MdxReferent` components to which we may refer.
-slug: /referent
+identifier: why-you-should-like-rats
 ---
+
+- They are cute.
+- They are good boys.
+- They love each other.
+```
+
+*Mdx file which makes reference*
+
+```mdx
+---
+title: MDX file which makes reference
+slug: /referer
+---
+
+import GoodReasons from 'mdx-reference:why-you-should-like-rats';
 
 # This page contains very a useful fact
 
 People should like rats for the following reasons.
 
-<MdxReferent identifier="why-you-should-like-rats">
-  - They are cute.
-  - They are good boys.
-  - They love each other.
-</MdxReferent>
+<GoodReasons />
 ```
+
+*Mdx file which mentions references*
 
 ```mdx
 ---
-title: MDX file which makes some references.
-slug: /referer
+title: MDX file which mentions references
+slug: /mentions-references
 ---
 
-import MdxReference from '@mvarble/gatsby-plugin-mdx-chunk';
+import { Link, graphql } from 'gatsby';
 
-# This page returns to an earlier discussion
+export const query = graphql`
+  query References {
+    mdxReference(identifier: {eq: "why-you-should-like-rats"}) {
+      children: {
+        ...on Mdx {
+          title,
+          slug,
+        }
+      }
+    }
+  }
+`
 
-Recall in [the other page](/referent), how I discussed why people should like rats.
+The following pages reference why you should like rats.
 
-<MdxReference identifier="why-you-should-like-rats" />
-
-Aren't these very valid reasons?
+<ul>
+  { 
+    data.mdxReference.children.map(({ title, slug }) => 
+      <Link to={ slug }>{ title }</Link>
+    )
+  }
+</ul>
 ```
 
-The second file body will contain the list produced in that of the first file.
-This way, we do not need to keep the list consistent between the two files.
-Note that there are two custom components which show up in the files.
+## How the plugin creates `MdxReference` nodes
 
-- `MdxReferent`: This will be rendered to a React fragment, and it is used by our plugin to create the `MdxReferent` nodes.
-   We do not need to import it, because it is simply a markup for our internal custom mdx processor.
-   **Note.** It it must have an `identifier` prop, so that we can later reference it.
-- `MdxReference`: This component grabs the appropriate GraphQL payload data from the mdx context to resolve the content.
-   If it doesn't find the data, it will render an unobtrusive error message and log a warning to the console.
+The Gatsby `onCreateNode` hook creates a node for each `Mdx` node that has an `identifier` field in the frontmatter.
+It will also track all imports of the form `mdx-reference:...`.
 
-## How it creates nodes
+## How `mdx-reference:` imports work
 
-An `onCreateNode` hook is established by this plugin, which calls `compileMDXWithCustomOptions` (from the `gatsby-plugin-mdx` API) on each `Mdx` node.
-The mdx compiler is configured with a remark plugin which extracts all tags which pass some sort of test function.
+A `GatsbyRemarkPlugin` is implemented to transform any `mdx-reference:...` imports to the respective absolute path.
 
-## How `MdxChunkReference` works
+## How to configure
 
-This plugin uses the `createResolvers` Gatsby node API to add resolvers to `Mdx` nodes, which resolve all `identifier` keys that appear in the `MdxChunkReference` components in the mdx body.
-From here, the template associated to an `Mdx` node containing `MdxChunkReference` components may query the appropriate `MdxChunkReference` nodes.
+You need to add the plugin to both your GatsbyConfig and as a GatsbyRemarkPlugin on your `gatsby-plugin-mdx` configuration.
+The following example includes all possible configuration properties.
 
-## Configuring
+```js
+module.exports = {
+  // other gatsby-config.js stuff...
+  {
+    resolve: '@mvarble/gatsby-plugin-mdx-reference'
+    options: {
+      // whatever you want your node names to be
+      nodeName: 'MdxReference'
+      // whatever you want your frontmatter field to be which identifies the node
+      identifierName: 'identifier',
+      // a custom function `(Mdx node) => boolean` which determines node production
+      testNode: node => true,
+    },
+  },
+  {
+    resolve: 'gatsby-plugin-mdx',
+    options: {
+      gatsbyRemarkPlugins: {
+        {
+          resolve: '@mvarble/gatsby-plugin-mdx-reference',
+          options: {
+            // whatever `keyword` you want in your custom import statements
+            resourceKeyword: 'mdx-reference'
+          },
+        },
+      },
+    }
+  },
+};
+```
 
-Our options are as follows.
-
-|keyword|description|
-|-------|-----------|
-|`mdxReferentName`|The name of the tag that our remark extraction plugin looks for. (Default: `'MdxReferent'`)|
-|`resolverVariable`|The variable our GraphQL resolver creates to list reference identifiers within a given mdx file.|
