@@ -4,26 +4,26 @@
   "license": "MIT",
   "scripts": {
     "clean": "npx gatsby clean",
-    "develop": "npx gatsby develop",
-    "build": "npx gatsby build"
+    "develop": "export NODE_ENV=development; npx gatsby develop",
+    "build": "export NODE_ENV=production; npx gatsby build"
   },
   "dependencies": {
     "@mdx-js/react": "^2.1.2",
     "@mvarble/gatsby-plugin-mdx-reference": "*",
-    "@mvarble/test": "*",
+    "@mvarble/gatsby-theme-presentations": "*",
     "gatsby": "4.18.0-mdxv4-rc.65",
     "gatsby-plugin-mdx": "4.0.0-rc.0",
     "gatsby-plugin-page-creator": "^4.19.0",
     "gatsby-source-filesystem": "^4.18.1",
     "gray-matter": "^4.0.3",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "rehype-katex": "^6.0.2",
+    "remark-frontmatter": "^4.0.1",
+    "remark-math": "^5.1.1",
+    "remark-mdx-frontmatter": "^2.0.3"
   },
   "workspaces": [
     "packages/*"
-  ],
-  "devDependencies": {
-    "@babel/plugin-transform-modules-commonjs": "^7.18.6",
-    "@babel/preset-env": "^7.18.9"
-  }
+  ]
 }

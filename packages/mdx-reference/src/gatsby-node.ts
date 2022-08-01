@@ -7,19 +7,19 @@ export const createSchemaCustomization: GatsbyNode["createSchemaCustomization"] 
   { actions, schema }, 
   pluginOptions: Partial<Options>
 ) => {
-    const { nodeName } = defaultOptions(pluginOptions);
-    const { createTypes } = actions;
-    const typeDefs = [
-      schema.buildObjectType({
-        name: nodeName,
-        fields: {
-          identifier: 'String!',
-        },
-        interfaces: ['Node'],
-      }),
-    ];
-    createTypes(typeDefs);
-  };
+  const { nodeName } = defaultOptions(pluginOptions);
+  const { createTypes } = actions;
+  const typeDefs = [
+    schema.buildObjectType({
+      name: nodeName,
+      fields: {
+        identifier: 'String!',
+      },
+      interfaces: ['Node'],
+    }),
+  ];
+  createTypes(typeDefs);
+};
 
 export const unstable_shouldOnCreateNode: GatsbyNode["unstable_shouldOnCreateNode"] = 
   ({ node }: { node: Node }) => (node.internal.type === 'Mdx');

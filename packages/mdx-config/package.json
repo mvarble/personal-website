@@ -1,0 +1,26 @@
+{
+  "name": "@mvarble/gatsby-plugin-mdx-config",
+  "main": "./dist/extend-options.js",
+  "scripts": {
+    "build": "export NODE_ENV=production; npx webpack",
+    "watch": "export NODE_ENV=development; npx webpack watch",
+    "typegen": "npx tsc --emitDeclarationOnly --declaration --declarationDir dist/"
+  },
+  "dependencies": {
+    "deepmerge": "^4.2.2",
+    "katex": "^0.16.0",
+    "rehype-katex": "^6.0.2",
+    "remark-math": "^5.1.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.18.9",
+    "@babel/core": "^7.18.9",
+    "@babel/preset-env": "^7.18.9",
+    "@babel/preset-typescript": "^7.18.6",
+    "@mdx-js/mdx": "^2.1.2",
+    "babel-loader": "^8.2.5",
+    "typescript": "^4.7.4",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
+  }
+}
