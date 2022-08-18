@@ -1,7 +1,7 @@
 package-lock.json
-node_modules/
+**/node_modules/
 .cache/
 public/
 drafts/
-dist/
+**/dist/
 *.env

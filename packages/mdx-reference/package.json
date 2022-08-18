@@ -18,8 +18,8 @@
   },
   "peerDependencies": {
     "@mdx-js/mdx": "^2.1.2",
-    "gatsby": "4.18.0-mdxv4-rc.65",
-    "gatsby-plugin-mdx": "4.0.0-rc.0",
+    "gatsby": "^4.21.0",
+    "gatsby-plugin-mdx": "^4.0.0",
     "gatsby-source-filesystem": "^4.18.1"
   },
   "devDependencies": {

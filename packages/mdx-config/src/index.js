@@ -1,2 +1,2 @@
-import extendOptions from './extend-options';
-export { extendOptions };
+import { extendOptions, extendMdxOptions } from './extend-options';
+export { extendOptions, extendMdxOptions };

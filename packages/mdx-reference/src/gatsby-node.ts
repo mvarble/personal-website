@@ -2,6 +2,7 @@ import type { GatsbyNode, Node, NodeInput } from 'gatsby';
 import type { FileSystemNode } from 'gatsby-source-filesystem';
 import { Options, defaultOptions, MdxReference, MdxNode } from './types';
 import { remarkExtractIdentifiers } from './remark-extract-identifiers';
+import { extendMdxOptions } from '@mvarble/gatsby-plugin-mdx-config';
 
 export const createSchemaCustomization: GatsbyNode["createSchemaCustomization"] = async (
   { actions, schema }, 
@@ -77,13 +78,12 @@ export const onCreateNode: GatsbyNode<MdxNode>["onCreateNode"] = async (
    * 2: Track dependencies: obtain all references that appear in the body of this particular `Mdx`
    *    node.
    */
-  const { createProcessor } = await import('@mdx-js/mdx');
-  const processor = createProcessor({
+  const { compile } = await import('@mdx-js/mdx');
+  const vfile = await compile(node.body as string, extendMdxOptions({
     remarkPlugins: [
       [remarkExtractIdentifiers, pluginOptions]
     ],
-  });
-  const vfile = await processor.process(node.body as string);
+  }));
   let identifiers = vfile.data.identifiers as Array<string>;
 
   /**

@@ -6,27 +6,37 @@ import type { IPluginRefOptions } from 'gatsby';
 interface GatsbyPluginMdxOptions extends IPluginRefOptions {
   extensions: string[];
   gatsbyRemarkPlugins: any[];
-  mdxOptions: {
-    remarkPlugins: any[];
-    remarkRehypeOptions: object;
-    rehypePlugins: any[];
-    recmaPlugins: any[];
-  };
+  mdxOptions: Partial<MdxOptions>;
 }
 
-export default function extendOptions(
+interface MdxOptions {
+  remarkPlugins: any[];
+  remarkRehypeOptions: object;
+  rehypePlugins: any[];
+  recmaPlugins: any[];
+}
+
+const SEED = {
+  plugins: [],
+  extensions: ['.mdx'],
+  gatsbyRemarkPlugins: [],
+  mdxOptions: {
+    remarkPlugins: [remarkMath],
+    remarkRehypeOptions: {},
+    rehypePlugins: [rehypeKatex],
+    recmaPlugins: [],
+  },
+};
+
+
+export function extendOptions(
   options: Partial<GatsbyPluginMdxOptions> | undefined
 ): GatsbyPluginMdxOptions {
-  const seed = {
-    plugins: [],
-    extensions: ['.mdx'],
-    gatsbyRemarkPlugins: [],
-    mdxOptions: {
-      remarkPlugins: [remarkMath],
-      remarkRehypeOptions: {},
-      rehypePlugins: [rehypeKatex],
-      recmaPlugins: [],
-    },
-  };
-  return options ? merge(seed, options) : seed;
+  return options ? merge(SEED, options) : merge({}, SEED);
 };
+
+export function extendMdxOptions(
+  options: Partial<MdxOptions> | undefined
+): MdxOptions {
+  return options ? merge(SEED.mdxOptions, options) : merge({}, SEED.mdxOptions);
+}
