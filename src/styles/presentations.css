@@ -1,0 +1,21 @@
+@import url(~@mvarble/gatsby-theme-presentations/deck.css);
+
+.deck-container {
+  background: -webkit-radial-gradient(center, circle cover, var(--background) 66%, var(--background-alt) 100%);
+}
+
+html.dark .deck-container {
+  background: -webkit-radial-gradient(center, circle cover, var(--background-dark) 66%, var(--background-alt-dark) 100%);
+}
+
+.deck h1, .deck h2, .deck h3, .deck h4, .deck h5, .deck h6 {
+  text-align: center;
+}
+
+.deck .slide {
+  font-size: 28px;
+}
+
+.deck p {
+  padding: 0;
+}

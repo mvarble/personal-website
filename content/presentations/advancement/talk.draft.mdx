@@ -1,0 +1,120 @@
+---
+title: Advancement talk
+slug: /advancement-talk
+date: 2020-09-05T15:00:00-7
+---
+
+import { Fragment } from '@presentations';
+import Titlecard from '@components/presentations/titlecard';
+
+<Titlecard email="mvarble@math.ucsb.edu">
+  <div>Department of Mathematics</div>
+  <div>University of California, Santa Barbara</div>
+</Titlecard>
+
+---
+
+import Chart1 from './samples/chart1';
+
+## Problem formulation
+
+Want $\mathrm{P}(X \in A)$ for some stochastic process $X$ and $A \subseteq \mathbb{R}^{[0,T]}$
+
+<Chart1 />
+
+---
+
+import Chart2 from './samples/chart2';
+
+## Notable Examples
+
+<Chart2 />
+<Fragment index="6"/>
+
+---
+
+## Not an easy problem!
+
+We typically cannot hope to calculate $\mathrm{P}(X \in A)$ explicitly.
+
+<Fragment style={{ display: 'block' }} index={ 0 }>
+  <strong className="lightgreen" style={{ display: 'block', textAlign: 'center' }}>Asymptotic approximations</strong>
+  <blockquote>
+    <Fragment style={{ display: 'block', position: 'relative' }} index={ 2 }>
+      <span className="orange">CLTs.</span> 
+      families $(X^\epsilon)_{\epsilon > 0}$ have weak convergence $X^\epsilon_\#\mathrm{P} \rightarrow \mu$.
+      <div style={{ position: 'relative' }}>
+        <div style={{ textAlign: 'center', padding: '0.5em' }}>
+          $\mathrm{P}(X \in A) = \mathrm{P}(X^\epsilon \in A) = X^\epsilon_\#\mathrm{P} A  \approx \mu A $
+        </div>
+        <Fragment out>
+          <div style={{ 
+            position: 'absolute', 
+            background: 'brown', 
+            width: '45px', 
+            height: '50px',
+            top: '10px',
+            left: '628px',
+            zIndex: -1 }} />
+          <div style={{ position: 'absolute', color: 'yellow', left: '680px', top: '0px', fontSize: 'smaller' }}>
+            easier to evaluate <br /> (e.g. normal)
+          </div>
+        </Fragment>
+      </div>
+    </Fragment>
+    <Fragment style={{ display: 'block', position: 'relative' }}>
+      <span className="orange">LDPs.</span> 
+      families $(X^\epsilon)_{\epsilon > 0}$ have systematic decay $\epsilon\log\mathrm{P}(X^\epsilon \in A) = -r(A) + o(1)$.
+      <div style={{ position: 'relative' }}>
+        <div style={{ textAlign: 'center', padding: '0.5em' }}>
+          $\mathrm{P}(X \in A) = \mathrm{P}(X^\epsilon \in A) \approx e^{-r(A)/\epsilon}$
+        </div>
+        <Fragment out>
+          <div style={{ 
+            position: 'absolute', 
+            background: 'brown', 
+            width: '45px', 
+            height: '30px',
+            top: '10px',
+            left: '578px',
+            zIndex: -1 }} />
+          <div style={{ position: 'absolute', color: 'yellow', left: '640px', top: '0px', fontSize: 'smaller' }}>
+            determined by variational problem over $A$
+          </div>
+        </Fragment>
+      </div>
+    </Fragment>
+  </blockquote>
+</Fragment>
+
+<Fragment index={ 1 }>
+  <strong className="lightgreen" style={{ display: 'block', textAlign: 'center' }}>Numerical algorithms</strong>
+  <blockquote>
+    <Fragment style={{ display: 'block', marginBottom: '0.25em' }}>
+      <span className="orange">Monte Carlo.</span> repeatedly sample from related measures.
+    </Fragment>
+    <Fragment style={{ display: 'block', marginBottom: '0.25em' }}>
+      <span className="orange">Transform inversion.</span> approximate inverse of fourier/laplace transform.
+    </Fragment>
+    <Fragment style={{ display: 'block' }}>
+      <span className="orange">(Integro-)PDEs.</span> Feynman-Kac, Kolmogorov, Fokker-Plank, etc.
+    </Fragment>
+  </blockquote>
+</Fragment>
+
+---
+
+<div className="center">
+  # Useful processes?
+  ## Those with rich, yet tractable properties
+</div>
+
+---
+
+
+<div className="center">
+  # Common theme.
+  ## Measures are understood through their transforms!
+</div>
+
+---

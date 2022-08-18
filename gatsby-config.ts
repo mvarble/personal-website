@@ -1,8 +1,10 @@
 import type { GatsbyConfig } from 'gatsby';
-import extendOptions from '@mvarble/gatsby-plugin-mdx-config';
+import { extendOptions } from '@mvarble/gatsby-plugin-mdx-config';
+import remarkToDeckSchema from '@mvarble/gatsby-theme-presentations/dist/remark-to-deck-schema';
 
 const config: GatsbyConfig = {
   plugins: [
+    'gatsby-plugin-postcss',
     '@mvarble/gatsby-plugin-mdx-reference',
     '@mvarble/gatsby-theme-presentations',
     { 
@@ -10,8 +12,10 @@ const config: GatsbyConfig = {
       options: extendOptions({
         gatsbyRemarkPlugins: [
           '@mvarble/gatsby-plugin-mdx-reference',
-          '@mvarble/gatsby-theme-presentations',
         ],
+        mdxOptions: {
+          remarkPlugins: [remarkToDeckSchema],
+        },
       }),
     },
   ],

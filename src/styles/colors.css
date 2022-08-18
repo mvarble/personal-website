@@ -1,0 +1,69 @@
+.pink {
+  @apply text-pink-600;
+  @apply dark:text-pink-300;
+}
+
+.orange {
+  @apply text-orange-600;
+  @apply dark:text-orange-300;
+}
+
+.sky {
+  @apply text-sky-600;
+  @apply dark:text-sky-300;
+}
+
+.green {
+  @apply text-green-600;
+  @apply dark:text-green-300;
+}
+
+.teal {
+  @apply text-teal-600;
+  @apply dark:text-teal-300;
+}
+
+.yellow {
+  @apply text-yellow-600;
+  @apply dark:text-yellow-300;
+}
+
+.purple {
+  @apply text-purple-600;
+  @apply dark:text-purple-300;
+}
+
+.rainbow {
+  background-image: linear-gradient(to top, #16A34A, #DB2777, #0284C7, #EA580C, #0D9488);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  color: transparent;
+}
+
+html.dark .rainbow {
+  background-image: linear-gradient(to top, #86EFAC, #F9A8D4, #7DD3FC, #FDBA74, #5EEAD4);
+}
+
+:root {
+  --pink: #DB2777;
+  --pink-dark: #F9A8D4;
+  --orange: #EA580C;
+  --orange-dark: #FDBA74;
+  --sky: #0284C7;
+  --sky-dark: #7DD3FC;
+  --green: #16A34A;
+  --green-dark: #86EFAC;
+  --teal: #0D9488;
+  --teal-dark: #5EEAD4;
+  --yellow: #CA8A04;
+  --yellow-dark: #FDE047;
+  --purple: #9333EA;
+  --purple-dark: #D8B4FE;
+  --text: #0F172A;
+  --text-dark: #CBD5E1;
+  --background: #E7E5E4;
+  --background-alt: #A8A29E;
+  --background-dark: #27272A;
+  --background-alt-dark: #18181B;
+}

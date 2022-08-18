@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-neutral-800;
+    @apply bg-stone-200;
+    @apply transition-all;
+    @apply font-serif;
+
+    @apply dark:text-slate-300;
+    @apply dark:bg-zinc-800;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+     @apply font-bold;
+     @apply underline;
+     @apply pb-4;
+     @apply text-violet-900;
+
+     @apply dark:text-violet-300
+  }
+
+  h1 {
+    @apply text-5xl;
+  }
+  
+  h2 {
+    @apply text-4xl;
+  }
+
+  h3 {
+    @apply text-3xl;
+  }
+
+  h4 {
+    @apply text-2xl;
+  }
+
+  h5 {
+    @apply text-xl;
+  }
+
+  h6 {
+    @apply text-lg;
+  }
+
+  p { 
+    @apply py-2;
+  }
+
+  blockquote {
+    @apply w-full;
+    @apply p-2;
+    @apply bg-neutral-100;
+    @apply border;
+    @apply border-stone-700;
+
+    @apply dark:bg-neutral-800;
+    @apply dark:border-neutral-900;
+  }
+
+  code {
+    @apply font-mono;
+    @apply text-xs;
+
+    @apply leading-none;
+  }
+
+  ul { 
+    @apply list-disc;
+    @apply pl-8;
+  }
+
+  a {
+    @apply text-sky-900;
+    @apply font-mono;
+    @apply transition-all;
+    @apply no-underline;
+    @apply hover:underline;
+    @apply focus:underline;
+
+    @apply dark:text-sky-300;
+  }
+}

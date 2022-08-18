@@ -1,0 +1,1461 @@
+---
+date: 2020-09-05
+title: Advancement talk
+---
+
+import { Titlecard, Sectioncard, Footnote } from '../../src/components/main';
+import Fragment from '../../src/components/fragment';
+import { TeX, RefTeX } from '../../src/components/tex';
+
+<div style={{
+  display: 'flex', 
+  flexDirection: 'column',
+  height: '100%',
+}}>
+  <span style={{ flex: '0% 1 1' }} />
+  <div>
+    <Titlecard 
+      title="Advancement talk"
+      date="2020-09-09"
+      author="Matthew Varble"
+      email="mvarble@math.ucsb.edu">
+      Department of Mathematics,
+      <br />
+      University of California, Santa Barbara
+    </Titlecard>
+  </div>
+  <span style={{ flex: '0% 1 1' }} />
+</div>
+
+---
+
+import Chart1 from './samples/chart1';
+
+# Problem formulation
+
+<RefTeX>
+  {
+    String.raw`
+      Want $\rmP(X \in A)$ for some stochastic process $X$ and $A \subseteq \bbR^{[0,T]}$
+      `
+  }
+</RefTeX>
+
+<Chart1 />
+
+---
+
+import Chart2 from './samples/chart2';
+
+# Notable Examples
+
+<Chart2 />
+<Fragment />
+<Fragment />
+<Fragment />
+<Fragment />
+<Fragment />
+<Fragment />
+<Fragment />
+
+---
+
+# Not an easy problem!
+
+<RefTeX>
+  We typically cannot hope to calculate $\rmP(X \in A)$ explicitly.
+  <Fragment style={{ display: 'block' }} index={ 0 }>
+    <h3 style={{ color: 'var(--alt)' }}>Asymptotic approximations</h3>
+    <div style={{ background: 'var(--altBg)', padding: '0.5em', border: '1px solid' }}>
+      <Fragment style={{ display: 'block', position: 'relative' }} index={ 2 }>
+        <strong style={{ color: 'var(--main)' }}>CLTs.</strong> 
+        { 
+          String.raw`
+            families $(X^\epsilon)_{\epsilon > 0}$ have weak convergence $X^\epsilon_\ast\rmP \rightarrow \mu$.
+          `
+        }
+        <Fragment>
+          <Fragment only>
+            <div style={{ position: 'absolute', right: '208px', bottom: '40px', color: 'red' }}>
+              <div style={{ position: 'absolute', width: '48px', height: '37px', background: 'yellow', top: '5px', right: '13px' }} />
+              <span style={{ position: 'absolute', width: '250px' }}>easier to evaluate <br /> (e.g. normal)</span>
+            </div>
+          </Fragment>
+          { 
+            String.raw`
+              $$ \rmP(X \in A) = \rmP(X^\epsilon \in A) = X^\epsilon_\ast\rmP A  \approx \mu A $$
+            ` 
+          }
+        </Fragment>
+      </Fragment>
+      <Fragment style={{ display: 'block', position: 'relative' }}>
+        <strong style={{ color: 'var(--main)' }}>LDPs.</strong>
+        { 
+          String.raw`
+            families $(X^\epsilon)_{\epsilon > 0}$ have systematic decay $\epsilon\log\rmP(X^\epsilon \in A) = -r(A) + o(1)$.
+          ` 
+        }
+        <Fragment>
+          <Fragment only>
+            <div style={{ position: 'absolute', right: '247px', bottom: '45px', color: 'red' }}>
+              <div style={{ 
+                position: 'absolute', 
+                width: '38px', 
+                height: '25px', 
+                background: 'yellow', 
+                right: '25px', 
+                top: '7px', 
+              }} />
+              <span style={{ position: 'absolute', width: '260px' }}>determined by variational problem over $A$.</span>
+            </div>
+          </Fragment>
+          {
+            String.raw`
+              $$ \rmP(X \in A) = \rmP(X^\epsilon \in A) \approx e^{-r(A)/\epsilon} $$
+            `
+          }
+        </Fragment>
+      </Fragment>
+    </div>
+  </Fragment>
+  <Fragment index={ 1 }>
+    <h3 style={{ color: 'var(--alt)' }}>Numerical algorithms</h3>
+    <div style={{ background: 'var(--altBg)', padding: '0.5em', border: '1px solid' }}>
+      <Fragment style={{ display: 'block', marginBottom: '0.25em' }}>
+        <strong style={{ color: 'var(--main)' }}>Monte Carlo.</strong> repeatedly sample from related measures.
+      </Fragment>
+      <Fragment style={{ display: 'block', marginBottom: '0.25em' }}>
+        <strong style={{ color: 'var(--main)' }}>Transform inversion.</strong> approximate inverse of fourier/laplace transform.
+      </Fragment>
+      <Fragment style={{ display: 'block' }}>
+        <strong style={{ color: 'var(--main)' }}>(Integro-)PDEs.</strong> Feynman-Kac, Kolmogorov, Fokker-Plank, etc.
+      </Fragment>
+    </div>
+  </Fragment>
+</RefTeX>
+
+---
+
+<Sectioncard title="Useful processes?" subtitle="Those with rich, yet tractable properties." />
+
+---
+
+<Sectioncard title="Common theme." subtitle="Measures are understood through their transforms!" />
+
+---
+
+import { BrownianMotion } from './samples/chart3';
+
+# Notable Processes
+
+<RefTeX>
+  <h3 style={{ color: 'var(--alt)' }}>Brownian motion</h3>
+  <div style={{ display: 'flex' }}>
+    <div style={{ width: '50%' }}>
+      <div style={{ marginBottom: '1em' }}>Fundamental building block of continuous processes.</div>
+      {
+        String.raw`
+          $
+            \rmE\Big( e^{\langle u, W_t \rangle} | W_0 = x \Big) = e^{\frac{t}{2}\langle u, A u \rangle + \langle u, x \rangle}
+          $
+        `
+      }
+      <Fragment>
+        <div style={{ position: 'absolute', top: '248px', left: '257px' }}>
+          <div style={{ position: 'absolute', background: 'yellow', width: '141px', height: '35px', zIndex: -1 }} />
+          <div style={{ color: 'red', position: 'absolute', top: '40px', width: '170px' }}>
+            Affine in $x$.
+          </div>
+        </div>
+      </Fragment>
+    </div>
+    <div style={{ width: '50%', position: 'relative' }}>
+      <div style={{ color: 'var(--main)', fontSize: 'small', position: 'absolute', top: 0, right: 0 }}>
+        {
+          String.raw`
+            $\operatorname{image}(W(\omega))$
+          `
+        }
+      </div>
+      <BrownianMotion />
+    </div>
+  </div>
+</RefTeX>
+
+
+---
+
+import { Bessel } from './samples/chart3';
+
+# Notable Processes
+
+<RefTeX>
+  <h3 style={{ color: 'var(--alt)' }}>Bessel, Squared</h3>
+  <div style={{ display: 'flex' }}>
+    <div style={{ width: '50%' }}>
+      {
+        String.raw`
+          $
+            \begin{aligned}
+              & X_t = \lVert W_t \rVert^2 \\[1em]
+              & {\rm d}X_t = b {\rm d}t + 2\sqrt{X_t} {\rm d}Z_t \\[1em]
+              & \rmE\Big( e^{uX_t} | X_0 = x \Big) = e^{-\frac{b}{2}\log|1 - 2ut| + (\frac{u}{1-2ut})x}
+            \end{aligned}
+          $
+        `
+      }
+      <Fragment>
+        <div style={{ position: 'absolute', top: '302px', left: '233px' }}>
+          <div style={{ position: 'absolute', background: 'yellow', width: '216px', height: '35px', zIndex: -1 }} />
+          <div style={{ color: 'red', position: 'absolute', top: '40px', width: '170px' }}>
+            Affine in $x$.
+          </div>
+        </div>
+      </Fragment>
+    </div>
+    <div style={{ width: '50%', position: 'relative' }}>
+      <Bessel />
+    </div>
+  </div>
+</RefTeX>
+
+---
+
+import { OrnsteinUhlenbach } from './samples/chart3';
+
+# Notable Processes
+
+<RefTeX>
+  <h3 style={{ color: 'var(--alt)' }}>Ornstein-Uhlenbach</h3>
+  <div style={{ display: 'flex' }}>
+    <div style={{ width: '50%' }}>
+      {
+        String.raw`
+          $
+            \begin{aligned}
+              & {\rm d}X_t = a(b - X_t) {\rm d}t + \sigma {\rm d}W_t \\[1em]
+              & \rmE\Big( e^{uX_t} | X_0 = x \Big) = e^{bu(1-e^{-at}) + \frac{\sigma^2u^2}{4a}(1-e^{-2at}) + \theta e^{-at} x}
+            \end{aligned}
+          $
+        `
+      }
+      <Fragment>
+        <div style={{ position: 'absolute', top: '228px', left: '233px' }}>
+          <div style={{ position: 'absolute', background: 'yellow', width: '295px', height: '41px', zIndex: -1 }} />
+          <div style={{ color: 'red', position: 'absolute', top: '40px', width: '170px' }}>
+            Affine in $x$.
+          </div>
+        </div>
+      </Fragment>
+    </div>
+    <div style={{ width: '50%', position: 'relative' }}>
+      <div style={{ color: 'var(--main)', fontSize: 'small', position: 'absolute', top: 0, right: 0 }}>
+        {
+          String.raw`
+            $\operatorname{image}(X(\omega))$
+          `
+        }
+      </div>
+      <OrnsteinUhlenbach />
+    </div>
+  </div>
+</RefTeX>
+
+---
+
+import { CIR } from './samples/chart3';
+
+# Notable Processes
+
+<RefTeX>
+  <h3 style={{ color: 'var(--alt)' }}>Square-root diffusion</h3>
+  <div style={{ display: 'flex' }}>
+    <div style={{ width: '50%' }}>
+      {
+        String.raw`
+          $
+            \begin{aligned}
+              & {\rm d}X_t = a(b - X_t) {\rm d}t + \sigma \sqrt{X_t} {\rm d}W_t \\[1em]
+              & \rmE\Big( e^{uX_t} | X_0 = x \Big) = e^{\frac{2ab}{\sigma^2}\log\frac{2ae^{at}}{\sigma^2u + (2a-\sigma^2 u)e^{at}} + \frac{2au}{\sigma^2u + (2a - \sigma^2u)e^{at}} x}
+            \end{aligned}
+          $
+        `
+      }
+      <Fragment>
+        <div style={{ position: 'absolute', top: '233px', left: '233px' }}>
+          <div style={{ position: 'absolute', background: 'yellow', width: '340px', height: '41px', zIndex: -1 }} />
+          <div style={{ color: 'red', position: 'absolute', top: '40px', width: '170px' }}>
+            Affine in $x$.
+          </div>
+        </div>
+      </Fragment>
+    </div>
+    <div style={{ width: '50%', position: 'relative' }}>
+      <div style={{ color: 'var(--main)', fontSize: 'small', position: 'absolute', top: 0, right: 0 }}>
+        {
+          String.raw`
+            $\operatorname{graph}(X(\omega))$
+          `
+        }
+      </div>
+      <CIR />
+    </div>
+  </div>
+</RefTeX>
+
+---
+
+import { Poisson } from './samples/chart3';
+
+# Notable Processes
+
+<RefTeX>
+  <h3 style={{ color: 'var(--alt)' }}>Poisson</h3>
+  <div style={{ display: 'flex' }}>
+    <div style={{ width: '50%' }}>
+      <div style={{ marginBottom: '1em' }}>Fundamental building block of point processes.</div>
+      {
+        String.raw`
+          $
+            \rmE\Big( e^{uN_t} | N_0 = x \Big) = e^{\lambda t(e^u - 1) + ux}
+          $
+        `
+      }
+      <Fragment>
+        <div style={{ position: 'absolute', top: '216px', left: '233px' }}>
+          <div style={{ position: 'absolute', background: 'yellow', width: '123px', height: '41px', zIndex: -1 }} />
+          <div style={{ color: 'red', position: 'absolute', top: '40px', width: '170px' }}>
+            Affine in $x$.
+          </div>
+        </div>
+      </Fragment>
+    </div>
+    <div style={{ width: '50%', position: 'relative' }}>
+      <div style={{ color: 'var(--main)', fontSize: 'small', position: 'absolute', top: 0, right: 0 }}>
+        {
+          String.raw`
+            $\operatorname{graph}(X(\omega))$
+          `
+        }
+      </div>
+      <Poisson />
+    </div>
+  </div>
+</RefTeX>
+
+---
+
+import { Levy } from './samples/chart3';
+
+# Notable Processes
+
+<RefTeX>
+  <h3 style={{ color: 'var(--alt)' }}>Lévy</h3>
+  <div style={{ display: 'flex' }}>
+    <div style={{ width: '50%' }}>
+      {
+        String.raw`
+          $
+            \begin{array}{l}
+              \rmE\Big( e^{\langle u, X_t \rangle} | X_0 = x \Big) = e^{f(t, u)}\\[1em]
+              f(t, u) = t\langle b, u \rangle - \frac{t}{2}\langle u, au \rangle \\[0.5em]
+              \hspace{5em} + t\int_{\bbR^d} \big(e^{\langle u, y \rangle} - 1 - \langle u, h(y) \rangle \big) \nu({\rm d}y) \\[0.5em]
+              \hspace{5em} + \langle u, x \rangle
+            \end{array}
+          $
+        `
+      }
+      <Fragment>
+        <div style={{ position: 'absolute', top: '160px', left: '20px' }}>
+          <div style={{ position: 'absolute', background: 'yellow', width: '533px', height: '201px', zIndex: -1 }} />
+          <div style={{ color: 'red', position: 'absolute', top: '210px', width: '170px' }}>
+            Affine in $x$.
+          </div>
+        </div>
+      </Fragment>
+    </div>
+    <div style={{ width: '50%', position: 'relative' }}>
+      <div style={{ color: 'var(--main)', fontSize: 'small', position: 'absolute', top: 0, right: 0 }}>
+        {
+          String.raw`
+            $\operatorname{image}(X(\omega))$
+          `
+        }
+      </div>
+      <Levy />
+    </div>
+  </div>
+</RefTeX>
+
+---
+
+import { Branching } from './samples/chart3';
+
+# Notable Processes
+
+<RefTeX>
+  <h3 style={{ color: 'var(--alt)' }}>Branching with immigration / Birth</h3>
+  <div style={{ display: 'flex' }}>
+    <div style={{ width: '50%' }}>
+      {
+        String.raw`
+          $
+            \begin{array}{l}
+              {\rm d}X_t = \sigma{\rm d}N_t  \\[1em]
+              N \text{ has intensity } X \\[1em]
+              \rmE\Big( e^{uX_t} | X_0 = x \Big) = e^{-\frac{1}{\sigma}\log(1 + e^{\sigma t}(e^{-\sigma u}-1))x}
+            \end{array}
+          $
+        `
+      }
+      <Fragment>
+        <div style={{ position: 'absolute', top: '270px', left: '240px' }}>
+          <div style={{ position: 'absolute', background: 'yellow', width: '233px', height: '55px', zIndex: -1 }} />
+          <div style={{ color: 'red', position: 'absolute', top: '60px', width: '170px' }}>
+            Affine in $x$.
+          </div>
+        </div>
+      </Fragment>
+    </div>
+    <div style={{ width: '50%', position: 'relative' }}>
+      <div style={{ color: 'var(--main)', fontSize: 'small', position: 'absolute', top: 0, right: 0 }}>
+        {
+          String.raw`
+            $\operatorname{graph}(X(\omega))$
+          `
+        }
+      </div>
+      <Branching />
+    </div>
+  </div>
+</RefTeX>
+
+---
+
+import { Hawkes } from './samples/chart3';
+
+# Notable Processes
+
+<RefTeX>
+  <h3 style={{ color: 'var(--alt)' }}>Hawkes</h3>
+  <div style={{ display: 'flex' }}>
+    <div style={{ width: '50%', position: 'relative' }}>
+      {
+        String.raw`
+          $
+            \begin{array}{l}
+              {\rm d}X_t = b(a - X_t) {\rm d}t + \int_{\cdot \times \bbR_+} y \mu({\rm d}t \times {\rm d}y)  \\[1em]
+              \mu \text{ has compensator } X_{t-}\big({\rm d}t \times \nu({\rm d}z)\big) \\[1em]
+              \rmE\Big( e^{uX_t} | X_0 = x \Big) = ???
+            \end{array}
+          $
+        `
+      }
+      <Fragment>
+        <div style={{ position: 'absolute', top: '116px', left: '214px' }}>
+          <div style={{ position: 'absolute', background: 'yellow', width: '50px', height: '35px', zIndex: -1 }} />
+          <div style={{ color: 'red', position: 'absolute', top: '40px', width: '170px' }}>
+            Complicated dependence on $\nu$, but...
+          </div>
+        </div>
+      </Fragment>
+    </div>
+    <div style={{ width: '50%', position: 'relative' }}> 
+      <div style={{ color: 'var(--main)', fontSize: 'small', position: 'absolute', top: 0, right: 0 }}>
+        {
+          String.raw`
+            $\operatorname{graph}(X(\omega))$
+          `
+        }
+      </div>
+      <Hawkes />
+    </div>
+  </div>
+</RefTeX>
+
+---
+
+# Affine processes
+
+<RefTeX>
+  <blockquote>
+    $X$ stochastically continuous time-homogeneous Markov with log-affine transform: 
+    {
+      String.raw`$$
+        \rmE\Big(e^{\langle u, X_t \rangle} | X_0 = x \Big) = e^{\phi(t, u) + \langle\psi(t, u), x\rangle}
+      $$`
+    }
+  </blockquote>
+</RefTeX>
+
+<RefTeX>
+  <h3 style={{ color: 'var(--alt)', marginBottom: '0.5em' }}>Exhibit many properties.</h3>
+  <Fragment>
+    <h3 style={{ color: 'var(--alt)' }}></h3>
+    <ul className="spaced">
+      <Fragment><li>defined on nontrivial spaces, e.g. $\bbR^m_+\times\bbR^n$, $S_d^+$.</li></Fragment>
+      <Fragment><li>parameterizations for such constraints.</li></Fragment>
+      <Fragment><li>state-dependent drift and diffusion.</li></Fragment>
+      <Fragment><li>state-dependent jumps.</li></Fragment>
+      <Fragment><li>cross-exciting.</li></Fragment>
+      <Fragment><li>finite and infinite jump activity.</li></Fragment>
+      <Fragment><li>killing.</li></Fragment>
+    </ul>
+  </Fragment>
+</RefTeX>
+
+---
+
+# Affine processes
+
+<RefTeX>
+  <blockquote>
+    {
+      String.raw`
+        $$
+          \rmE\Big(e^{\langle u, X_t \rangle} | X_0 = x \Big) = e^{\phi(t, u) + \langle\psi(t, u), x\rangle}
+        $$
+      `
+    }
+  </blockquote>
+  <h3 style={{ color: 'var(--alt)', marginBottom: '0.5em' }}>Tractable $\leadsto$ extensively studied.</h3>
+  <ul className="spaced small" style={{ marginTop: '0.5em' }}>
+    <Fragment>
+      <li>
+        <strong style={{ color: 'var(--main)' }}>2003.</strong> Completely characterized on $\bbR^m_+ \times \bbR^n$.
+        <Footnote index={ 0 }>
+          Duffie, D.; Filipović, D.; Schachermayer, W. Affine processes and applications in finance. (2003). Ann. Appl. Probab. 13, no. 3, 984--1053. <a href="https://doi.org/10.1214/aoap/1060202833" target="_blank">https://doi.org/10.1214/aoap/1060202833</a>.
+        </Footnote>
+      </li>
+    </Fragment>
+    <Fragment>
+      <li>
+        <strong style={{ color: 'var(--main)' }}>2005.</strong> Time-inhomogeneous version of preceding results.
+        <Footnote index={ 1 }>
+          Filipović, D. Time-inhomogeneous affine processes. (2005). Stochastic Processes and their Applications, Volume 115, Issue 4, 639-659. <a href="https://doi.org/10.1016/j.spa.2004.11.006" target="_blank">https://doi.org/10.1016/j.spa.2004.11.006</a>.
+        </Footnote>
+      </li>
+    </Fragment>
+    <Fragment>
+      <li>
+        <strong style={{ color: 'var(--main)' }}>2011.</strong> Regularity on general state spaces.
+        <Footnote index={ 2 }>
+          Keller-Ressel, M.; Schachermayer, W.; Teichmann, J. Regularity of affine processes on general state spaces. (2013). Electron. J. Probab. 18, paper no. 43, 17 pp. <a href="https://doi.org/10.1214/EJP.v18-2043" target="_blank">https://doi.org/10.1214/EJP.v18-2043</a>.
+        </Footnote>
+      </li>
+    </Fragment>
+    <Fragment>
+      <li>
+        <strong style={{ color: 'var(--main)' }}>2011.</strong> Semimartingales on general state spaces, 
+        <Footnote index={ 3 }>
+          Cuchiero, C. Affine and polynomial processes. (2011). Ph.D. thesis ETH Zürich. <a target="_blank" href="https://www.mat.univie.ac.at/~cuchiero/PhD_Thesis_Cuchiero.pdf">https://www.mat.univie.ac.at/~cuchiero/PhD_Thesis_Cuchiero.pdf</a>.
+        </Footnote>
+      </li>
+    </Fragment>
+    <Fragment>
+      <li>
+        <strong style={{ color: 'var(--main)' }}>2011.</strong> Density approximations of affine jump diffusions on $\bbR^m_+\times\bbR^n$.
+        <Footnote index={ 4 }>
+          Filipović, D.; Mayerhofer, P.; Schneider, P. Density approximations of multivariate affine jump-diffusion processes. (2011) <a target="_blank" href="https://arxiv.org/abs/1104.5326">https://arxiv.org/abs/1104.5326</a>.
+        </Footnote>
+      </li>
+    </Fragment>
+    <Fragment>
+      <li>
+        <strong style={{ color: 'var(--main)' }}>2014.</strong> Large deviations of affine diffusions.
+        <Footnote index={ 5 }>
+          Kang, W.; Kang, C. Large deviations for affine diffusion processes on <TeX>{ String.raw`\bbR^m_+ \times \bbR^n` }</TeX>. Stochastic Processes and their Applications. (2014). Volume 124, Issue 6, 2188-2227. <a target="_blank" href="https://doi.org/10.1016/j.spa.2014.02.002">https://doi.org/10.1016/j.spa.2014.02.002</a>.
+        </Footnote>
+      </li>
+    </Fragment>
+    <Fragment>
+      <li>
+        <strong style={{ color: 'var(--main)' }}>2015.</strong> General affine transform formula.
+        <Footnote index={ 6 }>
+          Keller-Ressel, M.; Mayerhofer, E.. Exponential moments of affine processes. (2015). Ann. Appl. Probab. 25,  no. 2, 714--752. <a target="_blank" href="https://doi.org/10.1214/14-AAP1009">https://doi.org/10.1214/14-AAP1009</a>.
+        </Footnote>
+      </li>
+    </Fragment>
+    <Fragment>
+      <li>
+        <strong style={{ color: 'var(--main)' }}>2018.</strong> Stochastic stability and limit theorems for affine jump diffusions on $\bbR^m_+ \times \bbR^n$.
+        <Footnote index={ 7 }>
+          Xiaowei, Z; Glynn W. P. Affine jump-diffusions: stochastic stability and limit theorems. (2018) <a target="_blank" href="https://arxiv.org/abs/1811.00122">https://arxiv.org/abs/1811.00122</a>.
+        </Footnote>
+      </li>
+    </Fragment>
+    <Fragment>
+      <li>
+        <strong style={{ color: 'var(--main)' }}>2019.</strong> Weaken stochastic continuity assumptions.
+        <Footnote index={ 8 }>
+          Keller-Ressel, M.; Schmidt, T.; Wardenga, R. Affine processes beyond stochastic continuity. (2019). Ann. Appl. Probab. 29, no. 6, 3387--3437. <a href="https://doi.org/10.1214/19-AAP1483" target="_blank">https://doi.org/10.1214/19-AAP1483</a>.
+        </Footnote>
+      </li>
+    </Fragment>
+  </ul>
+</RefTeX>
+
+---
+
+# Omnipresent in financial modeling
+
+<RefTeX>
+  <ul className="spaced" style={{ position: 'relative' }}>
+    <Fragment>
+      <li>
+        Interest rates
+      </li>
+    </Fragment>
+    <Fragment>
+      <li>
+        Credit risk
+      </li>
+    </Fragment>
+    <Fragment>
+      <li>
+        Option pricing
+      </li>
+    </Fragment>
+    <Fragment>
+      <li>
+        Stochastic optimal control
+      </li>
+    </Fragment>
+    <Fragment>
+      <li>
+        High-frequency trading
+      </li>
+    </Fragment>
+    <Fragment>
+      <div style={{ 
+        position: 'absolute',
+        background: 'yellow',
+        width: '100px',
+        height: '35px',
+        top: '50px',
+        zIndex: -1 
+      }} />
+    </Fragment>
+  </ul>
+  <Footnote>
+    <ul>
+      <li>
+        Vašíček, O. An equilibrium characterization of the term structure. (1977). Journal of Financial Economics. Volume 5, Issue 2. <a target="_blank" href="https://doi.org/10.1016/0304-405X(77)90016-2">https://doi.org/10.1016/0304-405X(77)90016-2</a>.
+      </li>
+      <li>
+        Heston, S. A Closed-Form Solution for Options with Stochastic Volatility with Applications to Bond and Currency Options. (1993). The Review of Financial Studies, Volume 6, Issue 2. Pages 327–343, <a href="https://doi.org/10.1093/rfs/6.2.327" target="_blank">https://doi.org/10.1093/rfs/6.2.327</a>
+      </li>
+      <li>
+        Duffie, D. Credit risk modeling with affine processes. (2005). Journal of Banking & Finance. Volume 29, Issue 11. <a target="_blank" href="https://doi.org/10.1016/j.jbankfin.2005.02.006">https://doi.org/10.1016/0304-405X(77)90016-2</a>.
+      </li>
+      <li>
+        Filipovic, D. Term-Structure Models. (2009). Springer Berlin Heidelberg. <a target="_blank" href="https://doi.org/10.1007/978-3-540-68015-4">https://doi.org/10.1007/978-3-540-68015-4</a>.
+      </li>
+      <li>
+        Aït-Sahalia, Y.; Jacod, J. Testing whether jumps have finite or infinite activity. (2011). The Annals of Statistics, 39(3), 1689-1719. <a href="https://doi.org/10.2307/23033612" target="_blank">https://doi.org/10.2307/23033612</a>
+      </li>
+      <li>
+        Feng, Jin; Fouque, Jean-Pierre; Kumar, Rohini. Small-time asymptotics for fast mean-reverting stochastic volatility models. (2012). Ann. Appl. Probab. 22, no. 4, 1541--1575. <a href="https:/doi.org/10.1214/11-AAP801">https:/doi.org/10.1214/11-AAP801</a>.
+      </li>
+      <li>
+        Aït-Sahalia, Y.; Cacho-Diaz, J.; Laeven, R.J.A. Modeling financial contagion using mutually exciting jump processes. (2015). Journal of Financial Economics
+Volume 117, Issue 3, Pages 585-606. <a href="https://doi.org/10.1016/j.jfineco.2015.03.002" target="_blank">https://doi.org/10.1016/j.jfineco.2015.03.002</a>.
+      </li>
+    </ul>
+  </Footnote>
+</RefTeX>
+
+---
+
+# Credit risk example
+
+<RefTeX>
+  <ul className="spaced">
+    <li>Want to quantify risk of default on a security.</li>
+    <Fragment>
+      <li>
+        Model market with affine process $X = (X^1, \ldots, X^d)$.
+        <ul>
+          <Fragment><li>$X^d$ is a positive process encoding likelihood of default.</li></Fragment>
+        </ul>
+      </li>
+    </Fragment>
+    <Fragment><li>Fit model parameters to econometric data (debt-to-equity ratios, volatility measures, etc).</li></Fragment>
+    <Fragment style={{ position: 'relative' }}>
+      <li>
+        {
+          String.raw`
+            Risk of default before time $T > 0$ now quantified by $\rmP(X \in A)$.
+            $$
+              A = \Big\{ x \in (\bbR^d)^{[0, T]} : \int_0^T x_d(t) {\rm d}t > \eta \Big\}
+            $$
+          `
+        }
+      </li>
+      <Fragment>
+        <div style={{ position: 'absolute', left: '630px', top: '0px' }}>
+          <div style={{ position: 'absolute', background: 'yellow', width: '120px', height: '40px', left: '-130px', top: '-5px', zIndex: -1 }} />
+          <div style={{ position: 'absolute', color: 'red', width: '200px' }}>
+            Hello, old friend.
+          </div>
+        </div>
+      </Fragment>
+    </Fragment>
+  </ul>
+</RefTeX>
+
+---
+
+# Recall our methods!
+
+<RefTeX>
+  <div>
+    <h3 style={{ color: 'var(--alt)' }}>Asymptotic approximations</h3>
+    <div style={{ position: 'relative', background: 'var(--altBg)', padding: '0.5em', border: '1px solid' }}>
+      <div>
+        <strong style={{ color: 'var(--main)' }}>CLTs.</strong> 
+      </div>
+      <div>
+        <strong style={{ color: 'var(--main)' }}>LDPs.</strong>
+      </div>
+      <Fragment index={ 2 } style={{ color: 'red', position: 'absolute', top: '30px', left: '100px' }}>
+        Still need these!
+      </Fragment>
+    </div>
+  </div>
+  <div>
+    <h3 style={{ color: 'var(--alt)' }}>Numerical algorithms</h3>
+    <div style={{ position: 'relative', background: 'var(--altBg)', padding: '0.5em', border: '1px solid' }}>
+      <div style={{ marginBottom: '0.25em' }}>
+        <strong style={{ color: 'var(--main)' }}>Monte Carlo.</strong>
+      </div>
+      <div style={{ marginBottom: '0.25em' }}>
+        <strong style={{ color: 'var(--main)' }}>Transform inversion.</strong> 
+      </div>
+      <div style={{ display: 'block' }}>
+        <strong style={{ color: 'var(--main)' }}>(Integro-)PDEs.</strong> 
+      </div>
+      <Fragment index={ 0 }>
+        <div style={{ 
+          position: 'absolute', 
+          background: 'rgba(255, 0, 0, 0.5)',
+          width: '190px',
+          height: '3px',
+          top: '80px',
+          left: '10px',
+          transform: 'rotate(-165deg)',
+          transformOrigin: 'center center',
+        }} />
+        <div style={{ 
+          position: 'absolute', 
+          background: 'rgba(255, 0, 0, 0.5)',
+          width: '190px',
+          height: '3px',
+          top: '80px',
+          left: '10px',
+          transform: 'rotate(165deg)',
+          transformOrigin: 'center center',
+        }} />
+        <div style={{ position: 'absolute', left: '240px', top: '70px', color: 'red' }}>
+          <em>Curse of dimensionality</em>
+        </div>
+        <Fragment index={ 1 } style={{ left: '200px', position: 'absolute', top: '10px', color: 'red' }}>
+          Let's explore this!
+        </Fragment>
+      </Fragment>
+    </div>
+  </div>
+</RefTeX>
+
+
+
+---
+
+import { MonteCarlo } from './samples/chart4.js'
+
+# Monte Carlo
+
+
+<RefTeX>
+  <ul className="spaced">
+    <li>Repeatedly and independently sample $1_A(X)$ under $\rmP$ <span style={{ color: 'var(--alt)' }}>(equivalently, sample $1_A(X)_\ast\rmP$)</span>.</li>
+    <li>{ String.raw`Average over trials, $ \frac{1}{M} \sum_{i=1}^M 1_A\big(X^i\big) $.` }</li>
+  </ul>
+</RefTeX>
+<MonteCarlo />
+<Fragment />
+<Fragment />
+<Fragment />
+<Fragment />
+
+---
+
+# Fixing Monte Carlo
+
+<RefTeX>
+  <ul className="spaced">
+    <li>Establish a benchmark for efficiency.</li>
+    <Fragment>
+      <li>
+        Account for small probabilities.
+        <ul>
+          <li>Asymptotic frameworks $\rmP(X^\epsilon \in A)$ may be at our disposal.</li>
+        </ul>
+      </li>
+    </Fragment>
+    <Fragment>
+      <li>
+        Perhaps: look at transforms for analysis.
+      </li>
+    </Fragment>
+  </ul>
+</RefTeX>
+
+---
+
+# Efficiency
+
+<RefTeX>
+  We want a confidence interval on the same order of magnitude as $p = \rmP(X \in A)$.
+  <Fragment>
+    <div style={{ display: 'flex', alignItems: 'baseline', margin: '1em 0' }}>
+      <div>
+        $0.95~$
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+        <div style={{ marginBottom: '1em' }}>
+          { String.raw`$= \rmP\Big( \frac1M \sum_{i=1}^M 1_A(X^i) \in B_{0.1p}(p) \Big) $` }
+        </div>
+        <Fragment>
+          <div style={{ marginBottom: '1em' }}>
+            { String.raw`$= \rmP\Big( \frac{1}{\sqrt M} \sum_{i=1}^M \frac{1_A(X^i)-p}{\sqrt{\operatorname{Var}_\rmP(1_A(X))}} \in B_{0.1p\sqrt M/\sqrt{\operatorname{Var}_\rmP(1_A(X))}}(0) \Big) $` }
+          </div>
+        </Fragment>
+        <Fragment>
+          <div style={{ marginBottom: '1em', display: 'flex' }}>
+            <div>
+              { String.raw`$\approx \mu B_{0.1p\sqrt M/\sqrt{\operatorname{Var}_\rmP(1_A(X))}}(0) $` } 
+            </div>
+            <div style={{ textAlign: 'right', flex: '30px 1 1', color: 'var(--alt)' }}>
+              CLT, $\mu$ standard normal
+            </div>
+          </div>
+        </Fragment>
+        <Fragment index={ 30 } >
+          <blockquote style={{ marginTop: '1em', padding: '1em 0' }}>
+            <Fragment index={ 30 }>
+              <div>
+                { String.raw`$\quad\leadsto\quad \frac{0.1p\sqrt{M}}{\sqrt{\operatorname{Var}_\rmP(1_A(X))}} = 1.96$` }
+              </div>
+            </Fragment>
+            <Fragment>
+              <div style={{ marginTop: '0.5em' }}>
+                { String.raw`$\quad \Rightarrow \quad M = \frac{100 \cdot 1.96^2 \operatorname{Var}_P(1_A(X))}{p^2} = \frac{100 \cdot 1.96^2 p(1-p)}{p^2}$` }
+                <Fragment style={{ color: 'red' }}>
+                  { String.raw`$~\sim \frac{1}{p} \xrightarrow{p\rightarrow 0} \infty$` }
+                </Fragment>
+              </div>
+            </Fragment>
+          </blockquote>
+        </Fragment>
+      </div>
+    </div>
+  </Fragment>
+  <Fragment style={{ display: 'block', marginTop: '2em' }}>
+    <strong style={{ color: 'var(--alt)' }}>Note. </strong> Efficiency determined 
+    by { String.raw`$\operatorname{Var}_\rmP(1_A(X))/p^2$.` }
+  </Fragment>
+  <Fragment>
+    <div style={{ position: 'absolute', background: 'yellow', zIndex: -1, bottom: '63px', left: '320px', width: '190px', height: '46px' }}>
+      <div style={{ position: 'absolute', color: 'red', top: '46px', width: '360px' }}>
+        What if we sampled something else?
+      </div>
+    </div>
+  </Fragment>
+</RefTeX>
+
+---
+
+import { ImportanceSampling } from './samples/chart4.js'
+
+# Importance sampling
+
+<RefTeX>
+  <ul className="spaced">
+    <li>Perform a change of measure $\rmQ \ll \rmP$.</li> 
+    <Fragment index={ 0 }>
+      <li style={{ position: 'relative' }}>
+        {
+          String.raw`
+            Repeatedly and independently sample
+            $\frac{{\rm d}\rmP}{{\rm d}\rmQ}1_A(X)$ under $\rmQ$
+          `
+        }
+        <span style={{ color: 'var(--alt)' }}>
+          {
+            String.raw`(sample $\big(\frac{{\rm d}\rmP}{{\rm d}\rmQ}1_A(X)\big)_\ast\rmQ$)`
+          }
+        </span>.
+        <Fragment index={ 3 } only>
+          <div style={{ position: 'absolute', zIndex: -1, background: 'yellow', height: '46px', width: '100%', top: '-5px', left: '-30px' }} />
+        </Fragment>
+      </li>
+    </Fragment>
+    <Fragment index={ 1 }>
+      <li style={{ position: 'relative' }}>
+        {
+          String.raw`Have $ {\rm d}\rmP/{\rm d}\rmQ \in \sigma(X)$, so that $ {\rm d}\rmP/{\rm d}\rmQ = w(X)$.`
+        }
+        <Fragment index={ 4 }>
+          <div style={{ position: 'absolute', zIndex: -1, background: 'yellow', height: '46px', width: '100%', top: '-5px', left: '-30px' }} />
+        </Fragment>
+      </li>
+    </Fragment>
+  </ul>
+</RefTeX>
+
+<ImportanceSampling />
+<Fragment index={ 2 }/>
+<Fragment index={ 3 }/>
+<Fragment index={ 4 }/>
+
+---
+
+# Importance sampling is tricky!
+
+<RefTeX>
+  <ul className="spaced">
+    <li>
+      {
+        String.raw`
+          Repeat CLT argument, so $M \sim \operatorname{Var}_\rmQ\big(\frac{{\rm d}\rmP}{{\rm d}\rmQ}1_A(X)\big)/ \rmP(X\in A)^2$.
+        `
+      }
+      <ul>
+        <Fragment>
+          <li>
+            Zero-variance solution <strong style={{ color: 'red' }}>intractable</strong>, { String.raw`$ {\rm d}\rmQ / {\rm d}\rmP = 1_A(X)/\rmP(X \in A) $` }.
+          </li>
+        </Fragment>
+      </ul>
+    </li>
+    <Fragment>
+      <li>
+        {
+          String.raw`Reduce to specific families $(\rmQ_\theta)_{\theta\in\Theta}$ we can sample.`
+        }
+        <ul>
+          <Fragment>
+            <li>
+              { String.raw`$\operatorname{Var}_{\rmQ_\theta}\big(\frac{{\rm d}\rmP}{{\rm d}\rmQ_\theta}1_A(X)\big)$ too complicated to calculate.` }
+            </li>
+          </Fragment>
+          <Fragment>
+            <li>
+              <strong style={{ color: 'red' }}>May not even be finite!</strong>
+            </li>
+          </Fragment>
+        </ul>
+      </li>
+    </Fragment>
+    <Fragment>
+      <li>
+        Approximate with asymptotic regime.
+        <ul>
+          <Fragment>
+            <li>Consider families $\rmP(X^\epsilon \in A) \rightarrow 0$.</li>
+          </Fragment>
+          <Fragment>
+            <li>
+              {
+                String.raw`$\operatorname{Var}_{\rmQ_\theta}\big(\frac{{\rm d}\rmP}{{\rm d}\rmQ_\theta}1_A(X)\big)/\rmP(X \in A)^2 \leadsto \operatorname{Var}_{\rmQ_\theta}\big(\frac{{\rm d}\rmP}{{\rm d}\rmQ_\theta}1_A(X^\epsilon)\big)/\rmP(X^\epsilon \in A)^2$.`
+              }
+            </li>
+          </Fragment>
+          <Fragment>
+            <li>
+              {
+                String.raw`
+                  Control $\lim_{\epsilon \rightarrow 0} \operatorname{Var}_{\rmQ_\theta}\Big(\frac{{\rm d}\rmP}{{\rm d}\rmQ_\theta}1_A(X^\epsilon)\Big)$.
+                `
+              }
+            </li>
+          </Fragment>
+        </ul>
+      </li>
+    </Fragment>
+  </ul>
+</RefTeX>
+
+---
+
+import AsymptoticRegime from './samples/chart5';
+
+# Intuition of asymptotic regime
+
+<AsymptoticRegime />
+
+---
+
+# Various benchmarks of efficiency
+
+<RefTeX>
+  Zero-variance estimator intractable $\leadsto$ other efficiency goals.
+  <ul>
+    <Fragment>
+      <li>
+        <strong style={{ color: 'var(--alt)' }}>Vanishing relative error.</strong>
+        {
+          String.raw`
+            $$
+              \limsup_{\epsilon\rightarrow0} \frac{\operatorname{Var}_\rmQ\big(\frac{{\rm d}\rmP}{{\rm d}\rmQ}1_A(X^\epsilon))}{\rmP(X^\epsilon \in A)^2} = 0
+            $$
+          `
+        }
+      </li>
+    </Fragment>
+    <Fragment>
+      <li>
+        <strong style={{ color: 'var(--alt)' }}>Bounded relative error.</strong>
+        {
+          String.raw`
+            $$
+              \limsup_{\epsilon\rightarrow0} \frac{\operatorname{Var}_\rmQ\big(\frac{{\rm d}\rmP}{{\rm d}\rmQ}1_A(X^\epsilon))}{\rmP(X^\epsilon \in A)^2} < \infty
+            $$
+          `
+        }
+      </li>
+    </Fragment>
+    <Fragment index={ 30 }>
+      <li>
+        <strong style={{ color: 'var(--alt)' }}>Logarithmic efficiency.</strong> There exists $\delta > 0$ such that:
+        <div style={{ position: 'relative' }}>
+          <Fragment index={ 30 } style={{ position: 'absolute', width: '100%', left: 0, top: '-20px' }} only>
+            {
+              String.raw`
+                $$\displaystyle
+                  \limsup_{\epsilon\rightarrow0} \frac{\operatorname{Var}_\rmQ\big(\frac{{\rm d}\rmP}{{\rm d}\rmQ}1_A(X^\epsilon))}{\rmP(X^\epsilon \in A)^{2-\delta}} = 0
+                $$
+              `
+            }
+          </Fragment>
+          <Fragment style={{ margin: '1.5em 0', display: 'block' }}>
+            {
+              String.raw`
+                $\displaystyle
+                  \limsup_{\epsilon\rightarrow0} \frac{\operatorname{Var}_\rmQ\big(\frac{{\rm d}\rmP}{{\rm d}\rmQ}1_A(X^\epsilon))}{\rmP(X^\epsilon \in A)^{2-\delta}} = 0 \quad\Leftrightarrow\quad \liminf_{\epsilon\rightarrow 0} \frac{|\log\operatorname{Var}_\rmQ\big(\frac{{\rm d}\rmP}{{\rm d}\rmQ}1_A(X^\epsilon)\big)|}{|\log\rmP(X^\epsilon \in A)|} \geq 2
+                $
+              `
+            }
+          </Fragment>
+          <Fragment style={{
+            position: 'absolute',
+            background: 'yellow',
+            top: '40px',
+            left: '546px',
+            width: '163px',
+            height: '30px',
+            zIndex: -1,
+          }}>
+            <div style={{ position: 'absolute', bottom: '-30px', color: 'red', width: '350px' }}>
+              Hint, hint: Large deviations theory!
+            </div>
+          </Fragment>
+        </div>
+      </li>
+    </Fragment>
+  </ul>
+</RefTeX>
+
+<Footnote>
+  Asmussen, S.; Glynn, P. Stochastic Simulation: Algorithms and Analysis. (2007). Springer-Verlag New York. <a href="https://doi.org/10.1007/978-0-387-69033-9" target="_blank">https://doi.org/10.1007/978-0-387-69033-9</a>
+</Footnote>
+
+---
+
+# Asymptotic efficiency
+
+<RefTeX>
+  <blockquote>
+    {
+      String.raw`
+        $$
+          \operatorname{Var}_{\rmQ_\theta}\Big(\frac{{\rm d}\rmP}{{\rm d}\rmQ_\theta} 1_A(X^\epsilon)\Big) \quad\leftrightarrow\quad \epsilon\log\rmP(X^\epsilon \in A)
+        $$
+      `
+    }
+  </blockquote>
+  <ul className="spaced">
+    <Fragment>
+      <li>
+        <strong style={{ color: 'var(--main)' }}>1952.</strong> Asymptotic efficiency formulated.
+      </li>
+    </Fragment>
+    <Fragment>
+      <li>
+        <strong style={{ color: 'var(--main)' }}>1976.</strong> Importance sampling algorithm inspired by large deviations.
+      </li>
+    </Fragment>
+    <Fragment>
+      <li>
+        <strong style={{ color: 'var(--main)' }}>2009.</strong> First estimator of bounded relative error for i.i.d. sums.
+      </li>
+    </Fragment>
+  </ul>
+  <Fragment>
+    <strong style={{ color: 'var(--alt)' }}>Very active area of research.<br />Plenty of applications in mathematical finance, telecommunication systems, etc.</strong>
+  </Fragment>
+</RefTeX>
+
+<Footnote index={ 0 }>
+  Chernoff, H. A measure of asymptotic efficiency for tests of a hypothesis based on the sum of observations. (1952). Ann. Math. Statist., 23:493–507, 
+  <a href="https://doi.org/10.1214/aoms/1177729330" target="_blank">https://doi.org/10.1214/aoms/1177729330</a>.
+</Footnote>
+
+<Footnote index={ 1 }>
+  Siegmund, D. Importance Sampling in the Monte Carlo Study of Sequential Tests. (1976). Ann. Statist. 4,  no. 4, 673--684. <a href="https://doi.org/10.1214/aos/1176343541" target="_blank">https://doi.org/10.1214/aos/1176343541</a>. 
+</Footnote>
+
+<Footnote index={ 2 }>
+  Blanchet, J.H.; Leder K.; Glynn P.W. Efficient Simulation of Light-Tailed Sums: an Old-Folk Song Sung to a Faster New Tune.... (2009). In: L' Ecuyer P., Owen A. (eds) Monte Carlo and Quasi-Monte Carlo Methods 2008. Springer, Berlin, Heidelberg. <a href="https://doi.org/10.1007/978-3-642-04107-5_13" target="_blank">https://doi.org/10.1007/978-3-642-04107-5_13</a>
+</Footnote>
+
+<Footnote index={ 3 }>
+  <ul>
+    <li>
+      Pham, Huyên. Large deviations in mathematical finance. (2010). <a href="https://pdfs.semanticscholar.org/f900/94dd015f6229041121b6718645eca8fea7dd.pdf" target="_blank">https://pdfs.semanticscholar.org/f900/94dd015f6229041121b6718645eca8fea7dd.pdf</a>.
+    </li>
+    <li>
+      Juneja, S.; Shahabuddin, P. Chapter 11 Rare-Event Simulation Techniques: An Introduction and Recent Advances. (2006). Handbooks in Operations Research and Management Science
+Volume 13, 2006, Pages 291-350. <a href="https://doi.org/10.1016/S0927-0507(06)13011-X" target="_blank">https://doi.org/10.1016/S0927-0507(06)13011-X</a>.
+    </li>
+  </ul>
+</Footnote>
+
+---
+
+# Example: Large deviations of affine diffusions
+
+<RefTeX>
+  <ul className="spaced">
+    <li>
+      Fix affine diffusion $X$.
+      {
+        String.raw`
+          $$
+            \begin{array}{l}
+              {\rm d}X_t = \beta(X_t) {\rm d}t + \sigma(X_t) {\rm d}W_t \\[0.5em]
+              \beta(x) = b_0 + \sum_{k=1}^d x_k b_k \\[0.5em]
+              \sigma\sigma^\rmT(x) = \alpha(x) = a_0 + \sum_{k=1}^d x_k a_k
+            \end{array}
+          $$
+        `
+      }
+    </li>
+    <Fragment>
+      <li>
+        {
+          String.raw`
+            Define $\rmQ_\theta$ for each $\theta \in\Theta = C([0, T], \bbR^d)$.
+            $$ \frac{{\rm d}\rmQ_\theta}{{\rm d}\rmP}\Big|_{\calF_t} = M_t^\theta = \exp\left( \int_0^t \theta(s)^\rmT \sigma(X_s) {\rm d}W_s - \frac12\int_0^t \theta(s)^\rmT \alpha(X_s) \theta(s) {\rm d}s \right)$$
+          `
+        }
+      </li>
+    </Fragment>
+    <Fragment>
+      <li>
+        Introduce asymptotic regime.
+        {
+          String.raw`$$ {\rm d}X^\epsilon_t = \beta(X^\epsilon_t) {\rm d}t + \sqrt{\epsilon}\sigma(X^\epsilon_t) {\rm d}W_t $$`
+        }
+      </li>
+    </Fragment>
+  </ul>
+</RefTeX>
+
+<Footnote>
+    Kang, W.; Kang, C. Large deviations for affine diffusion processes on <TeX>{ String.raw`\bbR^m_+ \times \bbR^n` }</TeX>. Stochastic Processes and their Applications. (2014). Volume 124, Issue 6, 2188-2227. <a target="_blank" href="https://doi.org/10.1016/j.spa.2014.02.002">https://doi.org/10.1016/j.spa.2014.02.002</a>.
+</Footnote>
+
+---
+
+# Example: Large deviations of affine diffusions
+
+<RefTeX>
+  <div>
+    {
+      String.raw`
+        Large deviations principle on $(X^\epsilon)_{\epsilon > 0}$ informs us of asymptotically optimal $\theta \in \Theta$.
+      `
+    }
+  </div>
+  <div style={{ 
+    margin: '1em',
+    display: 'grid',
+    gridTemplateColumns: 'auto 1fr',
+    alignItems: 'baseline',
+  }}>
+    <div style={{ textAlign: 'right', marginBottom: '2em' }}>$\theta(t)$</div>
+    <div>$= \alpha\big( \zeta(t) \big)^\dagger \Big( \zeta'(t) - \beta\big(\zeta(t)\big)\Big) $</div>
+    <div>
+      <Fragment index={ 1 }> $\zeta$ such that: </Fragment>
+    </div>
+    <Fragment 
+      index={ 1 }
+      style={{ 
+        display: 'flex',
+        flexDirection: 'column',
+        marginLeft: '1em',
+        borderLeft: '3px solid #879acc',
+        background: 'var(--altBg)',
+        padding: '0.5em 1em' }}>
+      <Fragment style={{ display: 'block', margin: '0.5em 0' }}>$\zeta\in A$</Fragment>
+      <Fragment style={{ display: 'block', margin: '0.5em 0' }}>$\zeta$ is absolutely continuous.</Fragment>
+      <Fragment style={{ display: 'block', margin: '0.5em 0' }}>
+        {
+          String.raw`
+            $\zeta'(t) - \beta(\zeta(t)) \in \operatorname{Range}\Big(\alpha\big(\zeta(t)\big)\Big)$ almost every $t \in [0, T]$
+          `
+        }
+      </Fragment>
+      <Fragment style={{ display: 'block', margin: '0.5em 0' }}>
+          {
+            String.raw`
+              $
+                \displaystyle \int_0^T 
+                  \Big(\zeta'(t) - \beta\big(\zeta(t)\big)\Big)^\rmT 
+                  \alpha\big(\zeta(t)\big)^\dagger 
+                  \Big(\zeta'(t) - b\big(\zeta(t)\big)\Big) 
+                  {\rm d}t~
+              $ is minimal
+            `
+          }
+      </Fragment>
+    </Fragment>
+  </div>
+</RefTeX>
+
+<Footnote>
+    Kang, W.; Kang, C. Large deviations for affine diffusion processes on <TeX>{ String.raw`\bbR^m_+ \times \bbR^n` }</TeX>. Stochastic Processes and their Applications. (2014). Volume 124, Issue 6, 2188-2227. <a target="_blank" href="https://doi.org/10.1016/j.spa.2014.02.002">https://doi.org/10.1016/j.spa.2014.02.002</a>.
+</Footnote>
+
+---
+
+# Master plan
+
+<div style={{ 
+  position: 'absolute', 
+  background: 'rgba(255, 0, 0, 0.5)',
+  width: '120px',
+  height: '3px',
+  top: '65px',
+  left: '10px',
+  transform: 'rotate(-165deg)',
+  transformOrigin: 'center center',
+}} />
+<div style={{ 
+  position: 'absolute', 
+  background: 'rgba(255, 0, 0, 0.5)',
+  width: '120px',
+  height: '3px',
+  top: '65px',
+  left: '10px',
+  transform: 'rotate(165deg)',
+  transformOrigin: 'center center',
+}} />
+<div style={{ position: 'absolute', color: 'red', top: '25px', fontWeight: 'bold', fontSize: 24 }}>Ph.D.</div>
+
+<RefTeX>
+  <strong style={{ color: 'var(--alt)' }}>Main agenda.</strong>
+  <ul className="spaced">
+    <Fragment>
+      <li>
+      Develop a large deviations principle for the entire class of affine processes.
+        <ul>
+          <Fragment>
+            <li>
+              Present large deviations principles only address diffusions and specific jump processes.
+            </li>
+          </Fragment>
+          <Fragment>
+            <li>
+              Processes with state-dependent diffusion and jumps still not addressed.
+            </li>
+          </Fragment>
+          <Fragment><li>Significant applications in finance due to wide adoption of affine class.</li></Fragment>
+        </ul>
+      </li>
+    </Fragment>
+    <Fragment>
+      <li>
+        Apply large deviations principles to importance sampling.
+        <ul>
+          <Fragment><li>Consider existence/uniqueness results of variational problems for the affine class.</li></Fragment>
+          <Fragment><li>Explicit representations of rate function (solution to variational problem).</li></Fragment>
+          <Fragment><li>Identify which rate functions lead to efficient importance sampling schemes.</li></Fragment>
+          <Fragment><li>Produce schemes that can be sampled effectively.</li></Fragment>
+        </ul>
+      </li>
+    </Fragment>
+  </ul>
+</RefTeX>
+
+
+---
+
+# Master plan
+
+<div style={{ 
+  position: 'absolute', 
+  background: 'rgba(255, 0, 0, 0.5)',
+  width: '120px',
+  height: '3px',
+  top: '65px',
+  left: '10px',
+  transform: 'rotate(-165deg)',
+  transformOrigin: 'center center',
+}} />
+<div style={{ 
+  position: 'absolute', 
+  background: 'rgba(255, 0, 0, 0.5)',
+  width: '120px',
+  height: '3px',
+  top: '65px',
+  left: '10px',
+  transform: 'rotate(165deg)',
+  transformOrigin: 'center center',
+}} />
+<div style={{ position: 'absolute', color: 'red', top: '25px', fontWeight: 'bold', fontSize: 24 }}>Ph.D.</div>
+
+<RefTeX>
+  <strong style={{ color: 'var(--alt)' }}>Related.</strong>
+  <ul className="spaced">
+    <Fragment><li>Applying large deviations to importance sampling has been questioned.</li></Fragment>
+    <Fragment><li>Usually not the sharpest results, but provably attain weaker benchmarks.</li></Fragment>
+    <Fragment><li>Large deviations theory outpaces its applications to importance sampling estimators.</li></Fragment>
+    <Fragment>
+      <li>
+        point processes $\leftrightarrow$ sums of random variables
+        <ul>
+          <Fragment>
+            <li>
+              Interesting finding...
+              {
+                String.raw`
+                  $$
+                    \lim_{\epsilon\rightarrow 0} \frac{|\log\operatorname{Var}_{\rmQ_\theta}\Big(\frac{{\rm d}\rmP}{{\rm d}\rmQ_\theta}1_A(X^\epsilon)\Big)|}{|\log\rmP(X^\epsilon\in A)|} \in (1, 2)
+                  $$
+                `
+              }
+            </li>
+          </Fragment>
+          <Fragment>
+            <li>Easy to implement + in $(1, 2)$ = ???</li>
+          </Fragment>
+          <Fragment>
+            <li>Regimes taking large samples into account!</li>
+          </Fragment>
+        </ul>
+      </li>
+    </Fragment>
+  </ul>
+</RefTeX>
+
+---
+
+# Preliminary results
+
+<RefTeX>
+  In the right direction for an asymptotic regime of affine processes on $E = \bbR^m_+ \times \bbR^n$!
+  {
+    String.raw`
+      $$
+        \begin{array}{l}
+          \displaystyle
+          {\rm d}X^\epsilon_t = \beta(X^\epsilon_t) {\rm d}t + \sqrt\epsilon\sigma(X^\epsilon_t) {\rm d}W_t + \int_{\cdot\times E} z\mu^\epsilon({\rm d}t \times {\rm d}z) \\[1em]
+          \beta(x) = b_0 + \sum_{k=1}^d x_k b_k \\[1em]
+          \sigma\sigma^\rmT(x) = \alpha(x) = a_0 + \sum_{k=1}^d x_k a_k \\[2em]
+          \mu^\epsilon \text{ has compensator } {\rm d}t \times K^\epsilon(X^\epsilon, {\rm d}z) \\[1em]
+          K^\epsilon(x, {\rm d}z) = \epsilon^{-1} f^\epsilon_\ast\nu_0({\rm d}z) + \sum_{k=1}^d x_k \Big(\epsilon^{-1} f^\epsilon_\ast\nu_k({\rm d}z)\Big) \\[1em]
+          f^\epsilon(x) = \epsilon x
+        \end{array}
+      $$
+    `
+  }
+</RefTeX>
+
+<Fragment style={{
+  position: 'absolute',
+  right: '40px',
+  top: '200px',
+  color: 'red',
+}}>
+  &uarr;<br/>
+  Caveat: finite-activity jumps!
+</Fragment>
+
+---
+
+# Preliminary results
+
+<RefTeX>
+  Riccati ODE's for $(\phi^\epsilon, \psi^\epsilon)$ as in $X^\epsilon$ transform.
+  {
+    String.raw`
+      $$
+        \left\{\begin{array}{rl}
+          \frac{\partial}{\partial t}\phi^\epsilon(t, u) = R^\epsilon_0\big(\psi^\epsilon(t, u)\big),  & \phi^\epsilon(t, u) = 0 \\[1em]
+          \frac{\partial}{\partial t}\psi^\epsilon(t, u) = R^\epsilon\big(\psi^\epsilon(t, u)\big),  & \psi^\epsilon(t, u) = u
+        \end{array}\right.
+      $$
+      $$
+        R^\epsilon_k(v) = \langle v, \epsilon b_k \rangle + \frac12 \langle v, a_kv \rangle + \int_E \Big( e^{\langle v, z \rangle} - 1 \Big) \epsilon^{-1} f^\epsilon_\ast \nu_k({\rm d}z)
+      $$
+   `
+  }
+  <Fragment>
+    <strong style={{ color: 'var(--alt)' }}>Easy to check.</strong> Minimal solutions $(\epsilon\phi^\epsilon(t, u/\epsilon), \epsilon\psi^\epsilon(t, u/\epsilon))$ to above ODE also those for below.
+    {
+      String.raw`
+        $$
+          \left\{\begin{array}{rl}
+            \frac{\partial}{\partial t} \big( \epsilon\phi^\epsilon(t, u/\epsilon)\big) = R^1\big(\epsilon\psi^\epsilon(t, u/\epsilon)\big), & \epsilon\phi^\epsilon(t, u/\epsilon) = 0 \\[1em]
+            \frac{\partial}{\partial t} \big( \epsilon\psi^\epsilon(t, u/\epsilon)\big) = R^1\big(\epsilon\psi^\epsilon(t, u/\epsilon)\big), & \epsilon\psi^\epsilon(t, u/\epsilon) = u
+          \end{array}\right.
+        $$
+      `
+    }
+  </Fragment>
+</RefTeX>
+
+---
+
+# Preliminary results
+
+<RefTeX>
+  Single-time projections $\pi_t(X^\epsilon)$ satisfy equality.
+  {
+    String.raw`
+      $$
+        \begin{aligned}
+          \epsilon \log\rmE\Big( e^{\langle \epsilon u, X^\epsilon_t \rangle} | X^\epsilon_0 = x \Big) 
+          &= \epsilon \phi^\epsilon(t, \epsilon u) + \langle \epsilon\psi^\epsilon(t, \epsilon u), x \rangle  \\
+          &= \phi^1(t, u) + \langle \psi^1(t, u), x \rangle \\
+          &= \log\rmE\Big( e^{\langle u, X^1_t \rangle} | X^1_0 = x \Big)
+        \end{aligned}
+      $$
+    `
+  }
+  <Fragment>
+    {
+      String.raw`
+        Can lift to $\pi_{\underline t}(X^\epsilon)$ for all other finite-time projections via semiflow property.
+      `
+    }
+  </Fragment>
+  <ul className="spaced">
+    <Fragment><li>Sufficient hypotheses for Gärtner-Ellis theorem.</li></Fragment>
+    <Fragment><li>Can lift to paths via Dawson-Gärtner theorem.</li></Fragment>
+    <Fragment><li>Currently verifying weak convergence, etc. for <i>branching with immigration</i> process.</li></Fragment>
+  </ul>
+</RefTeX>

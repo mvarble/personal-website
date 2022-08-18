@@ -18,7 +18,11 @@ export default function makeConfig(options: Partial<Options>): GatsbyConfig {
         options: {
           name: 'presentations',
           path: sourceDir,
-          ignore: DEVELOPMENT ? [] : ["**/*.draft.*"],
+          ignore: (
+            DEVELOPMENT 
+            ? ["**/.*.mdx"] 
+            : ["**/.*.mdx", "**/*.draft.*"]
+          ),
         },
       }
     ],

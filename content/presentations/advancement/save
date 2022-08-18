@@ -1,0 +1,49 @@
+# Proof of Gärtner-Ellis
+
+<RefTeX>
+  <Fragment>
+    <h2 style={{ color: 'var(--alt)' }}>Upper-bound</h2>
+    <ul className="spaced">
+      <li>
+        {
+          String.raw`
+            localize the LDP: consider 
+            $\limsup_{n\rightarrow\infty} \frac1n\log\mu_nB_{y,\epsilon}$ 
+            for ball $B_{y,\epsilon}$
+          `
+        }
+      </li>
+      <Fragment><li>bound expression with Chebyshev</li></Fragment>
+      <Fragment><li>lift this inequality to compact sets</li></Fragment>
+      <Fragment><li>lift this inequality to closed sets</li></Fragment>
+    </ul>
+  </Fragment>
+  <Fragment>
+    <h2 style={{ color: 'var(--alt)' }}>Lower-bound</h2>
+    <ul className="spaced">
+      <li>
+        {
+          String.raw`
+            localize the LDP: consider 
+            $\liminf_{n\rightarrow\infty} \frac1n\log\mu_n B_{y,\epsilon}$ 
+            for ball $B_{y,\epsilon}$
+          `
+        }
+      </li>
+      <Fragment>
+        <li>
+          {
+            String.raw`
+              change measure, 
+              $
+                \frac{{\rm d}\tilde\mu_n}{{\rm d}\mu_n}(z) = \exp\big(n(\eta, z) - \Lambda_n(n\eta)\big)
+              $
+            `
+          }
+        </li>
+      </Fragment>
+      <Fragment><li>rewrite expression in terms of $\tilde\mu_n$</li></Fragment>
+      <Fragment><li>use previously proven upper-bound on $\tilde\mu_n$ expression.</li></Fragment>
+    </ul>
+  </Fragment>
+</RefTeX>

@@ -1,0 +1,61 @@
+.orderChanger {
+  margin: 1em 0;
+  display: flex;
+  align-items: center;
+}
+
+.order { 
+  color: red;
+  width: 200px;
+  height: 1.5em;
+}
+
+.order > * {
+  position: absolute;
+  opacity: 0;
+}
+
+.order > .visible {
+  opacity: 1;
+}
+
+.ldpBoxes {
+  display: flex; 
+  justify-content: space-between;
+}
+
+.ldpBox {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  flex-direction: column;
+  border: solid 3px var(--main);
+  width: 45%;
+}
+
+.ldpBox ul { 
+  position: relative; 
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ldpBox li { margin: 1em 0; }
+
+.ldpBox > h3 {
+  color: white;
+  background: var(--main);
+  margin: 0;
+  padding: 0.25em;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.ldpBox .arrow {
+  color: red;
+  font-weight: bold;
+  font-size: xx-large;
+  position: absolute;
+  right: 0;
+  transform: translate(58px, -7px);
+}
+

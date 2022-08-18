@@ -8,6 +8,8 @@ export const onCreateWebpackConfig: GatsbyNode["onCreateWebpackConfig"] = ({
     resolve: {
       alias: {
         '@components': resolve(__dirname, 'src', 'components'),
+        '@hooks': resolve(__dirname, 'src', 'hooks'),
+        '@utils': resolve(__dirname, 'src', 'utils'),
       },
     },
   });

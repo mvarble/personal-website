@@ -1,0 +1,28 @@
+:global(.vega-embed) > details { display: none; }
+
+.comparison {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.comparison :global(.vega-bind) > label { 
+  margin-top: 1em;
+  display: flex;
+}
+.comparison :global(.vega-bind) > label:last-child { width: 2em; }
+
+.comparison :global(.role-frame) > * > path:global(.background) {
+  fill: white;
+}
+
+.comparison svg:global(.marks) {
+  background-color: transparent !important;
+}
+
+.comparison :global(.role-title-text) > text, 
+.comparison :global(.role-legend-title) > text,
+.comparison :global(.role-axis-title) > text {
+  fill: var(--main);
+  font-family: serif;
+}

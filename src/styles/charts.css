@@ -1,0 +1,4 @@
+.chart {
+  @apply bg-gray-300;
+  @apply dark:bg-neutral-700;
+}

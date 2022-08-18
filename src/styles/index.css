@@ -1,0 +1,21 @@
+/* apply tailwind */
+@import url(./base.css);
+
+/* import fonts */
+@import url(./latin-modern.css);
+@import url(./roboto.css);
+
+/* import KaTeX */
+@import url(./katex.css);
+
+/* import presentation styles */
+@import url(./presentations.css);
+
+/* import code styles */
+@import url(./code.css);
+
+/* import chart styles */
+@import url(./charts.css);
+
+/* import theme color classes */
+@import url(./colors.css);

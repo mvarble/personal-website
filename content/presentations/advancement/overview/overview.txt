@@ -1,0 +1,256 @@
+========
+SLIDE 01
+========
+
+Objective: Establish P(X in A) problem
+
+---
+
+[picture]
+
+
+========
+SLIDE 02
+========
+
+Objective: Mention the ways people attempt to approximate P(X in A)
+
+---
+
+* asymptotic
+
+- CLTs
+- LDPs
+
+* numerical
+
+- Monte Carlo
+- Transform inversion
+- (Integro-)PDEs
+
+========
+SLIDE 03
+========
+
+Objective: 
+  Showcase familiar processes.
+  Identify complicated properties they exhibit.
+  Show conditional characteristic functions to nicely transition to the abstraction.
+
+---
+
+- BM
+- Bessel (as norm square of BM)
+- OU (we like stationary distributions!)
+- CIR (as norm square of OU)
+- Poisson process (point processes!)
+- Levy processes (natural conclusion, with BM + Poisson)
+- Branching with immigration (state dependent!)
+- Hawkes process (diffusion-state dependent!) 
+
+========
+SLIDE 04
+========
+
+Objective: Introduce the abstraction of affine processes
+
+---
+
+- defined on nontrivial spaces, e.g. positive, positive-definite matrices.
+- simple parameterizations for such constraints.
+- state-dependent drift and diffusion
+- state-dependent jumps.
+- cross-exciting
+- finite and infinite jump activity
+- killing
+
+
+========
+SLIDE 05
+========
+
+Objective: 
+  Demonstrate that processes with this property are incredibly tractable.
+  Show the active endeavor to find out more about these objects. 
+  In the meantime, state these results, so that they can be refered to later.
+  Results as recent as 2019.
+
+---
+
+- Duffie, et al.: Starts the abstraction. Classifies. Establishes properties we like.
+- Filipovic: Shows time-inhomogeneity is easily introduced.
+- Keller-Ressel: Shows sufficient regularity for stochastic integration.
+- Cuchiero: Consolidated much of the theory for general processes
+- Filipovic, et al.: Density approximations. Econometrics + numerical pricing.
+- Kang, Kang: LDPs of affine diffusions. Inspiration of our current work, though limited to smaller class of processes.
+- Keller-Ressel, et al.: General affine transform formula. Give us the (Riccati ODE minimal solution <-> existence of process + MGF) we need
+- Xiaowei, Glynn: stochastic stability and limit theorems ~> more econometrics
+- Keller-Ressel. Still weakening regularity assumptions on processes.
+
+
+========
+SLIDE 06
+========
+
+Objective: Mention their uses in modeling
+
+---
+
+- The many results (of SLIDE 04) allows tractability of processes. Mention econometrics + pricing.
+- The large class of processes (of SLIDE 05) encourages them to be used in modeling. 
+    - interest rates (i.e.: short rate / forward rate = affine process)
+    - asset pricing (i.e.: assets / exogenous market factors are in cross-exciting affine process)
+    - credit risk (i.e.: defaults = jumps of complicated affine point process)
+    - high-frequency trading (i.e. infinite activity jumps)
+
+      Mention: 
+        Vasicek, CIR = OU, square-root diffusion
+        Heston/Stochastic vol = CIR, positive-definite matrices
+
+
+========
+SLIDE 07
+========
+
+Objective: 
+  Focus in slightly on one of these examples.
+  Use this example to:
+    1. naturally transition back to P(X in A)
+    2. very lightly showcase compensator measures in action, 
+        warming up audience for the more detailed analysis in our results.
+
+---
+
+* Credit risk example
+
+- Establish model of high-dimensional cross-exciting affine diffusions.
+- Fit the parameters of the model to market data.
+- One of the coupled components is a positive process
+- The exceedence of the integral of this process will identify default has occurred
+- Note that this is an affine point process; show compensator measure expression
+
+
+========
+SLIDE 08
+========
+
+Objective: Introduce rare event setting "low, but important risk of default"
+
+---
+
+[picture] 
+
+========
+SLIDE 09
+========
+
+Objective: Introduce the relative error
+
+---
+
+- Want confidence intervals on correct order of magnitude
+- CLT approximation ~> use relative error
+- Observe that relative error of crude Monte Carlo is large for small P(X in A)
+- Want small relative error
+
+========
+SLIDE 10
+========
+
+Objective: introduce importance sampling
+
+---
+
+[picture] + dP/dQ explanation
+
+========
+SLIDE 11
+========
+
+Objective: importance sampling is tricky
+
+---
+
+- (returning to relative error) optimal change of measure exists but intractable
+- Work with families we can still sample
+    - Variance may not even be finite!
+    - Variance still intractable for such families
+- Approximate with asymptotic regime; asymptotic efficiency can be put in a hierarchy.
+    - relative error vanishes ε -> 0
+    - relative error bounded ε -> 0
+    - relative error sub-exponential ε -> 0
+
+========
+SLIDE 12
+========
+
+Objective: Showcase where such a regime may show up.
+
+---
+
+- Demonstrate picture of "rare" sample path that exceeded probability
+
+- Throw up vague differential: dXɛₜ = b(Xɛₜ)dt + ε^(1/2) σ(Xɛₜ) dWₜ
+
+- animation of dXɛₜ = b(Xɛₜ)dt + ε^(1/2) σ(Xɛₜ) dWₜ
+  - note it does not simply look like "noise decreasing" by state dependence of drift+diffusion
+  - note that perturbations disappear, limiting to solution of a linear ODE dxₜ = b(xₜ) dt
+  - Heuristic: move the limit path up to have it *just* exceed the boundary.
+               If we have a spectrum of changes of measure with ε leading up to this,
+               they will capture the concentration we desire.
+  - Heuristic: efficient for small ε = efficient in the asymptotic
+
+========
+SLIDE 13
+========
+
+Objective: Show how LDPs offer asymptotically efficient estimators.
+
+---
+
+(Similar to Kang & Kang or Pham)
+
+- Show original variance we want to produce
+- Vaguely state how Girsanov allows us to perform drift change in previous animation.
+- Showcase new expression to minimize.
+- Highlight certain expressions, stating that LDPs allow us to understand asymptotics of these objects
+- Vaguely state how such LDPs leads to new expression
+- Remark that solving this variational problem via something like Euler-Lagrange produces an informed change of measure.
+
+========
+SLIDE 14
+========
+
+Objective: State where work is to be done with regards to this story.
+
+---
+
+* What we have:
+
+- LDP established for affine diffusions.
+- LDP ~> calculus of variations problem ~> informed choice of sampling measure
+
+* What can be done:
+
+- LDP established for all affine processes.
+- Clear up details.
+   - Simply understand how to sample general affine processes (jumps can introduce massive bias to schemes)
+   - Prove one can switch min-max and that the variational problem has a unique solution.
+   - Provide simulations which test the hypotheses
+- For applications to importance sampling, our LDP informs
+
+========
+SLIDE 15
+========
+
+Objective: Summary
+
+---
+
+- Affine processes are a rich class of processes that can exhibit desired properties
+- Affine processes are tractable and have a very well-understood structure
+- People are currently using affine processes for modeling
+- Sometimes want P(X in A)
+- Large deviations of affine processes allow for asymptotic estimates and inform numerical algorithms
+- We intend to prove these large deviations principles and study their effects on these algorithms.
+- Potentially lead to efficient calculation of P(X in A), along with abstraction P(f(X))

@@ -1,0 +1,220 @@
+/* usual display mode styles */
+.deck-container {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.deck .slide {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.25s;
+  text-size-adjust: none !important;
+  -ms-text-size-adjust: none !important;
+  -moz-text-size-adjust: none !important;
+  -webkit-text-size-adjust: none !important;
+  padding: 1em;
+}
+
+.deck .slide.past {
+  transform: translate(-150%, 0);
+}
+
+.deck .slide.future {
+  transform: translate(150%, 0);
+}
+
+.deck .slide .fragment.start-on.future {
+  opacity: 1;
+}
+
+.deck .slide .fragment.start-on.present,
+.deck .slide .fragment.start-on.past {
+  opacity: 0;
+}
+
+.deck .slide .fragment.present.start-on.semi-out.present {
+  opacity: 0.25;
+}
+
+.deck .slide .fragment {
+  transition:  0.25s;
+}
+
+.deck .slide .fragment.past, .deck .slide .fragment.present {
+  opacity: 1;
+}
+
+.deck .slide .fragment.future {
+  opacity: 0;
+}
+
+.deck .slide .fragment.semi-out.past {
+  opacity: 0.25;
+}
+
+.deck .slide .fragment.out.past {
+  opacity: 0;
+}
+
+.deck .slide .fragment.appear-up.present,
+.deck .slide .fragment.appear-down.present,
+.deck .slide .fragment.appear-left.present,
+.deck .slide .fragment.appear-right.present,
+.deck .slide .fragment.grow.present {
+  transform: none;
+}
+
+.deck .slide .fragment.appear-up.future {
+  transform: translate(0px, 50%);
+}
+
+.deck .slide .fragment.appear-down.future {
+  transform: translate(0px, -50%);
+}
+
+.deck .slide .fragment.appear-left.future {
+  transform: translate(50%, 0px);
+}
+
+.deck .slide .fragment.appear-right.future {
+  transform: translate(-50%, 0px);
+}
+
+.deck .slide .fragment.grow.future {
+  transform: scale(25%, 25%);
+}
+
+.deck .slide .fragment.appear-up.grow.future {
+  transform: translate(0px, 50%) scale(25%, 25%);
+}
+
+.deck .slide .fragment.appear-down.grow.future {
+  transform: translate(0px, -50%) scale(25%, 25%);
+}
+
+.deck .slide .fragment.appear-left.grow.future {
+  transform: translate(50%, 0px) scale(25%, 25%);
+}
+
+.deck .slide .fragment.appear-right.grow.future {
+  transform: translate(-50%, 0px) scale(25%, 25%);
+}
+
+/* print styles */
+
+.deck-container.print {
+  overflow-y: auto;
+}
+
+.deck-container.print .deck .slide {
+  position: relative;
+}
+
+.deck-container.print .deck .slide.past, 
+.deck-container.print .deck .slide.future {
+  transform: none;
+}
+
+.deck-container.print .deck .slide.hidden {
+  display: inherit
+}
+
+.deck-container.print .deck .slide .fragment.start-on,
+.deck-container.print .deck .slide .fragment.start-on.present,
+.deck-container.print .deck .slide .fragment.start-on.past {
+  opacity: 0;
+}
+
+.deck-container.print .deck .slide .fragment.present.start-on.semi-out.past,
+.deck-container.print .deck .slide .fragment.present.start-on.semi-out.present,
+.deck-container.print .deck .slide .fragment.present.start-on.semi-out.future {
+  opacity: 0.25;
+}
+
+.deck-container.print .deck .slide .fragment.past, .deck .slide .fragment.present {
+  opacity: 1;
+}
+
+.deck-container.print .deck .slide .fragment.past,
+.deck-container.print .deck .slide .fragment.present,
+.deck-container.print .deck .slide .fragment.future {
+  opacity: 1;
+}
+
+.deck-container.print .deck .slide .fragment.semi-out.past,
+.deck-container.print .deck .slide .fragment.semi-out.present,
+.deck-container.print .deck .slide .fragment.semi-out.future {
+  opacity: 0.25;
+}
+
+.deck-container.print .deck .slide .fragment.out.past,
+.deck-container.print .deck .slide .fragment.out.present,
+.deck-container.print .deck .slide .fragment.out.future {
+  opacity: 0;
+}
+
+.deck-container.print .deck .slide .fragment.appear-up.present,
+.deck-container.print .deck .slide .fragment.appear-down.present,
+.deck-container.print .deck .slide .fragment.appear-left.present,
+.deck-container.print .deck .slide .fragment.appear-right.present,
+.deck-container.print .deck .slide .fragment.grow.present {
+  transform: none;
+}
+
+.deck-container.print .deck .slide .fragment.appear-up.future {
+  transform: none;
+}
+
+.deck-container.print .deck .slide .fragment.appear-down.future {
+  transform: none;
+}
+
+.deck-container.print .deck .slide .fragment.appear-left.future {
+  transform: none;
+}
+
+.deck-container.print .deck .slide .fragment.appear-right.future {
+  transform: none;
+}
+
+.deck-container.print .deck .slide .fragment.grow.future {
+  transform: none;
+}
+
+.deck-container.print .deck .slide .fragment.appear-up.grow.future {
+  transform: none;
+}
+
+.deck-container.print .deck .slide .fragment.appear-down.grow.future {
+  transform: none;
+}
+
+.deck-container.print .deck .slide .fragment.appear-left.grow.future {
+  transform: none;
+}
+
+.deck-container.print .deck .slide .fragment.appear-right.grow.future {
+  transform: none;
+}
+
+.deck-container.print * {
+  transition: none;
+}
+
+.deck-container.print .deck .slide {
+  background: inherit;
+  border-top: 1px solid black;
+  border-right: 1px solid black;
+  border-left: 1px solid black;
+}
+
+.deck-container.print .deck .slide:last-child {
+  border-bottom: 1px solid black;
+}
+
+.deck-container.print .deck .slide {
+  page-break-before: always;
+}

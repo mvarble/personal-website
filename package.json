@@ -4,26 +4,36 @@
   "license": "MIT",
   "scripts": {
     "clean": "npx gatsby clean",
-    "develop": "export NODE_ENV=development; npx gatsby develop",
-    "build": "export NODE_ENV=production; npx gatsby build"
+    "develop": "export NODE_ENV=development; npx tailwindcss -c tailwind.config.js -o ./src/styles/tailwind.css -w & npx gatsby develop",
+    "build": "export NODE_ENV=production; npx tailwindcss -c tailwind.config.js -o ./src/styles/tailwind.css -m && npx gatsby build"
   },
   "dependencies": {
+    "@mdx-js/mdx": "^2.1.2",
     "@mdx-js/react": "^2.1.2",
+    "@mvarble/gatsby-plugin-mdx-config": "*",
     "@mvarble/gatsby-plugin-mdx-reference": "*",
     "@mvarble/gatsby-theme-presentations": "*",
-    "gatsby": "4.18.0-mdxv4-rc.65",
-    "gatsby-plugin-mdx": "4.0.0-rc.0",
-    "gatsby-plugin-page-creator": "^4.19.0",
+    "d3": "^7.6.1",
+    "gatsby": "^4.21.0",
+    "gatsby-plugin-mdx": "^4.0.0",
+    "gatsby-plugin-postcss": "^5.21.0",
     "gatsby-source-filesystem": "^4.18.1",
-    "gray-matter": "^4.0.3",
+    "highlight.js": "^11.6.0",
+    "latex.css": "^1.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "rehype-katex": "^6.0.2",
-    "remark-frontmatter": "^4.0.1",
-    "remark-math": "^5.1.1",
-    "remark-mdx-frontmatter": "^2.0.3"
+    "victory": "^36.6.0",
+    "xstream": "^11.14.0",
+    "zustand": "^4.0.0"
   },
   "workspaces": [
     "packages/*"
-  ]
+  ],
+  "devDependencies": {
+    "@types/d3": "^7.4.0",
+    "autoprefixer": "^10.4.8",
+    "postcss": "^8.4.16",
+    "postcss-import": "^14.1.0",
+    "tailwindcss": "^3.1.8"
+  }
 }
