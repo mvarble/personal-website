@@ -1,4 +1,6 @@
 import type { VFile } from 'vfile';
+
+import { Options, defaultOptions } from './types';
 import { isNonnegativeInteger } from './utils';
 
 interface MdastNode {
@@ -27,8 +29,15 @@ interface MdastAttributeValue {
  *    specified for a given `Fragment`, its `index` will be updated to one larger than the running
  *    maximum.
  */
-export default function remarkToDeckSchema() {
+export default function remarkToDeckSchema(options: Partial<Options>) {
+  // extract from the options the directory from which we source `deck` files
+  const sourceDir = process.cwd() + defaultOptions(options).sourceDir.slice(1);
+
   function transformer(markdownAST: MdastNode, vfile: VFile) {
+    // only transform if the file corresponds to a deck.
+    const filePath = vfile.history.at(-1);
+    if (filePath && !filePath.includes(sourceDir)) return;
+
     // prepare a state for manipulation of the tree
     let newChildren: MdastNode[] = [];              // ultimately the root node's children
     let currentSlideChildren: MdastNode[] = [];     // children of running slide
