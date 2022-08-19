@@ -4,6 +4,7 @@ import { graphql } from 'gatsby';
 import { Deck } from '@presentations';
 import { updateClass } from '../utils/themes';
 import useKeyboardShortcuts from '../hooks/use-keyboard-shortcuts';
+import NavButton from '../components/nav-button';
 
 export interface PresentationData {
   title: string;
@@ -26,10 +27,18 @@ export interface PresentationProps {
 export default function Presentation(props: React.PropsWithChildren<PresentationProps>) {
   useKeyboardShortcuts();
   return (
-    <div className="w-screen h-screen">
+    <div className="w-screen h-screen relative">
       <Deck { ...props }/>
+      <NavButton />
     </div>
   );
+}
+
+export function Head(props: PresentationProps) {
+  React.useEffect(updateClass, []);
+  return <>
+    <title>{ `${props.data.presentation.title} | rodent.club` }</title>
+  </>;
 }
 
 export const pageQuery = graphql`
@@ -44,10 +53,3 @@ export const pageQuery = graphql`
     }
   }
 `;
-
-export function Head(props: PresentationProps) {
-  React.useEffect(updateClass, []);
-  return <>
-    <title>{ `${props.data.presentation.title} | rodent.club` }</title>
-  </>;
-}

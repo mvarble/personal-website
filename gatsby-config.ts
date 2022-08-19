@@ -6,6 +6,7 @@ const config: GatsbyConfig = {
   plugins: [
     'gatsby-plugin-postcss',
     '@mvarble/gatsby-plugin-mdx-reference',
+    '@mvarble/gatsby-theme-posts',
     '@mvarble/gatsby-theme-presentations',
     { 
       resolve: 'gatsby-plugin-mdx',

@@ -7,13 +7,13 @@ import NavButton from '../components/nav-button';
 
 interface LayoutProps {
   data: {
-    allPresentation: {
-      nodes: Presentation[];
+    allPost: {
+      nodes: Post[];
     };
   };
 };
 
-interface Presentation {
+interface Post {
   date: string;
   slug: string;
   title: string;
@@ -25,11 +25,11 @@ export default function Layout(props: LayoutProps) {
     <div className="w-screen h-screen">
       <NavButton />
       <div className="flex flex-col justify-center w-full h-full">
-        <h1 className="text-center">Presentations</h1>
+        <h1 className="text-center">Posts</h1>
         <div className="flex flex-col w-4/5 mx-auto mt-8 max-w-screen-lg">
           {
-            props.data.allPresentation.nodes.map(node => (
-              <Link className="flex flex-row m-1 p-4 border hover:no-underline active:no-underline bg-neutral-100 border-stone-700 hover:bg-neutral-200 dark:bg-neutral-800 dark:border-neutral-900 dark:hover:bg-neutral-700 hover:scale-105 focus:scale-105" to={ `/presentations${node.slug}` }>
+            props.data.allPost.nodes.map(node => (
+              <Link className="flex flex-row m-1 p-4 border hover:no-underline active:no-underline bg-neutral-100 border-stone-700 hover:bg-neutral-200 dark:bg-neutral-800 dark:border-neutral-900 dark:hover:bg-neutral-700 hover:scale-105 focus:scale-105" to={ `/posts${node.slug}` }>
                 <span className="flex-1">{ node.title }</span>
                 <span>{ (new Date(node.date)).toISOString().slice(0, 10) }</span>
               </Link>
@@ -43,7 +43,7 @@ export default function Layout(props: LayoutProps) {
 
 export const query = graphql`
   query {
-    allPresentation(sort: {fields: date, order: DESC}) {
+    allPost(sort: {fields: date, order: DESC}) {
       nodes {
         date
         slug
@@ -56,6 +56,6 @@ export const query = graphql`
 export function Head() {
   React.useEffect(updateClass, []);
   return <>
-    <title>{ `Presentations | rodent.club` }</title>
+    <title>{ `Posts | rodent.club` }</title>
   </>;
 }

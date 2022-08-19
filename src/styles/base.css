@@ -5,7 +5,7 @@
 @layer base {
   body {
     @apply text-neutral-800;
-    @apply bg-stone-200;
+    @apply bg-stone-50;
     @apply transition-all;
     @apply font-serif;
 
@@ -17,9 +17,9 @@
      @apply font-bold;
      @apply underline;
      @apply pb-4;
-     @apply text-violet-900;
+     @apply text-fuchsia-900;
 
-     @apply dark:text-violet-300
+     @apply dark:text-fuchsia-300
   }
 
   h1 {

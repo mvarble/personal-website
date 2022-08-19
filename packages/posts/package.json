@@ -1,0 +1,28 @@
+{
+  "name": "@mvarble/gatsby-theme-posts",
+  "author": "Matthew Varble",
+  "license": "MIT",
+  "scripts": {
+    "build": "npx babel src --out-dir dist/ --ignore \"**/__tests__\" --ignore \"**/__mocks__\" --extensions \".ts\"",
+    "typegen": "npx tsc --emitDeclarationOnly --declaration --declarationDir dist/",
+    "bundle": "NODE_ENV=production npm run build && npm run typegen",
+    "watch": "npx babel -w src --out-dir dist/ --ignore \"**/__tests__\" --extensions \".ts,.tsx\""
+  },
+  "dependencies": {
+  },
+  "peerDependencies": {
+    "@mdx-js/mdx": "^2.1.2",
+    "gatsby": "^4.21.0",
+    "gatsby-plugin-mdx": "^4.0.0",
+    "gatsby-source-filesystem": "^4.18.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.18.9",
+    "@babel/core": "^7.18.9",
+    "@babel/preset-env": "^7.18.9",
+    "@babel/preset-react": "^7.18.6",
+    "@babel/preset-typescript": "^7.18.6",
+    "@types/react": "^18.0.15",
+    "typescript": "^4.7.4"
+  }
+}
