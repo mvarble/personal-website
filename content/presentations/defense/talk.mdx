@@ -16,19 +16,253 @@ import Titlecard from '@components/presentations/titlecard';
 
 # Overview
 
-<ol>
-  <Fragment><li className="text-[125%] underline">Large deviations</li></Fragment>
-  <ul className="pb-4">
-    <Fragment><li>Definition, intuition</li></Fragment>
-    <Fragment><li>The measure-change technique</li></Fragment>
-    <Fragment><li>Dawson-Gärtner, weak-convergence</li></Fragment>
-  </ul>
-  <Fragment><li className="text-[125%] underline">Affine processes</li></Fragment>
-  <ul className="pb-4">
-    <Fragment><li>Definition</li></Fragment>
-    <Fragment><li>Real-moments, light-tails</li></Fragment>
-    <Fragment><li>Special jump-diffusions</li></Fragment>
-    <Fragment><li>Special jump-diffusions</li></Fragment>
-    <Fragment><li><em>Local countability</em></li></Fragment>
-  </ul>
-</ol>
+<div className="grid grid-cols-2 auto-rows-auto">
+  <ol start="1">
+    <Fragment><li className="text-[125%] underline">Large deviations</li></Fragment>
+    <ul className="pb-4">
+      <Fragment><li>Definition</li></Fragment>
+      <Fragment><li>Measure-changes</li></Fragment>
+      <Fragment><li>Dawson-Gärtner</li></Fragment>
+    </ul>
+  </ol>
+  <ol start="2">
+    <Fragment><li className="text-[125%] underline">Affine processes</li></Fragment>
+    <ul className="pb-4">
+      <Fragment><li>Definition</li></Fragment>
+      <Fragment><li>Light-tails</li></Fragment>
+      <Fragment><li>Special jump-diffusions</li></Fragment>
+      <Fragment><li>Affine transform formula</li></Fragment>
+    </ul>
+  </ol>
+  <ol start="3">
+    <Fragment><li className="text-[125%] underline">LDP for affine processes</li></Fragment>
+    <ul className="pb-4">
+      <Fragment><li>Twisting</li></Fragment>
+      <Fragment><li>Exponential martingales</li></Fragment>
+      <Fragment><li>Equivalence</li></Fragment>
+      <Fragment><li>Principle</li></Fragment>
+    </ul>
+  </ol>
+  <ol start="4">
+    <Fragment><li className="text-[125%] underline">LDP rate functions</li></Fragment>
+    <ul className="pb-4">
+      <Fragment><li>Independent increments</li></Fragment>
+      <Fragment><li>Adding drift</li></Fragment>
+      <Fragment><li>Adding state-dependence</li></Fragment>
+      <Fragment><li>Adding jump-distribution</li></Fragment>
+      <Fragment><li>Final principle</li></Fragment>
+    </ul>
+  </ol>
+</div>
+
+---
+
+<div className="flex flex-col h-full justify-evenly">
+<h1 className="no-underline">1. Large deviations</h1>
+</div>
+
+---
+
+# Exponential speed
+
+<pre className="mt-36 text-center">Graphic showing "fast" convergence.</pre>
+```
+perhaps:
+  i.i.d. samples of Exponential
+  + gamma density <br/> 
+  + (poor) CLT density
+```
+
+---
+
+# Exponential asymptotic
+
+$$
+  \begin{gathered}
+    f(\epsilon) = r\epsilon + o(\epsilon)  
+    \quad\Leftrightarrow\quad \frac{f(\epsilon)}{\epsilon} \rightarrow r \\[1em]
+    \leadsto \quad f(\epsilon) \approx r \epsilon 
+    %
+    \\[4em]
+    f(\epsilon) = \exp\big(-r/\epsilon + o(1/\epsilon)\big)  
+    \quad\Leftrightarrow\quad \epsilon \log f(\epsilon) \rightarrow -r \\[1em]
+    \leadsto \quad f(\epsilon) \approx \exp\big(-r/\epsilon \big)
+  \end{gathered}
+$$
+
+---
+
+# Large deviation principle
+
+Fix <span className="yellow">measures $(p^\epsilon)_{\epsilon>0}$</span> on <span className="orange">topological space $\bbX$</span>.
+
+
+<Fragment>
+  <blockquote>
+  Lower semicontinuous $I: \bbX \rightarrow [0,\infty]$
+  <Fragment semiOut>
+
+$$
+\begin{aligned}
+  -\inf_{\xi \in \Gamma^\circ} I(\xi)
+  &\leq \liminf_{\epsilon\rightarrow0} \epsilon \log p^\epsilon(\Gamma) \\
+  &\leq \limsup_{\epsilon\rightarrow0} \epsilon \log p^\epsilon(\Gamma)
+  &\leq -\inf_{\xi \in \overline\Gamma} I(\xi)
+\end{aligned}
+$$
+
+  </Fragment>
+  <Fragment semiOut>
+
+$$
+\begin{aligned}
+  -\inf_{\xi \in \Gamma^\circ} I(\xi)
+  &\leq \liminf_{\epsilon\rightarrow0} \epsilon \log \Prb^\epsilon(Y^\epsilon \in \Gamma) \\
+  &\leq \limsup_{\epsilon\rightarrow0} \epsilon \log \Prb^\epsilon(Y^\epsilon \in \Gamma)
+  &\leq -\inf_{\xi \in \overline\Gamma} I(\xi)
+\end{aligned}
+$$
+
+  </Fragment>
+  <Fragment>
+
+$$
+  \lim_{\delta\rightarrow0}\lim_{\epsilon\rightarrow0} \epsilon\log\Prb^\epsilon\big(Y^\epsilon \in B(\xi,\delta)\big) = -I(\xi)
+$$
+
+  </Fragment>
+  </blockquote>
+</Fragment>
+
+---
+
+# Measure-change argument
+
+<Fragment startOn semiOut>
+$$
+  \Qrb^{\epsilon,\theta}(\rmd\omega) \defeq Z^{\epsilon,\theta}(\omega) \cdot \Prb^\epsilon(\rmd\omega) , \quad
+  Z^{\epsilon,\theta} \defeq \exp\bigg( \frac1\epsilon \Big( \langle Y^\epsilon, \theta \rangle -  \Lambda(Y^\epsilon, \theta) \Big) \bigg) 
+$$
+</Fragment>
+<Fragment index="0">
+$$
+  \epsilon\log\Prb^\epsilon\big(Y^\epsilon \in B(\xi, \delta)\big) = \epsilon\log\Exp_{\Qrb^{\epsilon,\theta}}\Big( Z^{\epsilon,\theta} \cdot 1_{B(\xi, \delta)}(Y^\epsilon) \Big)
+$$
+</Fragment>
+
+<Fragment>
+  <pre>
+  Maybe graphic of samples layered over xi: 
+      Shows how we concentrate mass on the deviated path
+  </pre>
+</Fragment>
+
+---
+
+# Dawson-Gärtner
+
+
+Finite-dimensional distributions
+
+$$
+I(\xi) = \sup_{\underline t} I_{\underline t}(\xi)
+$$
+
+```
+- State topological considerations
+- State exponential tightness
+- Compare to Prokhorov
+```
+
+---
+
+<div className="flex flex-col h-full justify-evenly">
+<h1 className="no-underline">2. Affine processes</h1>
+</div>
+
+---
+
+# Definition
+
+Fix vector space $\bbV$, state space $\bbX \subseteq \bbV$....
+```
+should we do R^d?
+```
+
+
+<blockquote>
+  For all $u \in \rmi\bbV$
+  $$
+  \begin{aligned}
+    \Exp_{\Prb_x}\exp\langle u, X_t \rangle &= \exp\Psi(t, u, x) \\
+    \Psi(t, u, x) &= \psi_0(t, u) + \big\langle \psi(t, u), x \big\rangle
+  \end{aligned}
+  $$
+</blockquote>
+
+---
+
+# Light-tails assumption
+
+If for each $u \in \bbV$, there exist $\tau > 0$ and $x \in \bbX^\circ$ such that,
+
+$$
+\Exp_{\Prb_x}\exp\langle u, X_\tau \rangle < \infty,
+$$
+
+
+<Fragment>
+  then $X$ is a special jump-diffusion with affine <span className="green">drift $\beta$</span>, <span className="pink">diffusion $\alpha$</span>, and <span className="sky">jump-kernel $\mu$</span>.
+</Fragment>
+
+<Fragment>
+$$
+\begin{gathered}
+  \beta(x) = b_0 + \sum_{i=1}^d x^i b_i, \quad
+  \alpha(x) = a_0 + \sum_{i=1}^d x^i a_i, \\
+  \mu(x, \rmd v) = m_0(\rmd v) + \sum_{i=1}^d x^i m_i(\rmd v)
+\end{gathered}
+$$
+</Fragment>
+
+---
+
+# Special jump-diffusions
+
+$$ 
+X_t = x + \int_0^t \beta(X_s) \rmd s + \int_0^t \sigma(X_s) \rmd W_s + \int_{[0,t] \times \bbV} c\big(X_{s-}, v) \tilde p(\rmd s, \rmd v) 
+$$
+
+---
+
+# Compensated stochastic integrals
+
+<pre>graphical demonstration of stochastic integration</pre>
+
+---
+
+# Affine transform formula
+
+$$
+  \begin{gathered}
+    \Lambda(u, x) = ... \\
+    \forall x \in \bbX, \quad \left\{\begin{array}{ll}
+    \dot\Psi(t,u,x) = \Lambda\big(\psi(t, u), x\big) & t \in [0,\tau] \\
+    \Psi(0,u,x) = \langle u, x \rangle
+    \end{array}\right.
+  \end{gathered}
+$$
+
+```
+remark on the fact that Lambda important object irrespective of affine assumption
+```
+
+---
+
+<div className="flex flex-col h-full justify-evenly">
+<h1 className="no-underline">3. Large deviation principle for affine proceses</h1>
+</div>
+
+---
+
+

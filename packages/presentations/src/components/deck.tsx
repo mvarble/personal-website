@@ -27,6 +27,7 @@ interface DeckProps {
 }
 
 export default function Deck(props: React.PropsWithChildren<DeckProps>) {
+  console.log('running!');
   // step 0: parse the props
   const { children, location, data } = props;
   const { hash } = location;
