@@ -1,7 +1,7 @@
-package-lock.json
 **/node_modules/
 .cache/
 public/
 drafts/
 **/dist/
 *.env
+./src/styles/tailwind.css
