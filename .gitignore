@@ -1,7 +1,8 @@
 **/node_modules/
 .cache/
 public/
+docs/
 drafts/
 **/dist/
 *.env
-./src/styles/tailwind.css
+src/styles/tailwind.css

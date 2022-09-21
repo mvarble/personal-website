@@ -5,7 +5,7 @@
   "scripts": {
     "clean": "npx gatsby clean",
     "develop": "export NODE_ENV=development; npx tailwindcss -c tailwind.config.js -o ./src/styles/tailwind.css -w & npx gatsby develop",
-    "build": "export NODE_ENV=production; npx tailwindcss -c tailwind.config.js -o ./src/styles/tailwind.css -m && npm run build -w ./packages/mdx-config && npm run bundle -w ./packages/mdx-reference && npm run bundle -w ./packages/presentations && npm run build -w ./packages/posts && npx gatsby build"
+    "build": "export NODE_ENV=production; npx tailwindcss -c tailwind.config.js -o ./src/styles/tailwind.css -m && npm run build -w ./packages/mdx-config && npm run bundle -w ./packages/mdx-reference && npm run bundle -w ./packages/presentations && npm run build -w ./packages/posts && npx gatsby build --prefix-paths"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.1.2",
