@@ -3,7 +3,6 @@ import { extendOptions } from '@mvarble/gatsby-plugin-mdx-config';
 import remarkToDeckSchema from '@mvarble/gatsby-theme-presentations/dist/remark-to-deck-schema';
 
 const config: GatsbyConfig = {
-  pathPrefix: '/personal-website',
   plugins: [
     'gatsby-plugin-postcss',
     '@mvarble/gatsby-plugin-mdx-reference',

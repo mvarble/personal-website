@@ -73,6 +73,11 @@
     @apply pl-8;
   }
 
+  ol {
+    @apply list-decimal;
+    @apply pl-12;
+  }
+
   a {
     @apply text-sky-900;
     @apply font-mono;

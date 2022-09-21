@@ -3,7 +3,7 @@
   "author": "Matthew Varble",
   "license": "MIT",
   "scripts": {
-    "build": "npx babel src --out-dir dist/ --ignore \"**/__tests__\" --ignore \"**/__mocks__\" --extensions \".ts\"",
+    "build": "npx babel src --out-dir dist/ --ignore \"**/__tests__\" --extensions \".ts,.tsx\"",
     "typegen": "npx tsc --emitDeclarationOnly --declaration --declarationDir dist/",
     "bundle": "NODE_ENV=production npm run build && npm run typegen",
     "watch": "npx babel -w src --out-dir dist/ --ignore \"**/__tests__\" --extensions \".ts,.tsx\""
