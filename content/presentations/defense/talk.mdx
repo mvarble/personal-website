@@ -16,44 +16,12 @@ import Titlecard from '@components/presentations/titlecard';
 
 # Overview
 
-<div className="grid grid-cols-2 auto-rows-auto">
-  <ol start="1">
-    <Fragment><li className="text-[125%] underline">Large deviations</li></Fragment>
-    <ul className="pb-4">
-      <Fragment><li>Definition</li></Fragment>
-      <Fragment><li>Measure-changes</li></Fragment>
-      <Fragment><li>Dawson-Gärtner</li></Fragment>
-    </ul>
-  </ol>
-  <ol start="2">
-    <Fragment><li className="text-[125%] underline">Affine processes</li></Fragment>
-    <ul className="pb-4">
-      <Fragment><li>Definition</li></Fragment>
-      <Fragment><li>Light-tails</li></Fragment>
-      <Fragment><li>Special jump-diffusions</li></Fragment>
-      <Fragment><li>Affine transform formula</li></Fragment>
-    </ul>
-  </ol>
-  <ol start="3">
-    <Fragment><li className="text-[125%] underline">LDP for affine processes</li></Fragment>
-    <ul className="pb-4">
-      <Fragment><li>Twisting</li></Fragment>
-      <Fragment><li>Exponential martingales</li></Fragment>
-      <Fragment><li>Equivalence</li></Fragment>
-      <Fragment><li>Principle</li></Fragment>
-    </ul>
-  </ol>
-  <ol start="4">
-    <Fragment><li className="text-[125%] underline">LDP rate functions</li></Fragment>
-    <ul className="pb-4">
-      <Fragment><li>Independent increments</li></Fragment>
-      <Fragment><li>Adding drift</li></Fragment>
-      <Fragment><li>Adding state-dependence</li></Fragment>
-      <Fragment><li>Adding jump-distribution</li></Fragment>
-      <Fragment><li>Final principle</li></Fragment>
-    </ul>
-  </ol>
-</div>
+<ol className="text-[150%] child:py-4">
+  <Fragment><li>Large deviations</li></Fragment>
+  <Fragment><li>Affine processes</li></Fragment>
+  <Fragment><li>Large deviation principle for affine processes</li></Fragment>
+  <Fragment><li>Large deviation rate functions</li></Fragment>
+</ol>
 
 ---
 
@@ -63,75 +31,116 @@ import Titlecard from '@components/presentations/titlecard';
 
 ---
 
-# Exponential speed
+import Binomial from './binomial';
 
-<pre className="mt-36 text-center">Graphic showing "fast" convergence.</pre>
-```
-perhaps:
-  i.i.d. samples of Exponential
-  + gamma density <br/> 
-  + (poor) CLT density
-```
+# Exponential objects...
+
+
+<Binomial className="w-full h-4/5"/>
 
 ---
 
-# Exponential asymptotic
+# ... require exponential asymptotics
 
-$$
-  \begin{gathered}
-    f(\epsilon) = r\epsilon + o(\epsilon)  
-    \quad\Leftrightarrow\quad \frac{f(\epsilon)}{\epsilon} \rightarrow r \\[1em]
-    \leadsto \quad f(\epsilon) \approx r \epsilon 
-    %
-    \\[4em]
-    f(\epsilon) = \exp\big(-r/\epsilon + o(1/\epsilon)\big)  
-    \quad\Leftrightarrow\quad \epsilon \log f(\epsilon) \rightarrow -r \\[1em]
-    \leadsto \quad f(\epsilon) \approx \exp\big(-r/\epsilon \big)
-  \end{gathered}
-$$
+<div className="grid justify-center items-center grid-cols-3">
+  <span>
+  $$ 
+  f(\epsilon) \approx r \epsilon 
+  $$
+  </span>
+  <Fragment>
+  <span>
+  $$ 
+  \leadsto\quad f(\epsilon) = r\epsilon + o(\epsilon) 
+  $$
+  </span>
+  </Fragment>
+  <Fragment>
+  <span>
+  $$ 
+  \Longleftrightarrow\quad \lim_{\epsilon\rightarrow0} \frac{f(\epsilon)}{\epsilon} = r 
+  $$
+  </span>
+  </Fragment>
+  <Fragment>
+  <span>
+  $$ 
+  f(\epsilon) \approx r \epsilon^k
+  $$
+  </span>
+  </Fragment>
+  <Fragment>
+  <span>
+  $$ 
+  \leadsto\quad f(\epsilon) = r\epsilon^k + o(\epsilon^k) 
+  $$
+  </span>
+  </Fragment>
+  <Fragment>
+  <span>
+  $$ 
+  \Longleftrightarrow\quad \lim_{\epsilon\rightarrow0} \frac{f(\epsilon)}{\epsilon^k} = r 
+  $$
+  </span>
+  </Fragment>
+  <Fragment>
+  <span>
+  $$ 
+  f(\epsilon) \approx \exp(-r/\epsilon)
+  $$
+  </span>
+  </Fragment>
+  <Fragment>
+  <span>
+  $$ 
+  \leadsto\quad f(\epsilon) = \exp\big(-r/\epsilon + o(1/\epsilon)  \big)
+  $$
+  </span>
+  </Fragment>
+  <Fragment>
+  <span className="row-start-4 row-end-5 col-start-2 col-end-3">
+  $$ 
+  \Longleftrightarrow\quad \lim_{\epsilon\rightarrow0} \epsilon \log f(\epsilon) = -r
+  $$
+  </span>
+  </Fragment>
+</div>
 
 ---
 
 # Large deviation principle
 
-Fix <span className="yellow">measures $(p^\epsilon)_{\epsilon>0}$</span> on <span className="orange">topological space $\bbX$</span>.
-
+<blockquote>
+  <span className="yellow">Family of measures $(p^\epsilon)_{\epsilon>0}$</span> satisfies <span className="green">large deviation principle on space $\bbX$</span> if there exists <span className="sky">lower semicontinuous $I: \bbX \rightarrow [0,\infty]$</span> such that:
+  <Fragment index="1" out>
+    <span className="absolute left-[220px] w-[240px] h-[10px] bg-red-300 dark:bg-red-700" />
+  </Fragment>
+  <Fragment semiOut index="0">
+  $$
+    \begin{aligned}
+      -\inf_{\xi \in \Gamma^\circ} I(\xi)
+      &\leq \liminf_{\epsilon\rightarrow0} \epsilon \log p^\epsilon(\Gamma) \\
+      &\leq \limsup_{\epsilon\rightarrow0} \epsilon \log p^\epsilon(\Gamma)
+      &\leq -\inf_{\xi \in \overline\Gamma} I(\xi)
+    \end{aligned}
+  $$
+  </Fragment>
+</blockquote>
 
 <Fragment>
-  <blockquote>
-  Lower semicontinuous $I: \bbX \rightarrow [0,\infty]$
-  <Fragment semiOut>
-
 $$
-\begin{aligned}
-  -\inf_{\xi \in \Gamma^\circ} I(\xi)
-  &\leq \liminf_{\epsilon\rightarrow0} \epsilon \log p^\epsilon(\Gamma) \\
-  &\leq \limsup_{\epsilon\rightarrow0} \epsilon \log p^\epsilon(\Gamma)
-  &\leq -\inf_{\xi \in \overline\Gamma} I(\xi)
-\end{aligned}
+\lim_{\delta\rightarrow0}\lim_{\epsilon\rightarrow0} \epsilon\log\Prb^\epsilon\big(Y^\epsilon \in B(\xi,\delta)\big) = -I(\xi)
 $$
-
-  </Fragment>
-  <Fragment semiOut>
-
+</Fragment>
+<Fragment>
+<span className="relative">
 $$
-\begin{aligned}
-  -\inf_{\xi \in \Gamma^\circ} I(\xi)
-  &\leq \liminf_{\epsilon\rightarrow0} \epsilon \log \Prb^\epsilon(Y^\epsilon \in \Gamma) \\
-  &\leq \limsup_{\epsilon\rightarrow0} \epsilon \log \Prb^\epsilon(Y^\epsilon \in \Gamma)
-  &\leq -\inf_{\xi \in \overline\Gamma} I(\xi)
-\end{aligned}
+  \Prb^\epsilon\big(Y^\epsilon \in B(\xi,\delta)\big) \approx \exp\big(-I(\xi)/\epsilon \big)
 $$
-
-  </Fragment>
   <Fragment>
-
-$$
-  \lim_{\delta\rightarrow0}\lim_{\epsilon\rightarrow0} \epsilon\log\Prb^\epsilon\big(Y^\epsilon \in B(\xi,\delta)\big) = -I(\xi)
-$$
-
+    <span className="absolute top-[80px] left-[200px] w-[520px] h-[10px] bg-red-300 dark:bg-red-700" />
   </Fragment>
-  </blockquote>
+</span>
 </Fragment>
 
 ---
@@ -141,38 +150,137 @@ $$
 <Fragment startOn semiOut>
 $$
   \Qrb^{\epsilon,\theta}(\rmd\omega) \defeq Z^{\epsilon,\theta}(\omega) \cdot \Prb^\epsilon(\rmd\omega) , \quad
-  Z^{\epsilon,\theta} \defeq \exp\bigg( \frac1\epsilon \Big( \langle Y^\epsilon, \theta \rangle -  \Lambda(Y^\epsilon, \theta) \Big) \bigg) 
+  Z^{\epsilon,\theta} \defeq \exp\bigg( \frac1\epsilon \Big( \langle Y^\epsilon, \theta \rangle -  \Lambda_\epsilon(Y^\epsilon, \theta) \Big) \bigg) 
 $$
 </Fragment>
 <Fragment index="0">
-$$
-  \epsilon\log\Prb^\epsilon\big(Y^\epsilon \in B(\xi, \delta)\big) = \epsilon\log\Exp_{\Qrb^{\epsilon,\theta}}\Big( Z^{\epsilon,\theta} \cdot 1_{B(\xi, \delta)}(Y^\epsilon) \Big)
-$$
+  <div className="flex align-baseline">
+    <div className="flex-0">$\epsilon\log\Prb^\epsilon\big(Y^\epsilon \in U(\xi)\big)$</div>
+    <div className="flex flex-1 flex-col">
+    <Fragment startOn semiOut>
+      <span>
+      $= \epsilon\log\Exp_{\Qrb^{\epsilon,\theta}}\Big( Z^{\epsilon,\theta} \cdot 1_{U(\xi)}(Y^\epsilon) \Big)$
+      </span>
+    </Fragment>
+    <Fragment semiOut index="1">
+      <span className="mt-1">
+      $= \epsilon\log\Exp_{\Qrb^{\epsilon,\theta}}\Big( \exp\Big( \frac1\epsilon \big( \langle Y^\epsilon , \theta \rangle -  \Lambda_\epsilon(Y^\epsilon, \theta) \big) \Big) 1_{U(\xi)}(Y^\epsilon) \Big)$
+      </span>
+    </Fragment>
+    <Fragment semiOut>
+      <span className="mt-1">
+      $\approx \epsilon\log\Exp_{\Qrb^{\epsilon,\theta}}\Big( \exp\Big( \frac1\epsilon \big( \langle \xi, \theta \rangle -  \Lambda_\epsilon(\xi, \theta) \big) \Big) 1_{U(\xi)}(Y^\epsilon) \Big)$
+      </span>
+    </Fragment>
+    <Fragment>
+      <span className="mt-1">
+      $=  \langle \xi, \theta \rangle -  \Lambda_\epsilon(\xi, \theta) + \epsilon\log\Qrb^{\epsilon,\theta}\Big( Y^\epsilon \in U(\xi) \Big)$
+      </span>
+    </Fragment>
+    </div>
+  </div>
+</Fragment>
+<Fragment out>
+  <div className="absolute left-[200px] text-red-300 dark:text-red-700">
+    need $\Lambda_\epsilon \rightarrow \Lambda_0 \quad \uparrow$
+  </div>
+</Fragment>
+<Fragment>
+  <div className="absolute text-red-300 dark:text-red-700">
+    need $\theta$ to produce sub-exponential deviations $\uparrow$
+  </div>
 </Fragment>
 
-<Fragment>
-  <pre>
-  Maybe graphic of samples layered over xi: 
-      Shows how we concentrate mass on the deviated path
-  </pre>
-</Fragment>
+import MeasureChange from './measure-change';
+
+<MeasureChange className="h-56"/>
+<Fragment index="8" />
+
+---
+
+# what about sample-path deviations?
+
+<ul className="mt-4">
+  <Fragment semiOut><li>(1966) Schilder gives LDP of scaled Brownian motion using Girsanov's theorem.</li></Fragment>
+  <Fragment semiOut><li>(1970-1979) Freidlin and Wentzell give LDP of small-noise diffusions (uniformly Lipschitz) with measure-changes</li></Fragment>
+  <Fragment semiOut><li>(1976) Donsker and Varadhan develop contraction principles</li></Fragment>
+  <Fragment semiOut><li>(1976) Mogulskii gives LDP of processes with independent increments</li></Fragment>
+  <Fragment><li className="yellow">(1987) Dawson and Gärtner describe LDP for projective limits</li></Fragment>
+  <Fragment semiOut><li>(1994) Puhalskii develops weak-convergence analogies</li></Fragment>
+</ul>
+
+---
+
+# Puhalskii's analogy
+
+<div className="grid mt-24" style={{ 'grid-template-columns': '330px 40px 160px 140px 320px', 'grid-template-rows': '200px 200px' }}>
+  <Fragment index="0"><div>convergence in distribution $Y^\epsilon_{\underline t} \rightarrow Y_{\underline t}$</div></Fragment>
+  <Fragment index="0"><div>+</div></Fragment>
+  <Fragment index="0"><div>tightness</div></Fragment>
+  <Fragment index="0"><div>$\xrightarrow{\text{Prokhorov}}$</div></Fragment>
+  <Fragment index="0"><div>convergence in distribution $Y^\epsilon \rightarrow Y$</div></Fragment>
+  <Fragment index="1"><div>LDP of $(Y^\epsilon_{\underline t})_{\epsilon>0}$ with rate functions $I_{\underline t}$</div></Fragment>
+  <Fragment index="1"><div>+</div></Fragment>
+  <Fragment index="1"><div>exponential tightness</div></Fragment>
+  <Fragment index="1"><div>$\xrightarrow{\text{Puhalskii}}$</div></Fragment>
+  <Fragment index="1"><div>LDP of $(Y^\epsilon)_{\epsilon>0}$ with rate function $I = \sup_{\underline t} I$</div></Fragment>
+</div>
 
 ---
 
 # Dawson-Gärtner
 
-
-Finite-dimensional distributions
-
 $$
-I(\xi) = \sup_{\underline t} I_{\underline t}(\xi)
+  Z^{\epsilon, \underline t, \underline u} = \exp\Big( \frac1\epsilon \big( \langle \underline u, X^\epsilon_{\underline t} \rangle - \Psi_\epsilon(\underline t, \underline u) \big) \Big)
 $$
 
-```
-- State topological considerations
-- State exponential tightness
-- Compare to Prokhorov
-```
+<Fragment>
+  <span className="orange">If everything is nice...</span> these produce a large deviation principle, and the rate function is:
+  $$
+    I(\xi) = \sup_{\underline t, \underline u} \Big( \big\langle \underline u, \xi(\underline t) \big\rangle - \Psi_0(\underline t, \underline u) \Big) = \sup_{\underline t} \Psi^*_0\big(\underline t, \xi(\underline t)\big)
+  $$
+</Fragment>
+
+---
+
+# Exponential martingale method
+
+$$
+Z^{\epsilon, h} = \exp\bigg( \frac1\epsilon \Big( \int_0^\tau h(t) \rmd Y^\epsilon_t - \int_0^\tau \Lambda_\epsilon\big(h(t), Y^\epsilon_t\big) \rmd t \Big) \bigg)
+$$
+
+<Fragment>
+  <span className="orange">If everything is nice...</span> these produce a large deviation principle, and the rate function is:
+$$
+    I(\xi) 
+    = \int_0^\tau \sup_\theta \Big( \big\langle \theta , \dot\xi(t) \big\rangle - \Lambda\big(\theta, \xi(t)\big) \Big) \rmd t
+    = \int_0^\tau \Lambda^*\big(\dot\xi(t), \xi(t)\big) \rmd t
+$$
+  for absolutely continuous $\xi$ and $I(\xi) = \infty$, otherwise.
+</Fragment>
+
+---
+
+# Pros/cons
+
+import { ProCons, ProConItem, Pro, Con } from './procons';
+
+<ProCons>
+  <Fragment>
+    <ProConItem>
+      <span>Dawson-Gärtner</span>
+      <Fragment><Pro>more generality</Pro></Fragment>
+      <Fragment><Con>abstract, less interpretable</Con></Fragment>
+    </ProConItem>
+  </Fragment>
+  <Fragment>
+    <ProConItem>
+      <span>Exponential martingales</span>
+      <Fragment><Pro>more interpretable</Pro></Fragment>
+      <Fragment><Con>technically challenging to generalize</Con></Fragment>
+    </ProConItem>
+  </Fragment>
+</ProCons>
 
 ---
 
@@ -184,78 +292,91 @@ $$
 
 # Definition
 
-Fix vector space $\bbV$, state space $\bbX \subseteq \bbV$....
-```
-should we do R^d?
-```
+<Fragment startOn semiOut>
+  <div className="py-4">
+    Fix finite-dimensional real <span className="green">inner-product space $\bbV$</span>, convex <span className="pink">state space $\bbX \subseteq \bbV$</span>.
+    A <span className="yellow">stochastically continuous time-homogeneous Markov process $X$</span> on $\bbX$ is <span className="sky underline">affine</span> if we have the following.
+  </div>
+</Fragment>
 
-
-<blockquote>
-  For all $u \in \rmi\bbV$
+<Fragment index="0">
+  <blockquote>
+    <span className="orange">affine transform formula</span>
   $$
   \begin{aligned}
     \Exp_{\Prb_x}\exp\langle u, X_t \rangle &= \exp\Psi(t, u, x) \\
     \Psi(t, u, x) &= \psi_0(t, u) + \big\langle \psi(t, u), x \big\rangle
-  \end{aligned}
+  \end{aligned} \qquad t \geq 0, ~ u \in \rmi \bbV, ~ x \in \bbX
   $$
-</blockquote>
-
----
-
-# Light-tails assumption
-
-If for each $u \in \bbV$, there exist $\tau > 0$ and $x \in \bbX^\circ$ such that,
-
-$$
-\Exp_{\Prb_x}\exp\langle u, X_\tau \rangle < \infty,
-$$
-
-
-<Fragment>
-  then $X$ is a special jump-diffusion with affine <span className="green">drift $\beta$</span>, <span className="pink">diffusion $\alpha$</span>, and <span className="sky">jump-kernel $\mu$</span>.
-</Fragment>
-
-<Fragment>
-$$
-\begin{gathered}
-  \beta(x) = b_0 + \sum_{i=1}^d x^i b_i, \quad
-  \alpha(x) = a_0 + \sum_{i=1}^d x^i a_i, \\
-  \mu(x, \rmd v) = m_0(\rmd v) + \sum_{i=1}^d x^i m_i(\rmd v)
-\end{gathered}
-$$
+  </blockquote>
 </Fragment>
 
 ---
 
-# Special jump-diffusions
+# Semimartingales
 
-$$ 
-X_t = x + \int_0^t \beta(X_s) \rmd s + \int_0^t \sigma(X_s) \rmd W_s + \int_{[0,t] \times \bbV} c\big(X_{s-}, v) \tilde p(\rmd s, \rmd v) 
-$$
+<div className="my-4">
+  <span className="orange">Cuchiero (2011).</span> 
+  Any affine process $X$ is a semimartingale with the following $\chi$-characteristics $($<span className="green">$B^\chi$</span>$,$ <span className="pink">$A$</span>$,$ <span className="sky">$\hat q^X$</span>$)$.
+  <div className="flex justify-evenly items-center py-4">
+    <span className="green">$\displaystyle B^\chi_t = \int_0^t \beta^\chi(X_s) \rmd s,$</span>
+    <span className="pink">$\displaystyle A_t = \int_0^t \alpha(X_s) \rmd s,$</span>
+    <span className="sky">$\hat q^X(\rmd s, \rmd v) = \mu(X_s, \rmd v) \rmd s$</span>
+  </div>
+</div>
 
----
+<Fragment>
+  Differentiability of <span className="green">$B^\chi$</span>$,$ <span className="pink">$A$</span>$,$ <span className="sky">$\hat q^X$</span> means $X$ has a generator $\calL$.
+  <div className="flex justify-center items-baseline py-4">
+    <span>$\calL f(x) =$</span>
+    <div className="flex items-center w-2/3 flex-wrap">
+      <span>$\Der f(x)$</span>
+      <span className="green">$\beta^\chi(x)$</span>
+      <span>$\displaystyle + \frac12 \tr \big( \Hess f(x)$</span>
+      <span className="pink pb-1">$\alpha(x)$</span>
+      <span className="pb-1">$\big)$</span>
+      <span className="pt-2">$\displaystyle + \int_\bbV \big( f(x + v) - f(x) - \Der f(x)$</span>
+      <span className="orange">$\chi(v)$</span>
+      <span>$\big)$</span>
+      <span className="sky pt-2 pb-2">$\mu(x, \rmd v)$</span>
+    </div>
+  </div>
+</Fragment>
 
-# Compensated stochastic integrals
+--- 
 
-<pre>graphical demonstration of stochastic integration</pre>
+# Real-moments
 
----
+<span className="orange">Keller-Ressel and Mayerhofer (2015).</span> 
+An equivalence for $u \in \bbV$.
 
-# Affine transform formula
+<div className="flex justify-center items-center py-4">
+  <span>$\Lambda(u, x) = \langle u,$</span>
+  <span className="green pl-1">$\beta^\chi(x)$</span>
+  <span>$\rangle + \displaystyle \frac12\langle u, $</span>
+  <span className="pink pl-1 pb-1">$\alpha(x)$</span>
+  <span className="pb-1">$u \rangle +$</span>
+  <span className="pt-2">$\displaystyle \int_\bbV \Big( e^{\langle u, v \rangle} - 1 - \langle u, $</span>
+  <span className="orange pl-1 pb-1">$\chi(v)$</span>
+  <span className="pt-1">$\rangle \Big)$</span>
+  <span className="sky pb-1">$\mu(x, \rmd v)$</span>
+</div>
 
-$$
-  \begin{gathered}
-    \Lambda(u, x) = ... \\
+<Fragment>
+<blockquote>
+  <span className="orange">generalized Riccati system.</span>
+  $$
     \forall x \in \bbX, \quad \left\{\begin{array}{ll}
-    \dot\Psi(t,u,x) = \Lambda\big(\psi(t, u), x\big) & t \in [0,\tau] \\
-    \Psi(0,u,x) = \langle u, x \rangle
+      \dot\Psi(t, u, x) = \Lambda\big(\psi(t, u), x\big) & t \in [0,\tau] \\
+      \Psi(0, u, x) = \langle u, x \rangle
     \end{array}\right.
-  \end{gathered}
-$$
-
-```
-remark on the fact that Lambda important object irrespective of affine assumption
-```
+  $$
+  <span className="orange">affine transform formula.</span>
+  $$
+    \forall t \in [0,\tau],~x \in \bbX, \quad \Exp_{\Prb_x}\exp\langle u, X_t \rangle = \exp\Psi(t, u, x) < \infty
+  $$ 
+</blockquote>
+</Fragment>
 
 ---
 
@@ -265,4 +386,518 @@ remark on the fact that Lambda important object irrespective of affine assumptio
 
 ---
 
+# Previous results
 
+<ul className="mt-4">
+  <Fragment>
+    <li>
+      <span className="orange">Kang and Kang (2014).</span>
+      Large deviation of families $(Y^\epsilon)_{\epsilon>0}$ of affine diffusions.
+      <div className="flex items-center justify-center">
+        <span>$Y^\epsilon_t$</span>
+        <span className="px-1">$=$</span>
+        <span>$y + \displaystyle \int_0^t$</span>
+        <span className="green">$\beta(Y^\epsilon_t)$</span>
+        <span>$\rmd t$</span>
+        <span className="pl-1">$\displaystyle + \int_0^t$</span>
+        <span className="pink">$\sqrt\epsilon\sigma(Y^\epsilon_t)$</span>
+        <span>$\rmd W_t$</span>
+      </div>
+      i.e. <span className="green">$\beta$</span> and <span className="pink">$\alpha = \sigma\sigma^*$</span> as general as we want, but <span className="sky">$\mu(\cdot, \rmd v) = 0$</span>.
+    </li>
+    <ul className="mt-4">
+      <Fragment><li>Established LDP using and Dawson-Gärtner exponential martingale methods.</li></Fragment>
+      <Fragment><li>Unable to derive nice rate function for Dawson-Gärtner.</li></Fragment>
+      <Fragment><li>No indication on how to regularize jumps.</li></Fragment>
+    </ul>
+  </Fragment>
+</ul>
+
+---
+
+# Previous results
+
+<ul className="mt-4">
+  <li>
+    <span className="orange">Feng and Kurtz (1996), Dupuis and Ellis (1997), Wentzell (2000).</span>
+    Large deviation of families $(Y^\epsilon)_{\epsilon>0}$ of Markov processes:
+    <div className="flex justify-center items-baseline py-4">
+      <span>$\calL f(x) =$</span>
+      <div className="flex items-center w-2/3 flex-wrap pt-1">
+        <span>$\Der f(x)$</span>
+        <span className="green">$\beta(x)$</span>
+        <span className="pt-1">$\displaystyle + \frac{\epsilon}{2} \tr \big( \Hess f(x)$</span>
+        <span className="pink pb-1">$\alpha(x)$</span>
+        <span>$\big)$</span>
+        <span className="pt-2">$\displaystyle + \frac1\epsilon\int_\bbV \big( f(x + \epsilon v) - f(x) - \Der f(x) \epsilon v \big)$</span>
+        <span className="sky pb-2 pt-2">$\mu(x, \rmd v)$</span>
+      </div>
+    </div>
+  </li>
+  <ul className="mt-4">
+    <Fragment>
+      <li>
+        <span className="underline">Bounded</span> <span className="green">$\beta$</span>, <span className="underline">bounded</span> <span className="pink">$\alpha$</span>, <span className="underline">compactly supported</span> and <span className="underline">bounded</span> <span className="sky">$\mu(\cdot, \rmd v)$</span>.
+      </li>
+    </Fragment>
+    <Fragment>
+    </Fragment>
+  </ul>
+</ul>
+<Fragment>
+  <blockquote className="mt-4 text-center p-4">
+    <span className="green">$\beta_\epsilon = \beta$</span>, <span className="pink">$\alpha_\epsilon = \epsilon\alpha$</span>, and <span className="sky">$\mu_\epsilon(x, \rmd v) = \frac1\epsilon \tau^\epsilon_\#\mu(x, \rmd v)$</span>?
+  </blockquote>
+</Fragment>
+
+---
+
+# What we do
+
+<div className="pt-4">
+  <Fragment startOn>
+    <ol className="absolute">
+      <li>Intuitively formulate asymptotics</li>
+      <li>Establish an equivalence between Dawson-Gärtner and exponential martingale methods</li>
+      <li>Establish a large deviation principle for our asymptotic family</li>
+    </ol>
+  </Fragment>
+  <Fragment index="0">
+    <ol>
+      <li className="font-bold">Intuitively formulate asymptotics</li>
+      <li>Establish an equivalence between Dawson-Gärtner and exponential martingale methods</li>
+      <li>Establish a large deviation principle for our asymptotic family</li>
+    </ol>
+  </Fragment>
+</div>
+
+
+---
+
+# Addressing big jumps
+
+<blockquote className="mt-4 relative">
+  <span className="orange">Proposition.</span>
+  If $0 \in \bbV$ has a neighborhood of of points $u$ with
+  $$
+    \int_{|v| > 1} e^{\langle u, v \rangle} \mu(x, \rmd v) < \infty, \quad x \in \bbX
+  $$
+  then $X$ is a special semimartingale.
+  <div className="flex justify-center items-baseline py-4">
+    <span>$\calL f(x) =$</span>
+    <div className="flex items-center w-2/3 flex-wrap">
+      <span>$\Der f(x)$</span>
+      <span className="green">$\beta(x)$</span>
+      <span>$\displaystyle + \frac12 \tr \big( \Hess f(x)$</span>
+      <span className="pink pb-1">$\alpha(x)$</span>
+      <span className="pb-1">$\big)$</span>
+      <span className="pt-2">$\displaystyle + \int_\bbV \big( f(x + v) - f(x) - \Der f(x) v \big)$</span>
+      <span className="sky pt-2 pb-2">$\mu(x, \rmd v)$</span>
+    </div>
+  </div>
+  <div className="flex justify-center items-baseline py-4">
+    <span className="green">$\beta(x)$</span>
+    <span>$=$</span>
+    <span className="green">$\beta^\chi(x)$</span>
+    <span>$\displaystyle+ \int_\bbV \langle v - \chi(v) \rangle$</span>
+    <span className="sky">$\mu(x, \rmd v)$</span>
+  </div>
+  <Fragment>
+    <div className="absolute top-[130px] left-[490px] text-red-300 dark:text-red-700">equivalent to Riccati/AT $u$'s!</div>
+  </Fragment>
+</blockquote>
+
+---
+
+# Asymptotic family
+
+Process $X^\epsilon$ with affine <span className="green">drift $\beta_\epsilon$</span>, <span className="pink">diffusion $\alpha_\epsilon$</span>, <span className="sky">jump-kernel $\mu_\epsilon$</span>.
+
+<div className="flex justify-evenly items-center py-4">
+  <span className="green">$\displaystyle \beta_\epsilon(x) = \frac1\epsilon \beta(\epsilon x)$</span>
+  <span className="pr-4">,</span>
+  <span className="pink">$\displaystyle \alpha_\epsilon(x) = \frac1\epsilon \alpha(\epsilon x)$</span>
+  <span className="pr-4">,</span>
+  <span className="sky">$\displaystyle \mu_\epsilon(x, \rmd v) = \frac1\epsilon \mu(\epsilon x, \rmd v)$</span>
+</div>
+
+<Fragment>
+<span className="orange">Note.</span> 
+This is the same as selecting familiar expressions for $\epsilon X^\epsilon$.
+<div className="flex justify-evenly items-center py-4">
+  <span className="green">$\beta(x)$</span>
+  <span className="pr-4">,</span>
+  <span className="pink">$\epsilon \alpha(x)$</span>
+  <span className="pr-4">,</span>
+  <span className="sky">$\displaystyle \frac1\epsilon \tau^\epsilon_\#\mu(x, \rmd v)$</span>
+</div>
+</Fragment>
+
+---
+
+# Stochastic differential equations
+
+<blockquote className="mt-4 h-4/5 relative">
+  <span className="orange">Proposition.</span>
+  Each $\epsilon X^\epsilon$ weakly driven by Brownian-Poisson pair $(W, p)$.
+  <Fragment semiOut>
+    <div className="pt-4">
+      <span className="sky">fluid-limit</span>
+      <div className="absolute yellow top-[80px] right-[5px]">$W^\epsilon_t = W_{t/\epsilon}, \quad p^\epsilon([0,t] \times \Gamma) = p([0,t/\epsilon] \times \Gamma)$</div>
+$$ 
+  \begin{aligned}
+    \epsilon X^\epsilon_t 
+    &= 
+    x 
+    + \int_0^t \beta(\epsilon X^\epsilon_s) \rmd s 
+    + \int_0^t \epsilon\sigma(\epsilon X^\epsilon_s) \rmd W^\epsilon_s \\
+    &\hspace{40mm}+ \int_{[0,t] \times \bbV} \epsilon c\big(\epsilon X^\epsilon_{s-}, v) \tilde p^\epsilon(\rmd s, \rmd v)
+  \end{aligned}
+$$
+    </div>
+  </Fragment>
+<Fragment semiOut>
+  <div className="absolute bottom-[0px]">
+    <span className="sky">small-noise</span>
+$$ 
+  \begin{aligned}
+    \epsilon X^\epsilon_t 
+    &= 
+    x 
+    + \int_0^t \beta(\epsilon X^\epsilon_s) \rmd s 
+    + \int_0^t \sqrt{\epsilon}\sigma(\epsilon X^\epsilon_s) \rmd W_s \\
+    &\hspace{40mm}+ \int_{[0,t] \times \bbV} \epsilon c\big(\epsilon X^\epsilon_{s-}, \sqrt[d]{\epsilon} \cdot v) \tilde p(\rmd s, \rmd v)
+  \end{aligned}
+$$
+</div>
+</Fragment>
+
+</blockquote>
+
+---
+
+# What we do
+
+<div className="pt-4">
+  <ol>
+    <li className="line-through">Intuitively formulate asymptotics</li>
+    <li className="font-bold">Establish an equivalence between Dawson-Gärtner and exponential martingale methods</li>
+    <li>Establish a large deviation principle for our asymptotic family</li>
+  </ol>
+</div>
+
+---
+
+# Dawson-Gärtner, for us
+
+<Fragment semiOut startOn>
+<div>
+$$
+\underline Z^{\epsilon, \underline t, \underline u} = \exp\Big( \langle \underline u, X^\epsilon_{\underline t} \rangle - \Psi_\epsilon(\underline t, \underline u, x) \Big), \quad 
+\Psi_\epsilon(\underline t, \underline u, x) = \log\Exp_{\Prb_x}\exp\langle \underline u, X^\epsilon_{\underline t} \rangle
+$$
+</div>
+</Fragment>
+
+<div className="flex justify-evenly items-center">
+  <Fragment semiOut index="0"><span>$\displaystyle\Psi_\epsilon(\underline t, \underline u, x) = \frac1\epsilon\Psi(\underline t, \underline u, \epsilon x),$</span></Fragment>
+  <Fragment semiOut><span>$\varphi(t, \theta, x) = \log\Exp_{\Prb_x}\big( \exp\langle \theta, X_{\tau+t} - X_\tau \rangle | X_\tau = x \big)$</span></Fragment>
+</div>
+
+<Fragment semiOut>
+$$
+\big\langle \underline u, \underline x \rangle - \Psi(\underline t, \underline u, \underline x) = \sum_{k=1}^{|\underline t|} \Big( \langle \theta_k, x_k-x_{k-1} \rangle - \varphi(\Delta t_k, \theta_k, x_{k-1}) \Big)
+$$
+</Fragment>
+
+<Fragment>
+$$
+I(\xi) = \sup_{\underline t} \sum_{k=1}^{|\underline t|} \sup_{\theta_k} \Big( \big\langle \theta_k, \xi(t_k) - \xi(t_{k-1}) \big\rangle - \varphi\big(\Delta t_k, \theta_k, \xi(t_{k-1}) \big) \Big) 
+$$
+</Fragment>
+
+<Fragment>
+    <span className="orange">Calibrating twists.</span>
+$
+\text{solve } \theta_k: \quad \xi(t_k)-\xi(t_{k-1}) 
+= \nabla_\theta \varphi\big(\Delta t_k, \theta, \xi(t_{k-1}) \big) \Big|_{\theta = \theta_k}
+$
+</Fragment>
+
+---
+
+# Exponential martingales, for us
+
+<Fragment startOn semiOut>
+$$
+  \Lambda(u, x) 
+  =
+  \langle u, \beta(x) \rangle
+  + \frac12 \langle u, \alpha(x) u \rangle 
+  + \int_\bbV \Big( e^{\langle u, v \rangle} - 1 - \big\langle u, v \big\rangle \Big) \mu(x, \rmd v)
+$$
+</Fragment>
+
+<div className="flex justify-center items-center py-2">
+  <Fragment semiOut index="0">
+  <span className="px-2">
+  $$
+  \Lambda^\epsilon(u, x) = \frac1\epsilon\Lambda(u, \epsilon x),
+  $$
+  </span>
+  </Fragment>
+  <Fragment semiOut>
+  <span className="px-2">
+  $$
+  \epsilon X^\epsilon_t = x + \int_0^t \Big( \beta\big(\epsilon X^\epsilon_s\big)   + \nabla_\theta\Lambda\big(\theta, \epsilon X^\epsilon_s) \big|_{\theta = h(s)} \Big) \rmd s + M_t
+  $$
+  </span>
+  </Fragment>
+</div>
+
+<Fragment>
+$$
+I(\xi) = \int_0^\tau \sup_\theta \Big( \big\langle \theta, \dot\xi(t) \big\rangle - \Lambda\big( \theta, \xi(t) \big) \Big) \rmd t = \int_0^\tau \Lambda^*\big(\dot\xi(t), \xi(t)\big) \rmd t
+$$
+</Fragment>
+
+<Fragment>
+    <span className="orange">Calibrating control.</span>
+$
+\text{solve } h(t): \quad \dot\xi(t) 
+= \nabla_\theta \Lambda\big(\theta, \xi(t) \big) \Big|_{\theta = h(t)}
+$
+</Fragment>
+
+---
+
+# Equivalence
+
+<blockquote className="mt-4">
+  <span className="orange">Theorem.</span>
+  For each Dawson-Gärtner measure-change $\Prb^{\epsilon,\underline t, \underline\theta}$ there exists an exponential martingale measure-change $\Prb^{\epsilon,h}$ such that
+$$
+\Prb^{\epsilon, \underline t, \underline\theta} = \Prb^{\epsilon, h}
+$$
+</blockquote>
+<Fragment semiOut>
+$$
+\sum_{k=1}^{|\underline t|} \Big( \big\langle \theta_k, X_{t_k} - X_{t_{k-1}} \rangle - \varphi\big(\Delta t_k, \theta_k, X_{t_{k-1}} \big) \Big) = \int_0^\tau h(t) \rmd X_t - \int_0^\tau \Lambda\big(h(t), X_t\big) \rmd t
+$$
+</Fragment>
+<Fragment>
+$$
+h(t, \underline t, \underline\theta) = \sum_{k=1}^{|\underline t|} \psi(t_k - t, \theta_k) 1_{[t_{k-1},t_k)}(t)
+$$
+</Fragment>
+
+---
+
+# What we do
+
+<div className="pt-4">
+  <ol>
+    <li className="line-through">Intuitively formulate asymptotics</li>
+    <li className="line-through">Establish an equivalence between Dawson-Gärtner and exponential martingale methods</li>
+    <li className="font-bold">Establish a large deviation principle for our asymptotic family</li>
+  </ol>
+</div>
+
+---
+
+# Simple summary
+
+1. Establish LDP with Dawson-Gärtner
+2. Tighten to Skorokhod topology by showing exponential tightness.
+3. Use equivalence theorem to establish rate function.
+
+$$
+h(t, \underline t, \underline\theta) \xrightarrow{\text{refine } \underline t, \text{ choose } \underline\theta} h
+$$
+
+---
+
+# Main result
+
+<blockquote>
+  <span className="orange">Theorem.</span>
+  For each $x \in \bbX^\circ$, we have a large deviation principle for $(\Prb^\epsilon_x)_{\epsilon>0}$ with rate function $I_x: \bbD([0,\tau], \bbX) \rightarrow [0,\infty]$.
+$$
+I_x(\xi) = \left\{\begin{array}{ll}
+\displaystyle \int_0^\tau \Lambda^*\big(\dot\xi(t), \xi(t)\big) \rmd t, & \xi(0) = x, ~ \xi \text{ absolutely continuous,} \\[1em]
+\infty, &\text{otherwise}
+\end{array}\right.
+$$
+</blockquote>
+
+<Fragment>
+$$ 
+\Prb^\epsilon_x\Big( \epsilon X^\epsilon \in B(\xi, \delta) \Big) \approx \exp\Big(-I_x(\xi)/\epsilon\Big)
+$$
+</Fragment>
+
+---
+
+<div className="flex flex-col h-full justify-evenly">
+<h1 className="no-underline">4. Representation of rate function</h1>
+</div>
+
+---
+
+# Example: Brownian motion
+
+Brownian motions $(\sqrt\epsilon W)_{\epsilon>0}$.
+
+<Fragment>
+  <span className="orange">Our principle:</span> 
+  <span className="green">$\beta(x) = 0$</span>, 
+  <span className="pink">$\alpha(x) = \operatorname{id}_\bbV$</span>, 
+  <span className="sky">$\mu(x, \rmd v) = 0$</span>
+</Fragment>
+
+<Fragment>
+$$
+\Lambda^*(\dot x) = \sup_{u \in \bbV} \Big( \langle u, \dot x \rangle - \frac12 \langle u, u \rangle \Big) = \frac12 |\dot x|^2
+$$
+</Fragment>
+
+<Fragment>
+$$
+\int_0^\tau \frac12 \big|\dot\xi(t)\big|^2 \rmd t
+$$
+</Fragment>
+
+---
+
+# Example: Poisson process
+
+For Poisson process $N$,  $(\epsilon N_{\cdot/\epsilon})_{\epsilon>0}$.
+
+<Fragment>
+  <span className="orange">Our principle:</span> 
+  <span className="green">$\beta(x) = 1$</span>, 
+  <span className="pink">$\alpha(x) = 0$</span>, 
+  <span className="sky">$\mu(x, \rmd v) = \delta_1$</span>
+</Fragment>
+
+<Fragment>
+$$
+\Lambda^*(\dot x) = \sup_{u \in \bbV} \Big( \langle u, \dot x \rangle - (e^u-1) \Big) = \dot x \log \dot x - \dot x + 1 
+$$
+</Fragment>
+
+<Fragment>
+$$
+\int_0^\tau \Big( \dot\xi(t) \log\big(\dot\xi(t)\big) - \dot\xi(t) + 1 \Big) \rmd t
+$$
+</Fragment>
+
+---
+
+# Example: Diffusion
+
+$$
+\epsilon X^\epsilon_t = x + \int_0^t \beta(\epsilon X^\epsilon_s) \rmd s + \int_0^t \sqrt\epsilon\sigma(\epsilon X^\epsilon) \rmd W_s
+$$
+
+<Fragment>
+  <span className="orange">Our principle:</span> 
+  <span className="green">$\beta(x)$</span>, 
+  <span className="pink">$\alpha(x) = \sigma\sigma^*(x)$</span>, 
+  <span className="sky">$\mu(x, \rmd v) = 0$</span>
+</Fragment>
+
+<Fragment>
+$$
+\begin{aligned}
+\Lambda^*(\dot x, x) 
+&= \sup_{u\in\bbV} \Big( \langle u, \dot x \rangle - \langle u, \beta(x) \rangle - \frac12\langle u, \alpha(x)u \rangle \Big) \\
+&= \frac12 \Big\langle \big(\dot x - \beta(x) \big), \alpha(x)^\dagger \big(\dot x - \beta(x) \big) \Big\rangle
+\end{aligned}
+$$
+</Fragment>
+
+<Fragment>
+$$
+I(\xi) = \int_0^\tau \frac12\Big\langle \dot\xi(t) - \beta\big(\xi(t)\big), \alpha\big(\xi(t)\big)^\dagger \Big( \dot\xi(t) - \beta\big(\xi(t)\big) \Big) \Big\rangle \rmd t
+$$
+</Fragment>
+
+---
+
+# Example: Compound-Poisson
+
+$$
+X^\epsilon_t = \sum_{k=1}^{N_{t/\epsilon}} V_k, \quad V_k \sim \kappa
+$$
+
+Regime for $(\epsilon X^\epsilon, \epsilon N_{\cdot/\epsilon})_{\epsilon>0}$.
+
+<Fragment>
+  <span className="orange">Our principle:</span> 
+  <span className="green">$\beta(\hat x) = (\overline\kappa, 1)$</span>, 
+  <span className="pink">$\alpha(\hat x) = 0$</span>, 
+  <span className="sky">$\mu(\hat x, \rmd\hat v) = \kappa(\rmd v_1) \delta_1(\rmd v_2)$</span>
+</Fragment>
+
+<Fragment>
+$$
+\begin{aligned}
+\Lambda^*(\dot x, x) 
+&= \sup_{u\in\bbV} \Big( \langle u_1, \dot x_1 \rangle + u_2\dot x_2  - \exp\big(\Lambda_\kappa(u_1) + u_2\big) + 1 \Big) \\
+&= \dot x_2 \log \dot x_2 - \dot x_2 + 1 + \dot x_2 \Lambda_\kappa^*\big(\frac{\dot x_1}{\dot x_2}\big)
+\end{aligned}
+$$
+</Fragment>
+
+<Fragment>
+$$
+I(\xi, \eta) = \int_0^\tau \Big( \dot\eta(t) \log \dot\eta(t) - \dot\eta(t) + 1 \Big) \rmd t + \int_0^\tau \Lambda_\kappa^*\Big(\frac{\dot\xi(t)}{\dot\eta(t)} \Big) \rmd t
+$$
+</Fragment>
+
+---
+
+# General closed form
+
+<blockquote className="mt-4">
+  <span className="orange">Theorem.</span>
+  Suppose <span className="sky">$\mu(\cdot, \bbV)$</span> is finite, so we may factor it into an intensity and jump distribution.
+  <div className="sky">
+  $$ 
+  \mu(x, \rmd v) = \lambda(x) \kappa(x, \rmd v) 
+  $$
+  </div>
+  <Fragment>
+    <span className="orange">Otherwise, as general as we want:</span> 
+    <span className="green">$\beta(x)$</span>, 
+    <span className="pink">$\alpha(x)$</span>, 
+    <span className="sky">$\mu(x, \rmd v) = \lambda(x) \kappa(x, \rmd v)$</span>
+  </Fragment>
+  <Fragment>
+  Can define coupling $\hat X = (X, X^\rmc, X^\rmd, N^X)$ and asymptotic $\hat X^\epsilon$ for which the rate function has a semi-closed form.
+  </Fragment>
+</blockquote>
+
+---
+
+# ...said closed form
+
+$$
+  \begin{aligned}
+    I(\xi, \omega, \gamma, \eta) 
+    &= \int_0^\tau \bigg( \dot\eta(t) \log\Big(\frac{\dot\eta(t)}{\lambda\big(\xi(t)\big)}\Big) - \dot\eta(t) + \lambda\big(\xi(t)\big) \bigg) \rmd t \\
+    &\quad + \int_0^\tau \frac12 \Big\langle \dot\omega(t), \alpha\big(\xi(t)\big) \dot\omega(t) \Big\rangle \rmd t \\
+    &\quad + \int_0^\tau \dot\eta(t) \Lambda_{\kappa(\xi(t),\cdot)}\Big(\frac{\dot\xi(t) - \beta\big(\xi(t)\big) - \dot\gamma(t) + \lambda\big(\xi(t)\big)\overline{\nu(\xi(t), \cdot)}}{\dot\eta(t)}\Big) \rmd t
+  \end{aligned}
+$$
+
+<Fragment>
+  <span className="yellow">$\dot\xi(t) = \beta\big(\xi(t)\big) + \dot\omega(t) + \dot\gamma(t)$</span>
+</Fragment>
+
+---
+
+import Thanks from './thanks';
+
+<Thanks />
